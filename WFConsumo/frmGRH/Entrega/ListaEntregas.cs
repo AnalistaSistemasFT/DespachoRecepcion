@@ -37,6 +37,7 @@ namespace WFConsumo.frmGRH.Entrega
             }
             catch (Exception err)
             {
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
             }
         }

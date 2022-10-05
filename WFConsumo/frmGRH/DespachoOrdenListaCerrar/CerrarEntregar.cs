@@ -46,7 +46,8 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
             }
             catch (Exception err)
             {
-                Console.WriteLine("##################### = " + err.ToString());
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
             }
         }
         public void TraerDataCamion()
@@ -62,7 +63,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
             }
             catch (Exception err)
             {
-                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
             }
         }
@@ -75,12 +76,11 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
                 {
                     comboxChofer.Properties.Items.Add(Row[0]);
                     _choferId.Add(Row[1].ToString());
-                }
-
+                } 
             }
             catch (Exception err)
             {
-                //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
             }
         }

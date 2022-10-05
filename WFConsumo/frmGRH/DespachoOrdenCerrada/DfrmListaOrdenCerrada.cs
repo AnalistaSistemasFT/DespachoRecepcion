@@ -57,6 +57,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenCerrada
             }
             catch (Exception err)
             {
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
             }
         }
@@ -165,6 +166,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenCerrada
             }
             catch (Exception err)
             {
+                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
             }
         }
@@ -221,6 +223,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenCerrada
             }
             catch (Exception err)
             {
+                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
             }
         }
@@ -277,6 +280,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenCerrada
             }
             catch (Exception err)
             {
+                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
             }
         }
@@ -582,10 +586,10 @@ namespace WFConsumo.frmGRH.DespachoOrdenCerrada
                 gridView4.OptionsFind.AlwaysVisible = true;
             }
         }
-
         private void btnBuscarTodos_Click(object sender, EventArgs e)
         {
-
+            var myForm = new BusquedaCompleta(_idSucursal);
+            myForm.Show();
         }
     }
 }

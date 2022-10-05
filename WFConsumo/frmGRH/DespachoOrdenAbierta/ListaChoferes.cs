@@ -29,16 +29,32 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
         }
         public void TraerData()
         {
-            DataSet dataLista = C_Chofer.TraerChoferes();
-            dataT = dataLista.Tables[0];
-            this.gridControl1.DataSource = dataT;
+            try
+            {
+                DataSet dataLista = C_Chofer.TraerChoferes();
+                dataT = dataLista.Tables[0];
+                this.gridControl1.DataSource = dataT;
+            }
+            catch(Exception err)
+            {
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
+            } 
         }
         public void sb_search(object sender, EventArgs e)
         {
-            _nombreB = searchControl1.Text;
-            DataSet dataBuscar = C_Chofer.BuscarChofer(_nombreB);
-            dataB = dataBuscar.Tables[0];
-            this.gridControl1.DataSource = dataB;
+            try
+            {
+                _nombreB = searchControl1.Text;
+                DataSet dataBuscar = C_Chofer.BuscarChofer(_nombreB);
+                dataB = dataBuscar.Tables[0];
+                this.gridControl1.DataSource = dataB;
+            }
+            catch (Exception err)
+            {
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
+            } 
         }
         public void gridView1_RowCellClick(Object sender, EventArgs e)
         {

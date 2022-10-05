@@ -51,34 +51,42 @@ namespace WFConsumo.frmGRH.DespachoOrdenEnProceso
         }
         public void TraerData()
         {
-            DataSet dataLista = C_Paquete.TraerListaStock(_idSucursal);
-            foreach (DataRow item in dataLista.Tables[0].Rows)
+            try
             {
-                _ListStock.Add(new GlobalItem
+                DataSet dataLista = C_Paquete.TraerListaStock(_idSucursal);
+                foreach (DataRow item in dataLista.Tables[0].Rows)
                 {
-                    ItemId = item[0].ToString(),
-                    ItemFerro = item[1].ToString(),
-                    Descripcion = item[2].ToString(),
-                    StockPzs = Convert.ToInt32(item[3]),
-                    UnidadMedida = item[5].ToString()
-                });
-            }
-            DataSet DataListInf = C_Informix.TraerDescProducto();
-            foreach (DataRow itemInf in DataListInf.Tables[0].Rows)
-            {
-                _prdInfo.Add(new DescPrdInformix
+                    _ListStock.Add(new GlobalItem
+                    {
+                        ItemId = item[0].ToString(),
+                        ItemFerro = item[1].ToString(),
+                        Descripcion = item[2].ToString(),
+                        StockPzs = Convert.ToInt32(item[3]),
+                        UnidadMedida = item[5].ToString()
+                    });
+                }
+                DataSet DataListInf = C_Informix.TraerDescProducto();
+                foreach (DataRow itemInf in DataListInf.Tables[0].Rows)
                 {
-                    p_Id = itemInf[0].ToString(),
-                    p_Descripcion = itemInf[1].ToString()
-                });
+                    _prdInfo.Add(new DescPrdInformix
+                    {
+                        p_Id = itemInf[0].ToString(),
+                        p_Descripcion = itemInf[1].ToString()
+                    });
+                }
+                foreach (var x in _prdInfo)
+                {
+                    var itemToChange = _ListStock.FirstOrDefault(d => d.ItemFerro == x.p_Id);
+                    if (itemToChange != null)
+                        itemToChange.Descripcion = x.p_Descripcion;
+                }
+                this.gridControl1.DataSource = _ListStock;
             }
-            foreach (var x in _prdInfo)
+            catch(Exception err)
             {
-                var itemToChange = _ListStock.FirstOrDefault(d => d.ItemFerro == x.p_Id);
-                if (itemToChange != null)
-                    itemToChange.Descripcion = x.p_Descripcion;
-            }
-            this.gridControl1.DataSource = _ListStock;
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
+            } 
         }
         public void sb_search(object sender, EventArgs e)
         {

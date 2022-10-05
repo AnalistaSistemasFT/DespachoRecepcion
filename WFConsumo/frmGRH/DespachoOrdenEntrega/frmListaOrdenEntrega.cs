@@ -68,8 +68,8 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
             }
             catch(Exception err)
             {
-                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo");
-                Console.WriteLine("############################# = " + err.ToString());
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
             } 
         }
         private void btnEjecutar_Click(object sender, EventArgs e)
@@ -102,14 +102,14 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
                     }
                     catch (Exception err)
                     {
-                        XtraMessageBox.Show("Algo salio mal, intentelo de nuevo");
+                        XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                         Console.WriteLine("############################# = " + err.ToString());
                     }
                 }
             }
             catch (Exception err)
             {
-                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo");
+                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("############################# = " + err.ToString());
             }
         }
@@ -143,7 +143,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
                     }
                     catch (Exception err)
                     {
-                        XtraMessageBox.Show("Algo salio mal, intentelo de nuevo");
+                        XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                         Console.WriteLine("############################# = " + err.ToString());
                     }
                 }
@@ -217,7 +217,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
                 }
                 catch (Exception err)
                 {
-                    XtraMessageBox.Show("Algo salio mal, intentelo de nuevo");
+                    XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                     Console.WriteLine("############################# = " + err.ToString());
                 }
             }
@@ -339,6 +339,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
             catch (Exception err)
             {
                 XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
             }
         }
         private void btnVer_Click(object sender, EventArgs e)
@@ -476,6 +477,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
             }
             catch (Exception err)
             {
+                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
             }
         }

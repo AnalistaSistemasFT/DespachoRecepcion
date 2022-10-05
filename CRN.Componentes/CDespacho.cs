@@ -200,6 +200,10 @@ namespace CRN.Componentes
         {
             return cadDespacho.TraerDespachoCerrado(_idSucursal);
         }
+        public DataSet TraerTodosLosDespachos(int _idSucursal)
+        {
+            return cadDespacho.TraerTodosLosDespachos(_idSucursal);
+        }
         public DataSet TraerDespachoTransito(int _idSucursal)
         {
             return cadDespacho.TraerDespachoTransito(_idSucursal);

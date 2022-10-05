@@ -41,7 +41,8 @@ namespace WFConsumo.frmGRH.DespachoOrdenParcial
             }
             catch (Exception err)
             {
-                XtraMessageBox.Show(err.ToString(), "Error");
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
             }
         }
         private void ConsultarDespachoEnProceso_FormClosing(object sender, FormClosingEventArgs e)

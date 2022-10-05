@@ -49,6 +49,7 @@ namespace WFConsumo.frmGRH.DespachoTransito
             }
             catch (Exception err)
             {
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
             }
         }

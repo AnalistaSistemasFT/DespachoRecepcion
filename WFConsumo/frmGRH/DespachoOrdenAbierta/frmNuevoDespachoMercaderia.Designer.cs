@@ -82,7 +82,6 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.lbTitle = new System.Windows.Forms.Label();
-            this.btnCorrelativo = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit1.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit1.Properties)).BeginInit();
@@ -677,22 +676,11 @@
             this.lbTitle.TabIndex = 79;
             this.lbTitle.Text = "ORDENES DE ENTREGA";
             // 
-            // btnCorrelativo
-            // 
-            this.btnCorrelativo.Location = new System.Drawing.Point(331, 76);
-            this.btnCorrelativo.Name = "btnCorrelativo";
-            this.btnCorrelativo.Size = new System.Drawing.Size(75, 23);
-            this.btnCorrelativo.TabIndex = 81;
-            this.btnCorrelativo.Text = "Correlativo";
-            this.btnCorrelativo.Visible = false;
-            this.btnCorrelativo.Click += new System.EventHandler(this.btnCorrelativo_Click);
-            // 
             // frmNuevoDespachoMercaderia
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(873, 659);
-            this.Controls.Add(this.btnCorrelativo);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnBuscOrdenVenta);
             this.Controls.Add(this.chckCont);
@@ -816,6 +804,5 @@
         private System.Windows.Forms.Label label1;
         private DevExpress.XtraEditors.CheckEdit checkAnticipada;
         private DevExpress.XtraEditors.CheckEdit checkNormal;
-        private DevExpress.XtraEditors.SimpleButton btnCorrelativo;
     }
 }

@@ -54,13 +54,12 @@ namespace WFConsumo.frmGRH.DespachoOrdenEnProceso
                 }
                 else
                 {
-                    XtraMessageBox.Show("Codigo Paquete= " + _codigoPaq.ToString());
+                    Console.WriteLine("####################### Codigo Paquete= " + _codigoPaq.ToString());
                 }
             }
             catch (Exception err)
             {
-                //XtraMessageBox.Show(err.ToString());
-                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
             }
         }

@@ -108,7 +108,7 @@ namespace WFConsumo.frmGRH
             }
             catch(Exception err)
             {
-                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
                 Console.WriteLine("################## = " + err.ToString());
             }
         }
@@ -127,7 +127,7 @@ namespace WFConsumo.frmGRH
             }
             catch (Exception err)
             {
-                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
                 Console.WriteLine("################### = " + err.ToString());
             }
         }
@@ -145,7 +145,7 @@ namespace WFConsumo.frmGRH
             }
             catch (Exception err)
             {
-                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
                 Console.WriteLine("################### = " + err.ToString());
             }
         }
@@ -208,7 +208,7 @@ namespace WFConsumo.frmGRH
             }
             catch (Exception err)
             {
-                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
                 Console.WriteLine("################### = " + err.ToString());
             }
         }
@@ -225,7 +225,7 @@ namespace WFConsumo.frmGRH
             }
             catch (Exception err)
             {
-                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
                 Console.WriteLine("################### = " + err.ToString());
             }
         }
@@ -242,7 +242,7 @@ namespace WFConsumo.frmGRH
             }
             catch (Exception err)
             {
-                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
                 Console.WriteLine("################### = " + err.ToString());
             }
         }
@@ -601,7 +601,7 @@ namespace WFConsumo.frmGRH
                                                 }
                                                 else
                                                 {
-                                                    XtraMessageBox.Show("Problemas al insertar el despacho", "Guardar");
+                                                    XtraMessageBox.Show("Problemas al agregar el despacho", "Guardar");
                                                     this.Close();
                                                 }
                                             }
@@ -646,13 +646,13 @@ namespace WFConsumo.frmGRH
                                                 DataTable dt = new DataTable();
                                                 if (c_despacho.InsertarDespacho(out sError, _despacho, dt, iSucursal) > 0)
                                                 {
-                                                    XtraMessageBox.Show("Despacho creado", "Guardar");
+                                                    XtraMessageBox.Show("Despacho agregado", "Guardar");
                                                     Program._listaProductos.Clear();
                                                     this.Close();
                                                 }
                                                 else
                                                 {
-                                                    XtraMessageBox.Show("Problemas al insertar el despacho", "Guardar");
+                                                    XtraMessageBox.Show("Problemas al agregar el despacho", "Guardar");
                                                     Program._listaProductos.Clear();
                                                     this.Close();
                                                 }
@@ -1131,22 +1131,6 @@ namespace WFConsumo.frmGRH
             {
                 XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("################## = " + err.ToString());
-            }
-        }
-        private void btnCorrelativo_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                DataSet datalista = C_Despacho.TraerCorrelativo(_idSucursal, "DESPACHO");
-                foreach(DataRow item in datalista.Tables[0].Rows)
-                {
-                    XtraMessageBox.Show(item[3].ToString(), "Correlativo");
-                    Console.WriteLine("%%%%%%%%%%%%%%%%%%%%%%%%% = " + item[0] + " / " + item[1] + " / " + item[2] + " / " + item[3] + " / " + item[4] + " / " + item[5] + " / " + item[6]);
-;                }
-            }
-            catch(Exception err)
-            {
-                Console.WriteLine("######################### = " + err.ToString());
             }
         }
     }

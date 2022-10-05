@@ -58,6 +58,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenEnProceso
             }
             catch(Exception err)
             {
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
             }
         }
@@ -119,6 +120,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenEnProceso
             }
             catch (Exception err)
             {
+                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
             }
         }
@@ -152,6 +154,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenEnProceso
             }
             catch (Exception err)
             {
+                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
             }
         }
@@ -237,7 +240,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenEnProceso
                     }
                     catch (Exception err)
                     {
-                        XtraMessageBox.Show(err.ToString(), "Error");
+                        XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                     }
                 }
             }
@@ -346,8 +349,8 @@ namespace WFConsumo.frmGRH.DespachoOrdenEnProceso
                         }
                         else
                         {
-                            //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
-                            //Console.WriteLine("###########################: A = 0");
+                            XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                            Console.WriteLine("###########################: A = 0");
                         }
                     }
                     else

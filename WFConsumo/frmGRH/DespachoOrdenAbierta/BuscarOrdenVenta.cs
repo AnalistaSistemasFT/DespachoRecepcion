@@ -27,21 +27,28 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
         }
         public void TraerOrden()
         {
-            DataSet dataLista = C_NroOrden.TraerTodo(_idSucursal);
-            //dataP = dataLista.Tables[0];
-            foreach (DataRow item in dataLista.Tables[0].Rows)
+            try
             {
-                _ListStock.Add(new GlobalItem
+                DataSet dataLista = C_NroOrden.TraerTodo(_idSucursal);
+                //dataP = dataLista.Tables[0];
+                foreach (DataRow item in dataLista.Tables[0].Rows)
                 {
-                    ItemId = item[0].ToString(),
-                    ItemFerro = item[1].ToString(),
-                    Descripcion = item[2].ToString(),
-                    StockPzs = Convert.ToInt32(item[3])
-                });
+                    _ListStock.Add(new GlobalItem
+                    {
+                        ItemId = item[0].ToString(),
+                        ItemFerro = item[1].ToString(),
+                        Descripcion = item[2].ToString(),
+                        StockPzs = Convert.ToInt32(item[3])
+                    });
+                }
+                this.gridControl1.DataSource = _ListStock;
             }
-            this.gridControl1.DataSource = _ListStock;
+            catch (Exception err)
+            {
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
+                Console.WriteLine("###############= " + err.ToString());
+            }
         }
-
         private void btnAceptar_Click(object sender, EventArgs e)
         {
 
@@ -49,7 +56,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
 
         private void btnSalir_Click(object sender, EventArgs e)
         {
-
+            this.Close();
         }
 
         private void BuscarOrdenVenta_FormClosing(object sender, FormClosingEventArgs e)

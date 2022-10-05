@@ -96,6 +96,11 @@ namespace CAD
             string cadena = "select tblDespacho.despachoid,tblDespacho.fecha,tbldespacho.nroorden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " AND STATUS IN('CLOSE') order by tblDespacho.despachoid desc";
             return this.EjecutarConsulta(cadena);
         }
+        public DataSet TraerTodosLosDespachos(int _idSucursal)
+        {
+            string cadena = "select tblDespacho.despachoid,tblDespacho.fecha,tbldespacho.nroorden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " order by tblDespacho.despachoid desc";
+            return this.EjecutarConsulta(cadena);
+        }
         public DataSet TraerDespachoTransito(int _idSucursal)
         {
             string cadena = "select tblDespacho.despachoid,tblDespacho.fecha,tbldespacho.nroorden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " AND STATUS IN('TRANSITO') order by tblDespacho.despachoid desc";

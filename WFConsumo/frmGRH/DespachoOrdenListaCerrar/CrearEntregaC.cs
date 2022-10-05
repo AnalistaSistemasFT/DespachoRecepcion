@@ -84,7 +84,8 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
             }
             catch(Exception err)
             {
-                Console.WriteLine("######################## = " + err.ToString());
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
             }
         }
         public void TraerData()
@@ -116,7 +117,8 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
             }
             catch(Exception err)
             {
-                Console.WriteLine("#################### = " + err.ToString());
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
             }
         }
         public void CerrarDespacho()
@@ -252,6 +254,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
             }
             catch (Exception err)
             {
+                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("################### = " + err.ToString());
             }
         }
@@ -297,6 +300,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
             }
             catch (Exception err)
             {
+                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("#################### = " + err.ToString());
             }
         }
@@ -562,7 +566,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
             }
             catch (Exception err)
             {
-                //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("################## = " + err.ToString());
             }
         }
@@ -609,6 +613,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
             }
             catch(Exception err)
             {
+                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("############################## = " + err.ToString());
             }
         }
@@ -914,7 +919,8 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
             }
             catch(Exception err)
             {
-                Console.WriteLine("################## = " + err.ToString());
+                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
             }
         }
         private void comboxChofer_SelectedIndexChanged(object sender, EventArgs e)

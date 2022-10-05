@@ -119,7 +119,7 @@ namespace WFConsumo.frmGRH
             }
             catch(Exception err)
             {
-                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
             } 
         }
@@ -490,6 +490,7 @@ namespace WFConsumo.frmGRH
             }
             catch(Exception err)
             {
+                //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("################### = " + err.ToString());
             }
         }

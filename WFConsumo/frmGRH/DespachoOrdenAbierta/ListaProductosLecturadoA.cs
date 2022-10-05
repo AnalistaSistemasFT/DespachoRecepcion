@@ -316,7 +316,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                     }
                     else
                     {
-                        XtraMessageBox.Show("No se tiene ningun item programado", "Aviso");
+                        //XtraMessageBox.Show("No se tiene ningun item programado", "Aviso");
                         DataSet dataLista = C_Paquete.TraerPaqueteLecturadoPorSucursal(_idSucursal);
                         foreach (DataRow item in dataLista.Tables[0].Rows)
                         {
@@ -338,7 +338,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
             }
             catch (Exception err)
             {
-                //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
             }
         }
@@ -395,7 +395,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                     }
                     catch (Exception err)
                     {
-                        //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                        XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                         Console.WriteLine("####################### = " + err.ToString());
                     }
                 }
@@ -428,7 +428,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
             }
             catch(Exception err)
             {
-                //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
             } 
         }
@@ -489,7 +489,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
             }
             catch (Exception err)
             {
-                //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
             }
         }

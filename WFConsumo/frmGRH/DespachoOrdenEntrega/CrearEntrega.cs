@@ -76,7 +76,8 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
             }
             catch (Exception err)
             {
-                Console.WriteLine("######################## = " + err.ToString());
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
             }
         }
         public void TraerData()
@@ -103,13 +104,13 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
                             p_PesoRetirar = 0
                         });
                     }
-                    this.gridControl1.DataSource = _listEntrega;
-
+                    this.gridControl1.DataSource = _listEntrega; 
                 }
             }
             catch (Exception err)
             {
-                Console.WriteLine("#################### = " + err.ToString());
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
             }
         }
         public void RecibirItems(List<ItemEntrega> _itemEntregas)
@@ -138,7 +139,8 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
             }
             catch (Exception err)
             {
-                Console.WriteLine("#################### = " + err.ToString());
+                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
             }
         }
         public void TraerDataChofer()
@@ -353,7 +355,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
             }
             catch (Exception err)
             {
-                //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("################## = " + err.ToString());
             }
         }
@@ -454,7 +456,8 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
             }
             catch (Exception err)
             {
-                Console.WriteLine("#################### = " + err.ToString());
+                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
             }
         }
         private void gridView1_SelectionChanged(object sender, DevExpress.Data.SelectionChangedEventArgs e)
@@ -576,7 +579,8 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
             }
             catch (Exception err)
             {
-                Console.WriteLine("################ = " + err.ToString());
+                //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
             }
         }
         private void gridView1_ShowingEditor(object sender, CancelEventArgs e)
@@ -633,7 +637,8 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
             }
             catch (Exception err)
             {
-                Console.WriteLine("################## = " + err.ToString());
+                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
             }
         }
     }
