@@ -1,0 +1,624 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using DevExpress.XtraEditors;
+using CRN.Componentes;
+using CRN.Entidades;
+using DevExpress.XtraGrid.Views.Base;
+using DevExpress.XtraGrid;
+
+namespace WFConsumo.frmGRH.DespachoOrdenEnProceso
+{
+    public partial class ListaLecturado : DevExpress.XtraEditors.XtraForm
+    {
+        private string _IdDespacho;
+        int _idSucursal = 0;
+        private DateTime _fechaD = DateTime.Now;
+        private DateTime _FechaDesp;
+        string _codigoPr;
+        private int _CantidadPaq;
+        private decimal _PesoUnidad;
+        CPaquetes C_Paquete;
+        CDespacho C_Despacho;
+        DataTable dataT = new DataTable();
+        List<PaqueteLecturado> _paqList = new List<PaqueteLecturado>();
+        List<DespProductos> _desProdList = new List<DespProductos>();
+        List<string> _listPaqLecturados = new List<string>();
+
+        public ListaLecturado(string IdDespacho, DateTime _Fecha, int Sucursal)
+        {
+            InitializeComponent();
+            _IdDespacho = IdDespacho;
+            txtDespacho.Text = IdDespacho;
+            _idSucursal = Sucursal;
+            C_Paquete = new CPaquetes();
+            C_Despacho = new CDespacho();
+            txtFecha.Text = _Fecha.ToString("dd/MM/yyyy");
+            _FechaDesp = _Fecha;
+            _desProdList = new List<DespProductos>();
+            TraerData();
+            this.gridControl1.DataSource = _paqList;
+            txtEtiqueta.Enabled = false;
+        } 
+        private void TraerData()
+        {
+            try
+            {
+                CDespProductos c_ProdDesp = new CDespProductos();
+                DataSet dataLista = c_ProdDesp.BuscarDespALecturar(_IdDespacho);
+                foreach(DataRow item in dataLista.Tables[0].Rows)
+                {
+                    _paqList.Add(new PaqueteLecturado
+                    {
+                        p_ItemId = item[0].ToString(),
+                        p_ItemFerro = item[1].ToString(),
+                        p_Descripcion = item[2].ToString(),
+                        p_PaqueteId = item[3].ToString(),
+                        p_Piezas = Convert.ToInt32(item[4]),
+                        p_Peso = Convert.ToDecimal(item[5]),
+                        p_Retirar = Convert.ToInt32(item[6])
+                    });
+                    
+                }
+
+                DataSet dataLista2 = c_ProdDesp.BuscarDespALecturarCompleto(_IdDespacho);
+                foreach (DataRow item in dataLista2.Tables[0].Rows)
+                {
+                    _desProdList.Add(new DespProductos
+                    {
+                        DespachoId = _IdDespacho,
+                        ProductoId = item[3].ToString(),
+                        ItemId = item[0].ToString(),
+                        Fecha = _FechaDesp,
+                        Status = "OPEN",
+                        Cantidad = Convert.ToInt32(item[6]),
+                        Peso = Convert.ToInt32(item[5]),
+                        CeldaId = item[7].ToString(),
+                        SucursalId = Convert.ToInt32(item[8]),
+                        ItemFId = item[9].ToString(),
+                        Piezas = Convert.ToInt32(item[10] is DBNull ? 0 : item[10]),
+                        Metros = Convert.ToDecimal(item[11] is DBNull ? 0 : item[11]),
+                        Colada = item[12].ToString()
+                    });
+                }
+            }
+            catch (Exception err)
+            {
+                //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
+            }
+        }
+        private void ListaLecturado_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                //Application.OpenForms["frmListaOrdenEnProceso"].Enabled = true;
+            }
+        }
+        //btnCancelar
+        private void simpleButton3_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        private void btnEmpezarLect_Click(object sender, EventArgs e)
+        {
+            if(txtEtiqueta.Enabled == true)
+            {
+                txtEtiqueta.Focus();
+                //txtEtiqueta.Enabled = false;
+                btnEmpezarLect.Text = "Finalizar lecturacion";
+                //btnBusquedaMan.Enabled = false;
+                //btnBusqPaquete.Enabled = false;
+                //txtNroOrden.Enabled = false;
+            }
+            else if(txtEtiqueta.Enabled == false)
+            {
+                txtEtiqueta.Text = string.Empty;
+                txtEtiqueta.Enabled = true;
+                btnEmpezarLect.Text = "Empezar lecturacion";
+                btnBusquedaMan.Enabled = true;
+                btnBusqPaquete.Enabled = true;
+                txtNroOrden.Enabled = true;
+            }
+            else
+            {
+                txtEtiqueta.Text = string.Empty;
+                txtEtiqueta.Enabled = true;
+                btnEmpezarLect.Text = "Empezar lecturacion";
+                btnBusquedaMan.Enabled = true;
+                btnBusqPaquete.Enabled = true;
+                txtNroOrden.Enabled = true;
+            }
+        }
+        private void txtEtiqueta_TextChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(txtEtiqueta.Text) || (!string.IsNullOrEmpty(txtEtiqueta.Text)))
+            {
+                try
+                {
+                    _codigoPr = txtEtiqueta.Text;
+                    if(_codigoPr != string.Empty)
+                    {
+                        if(_codigoPr.Length > 5)
+                        {
+                            Lecturar(_codigoPr);
+                        }
+                    }
+                }
+                catch(Exception err)
+                {
+                    //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                    Console.WriteLine("####################### = " + err.ToString());
+                }
+            }
+        }
+        private void Lecturar(string _codigoPr)
+        {
+            try
+            {
+                //DataSet dataLista = C_Paquete.TraerPaqueteLecturado( _idSucursal);
+                string _IdPaquete = "0";
+                _IdPaquete = _codigoPr;
+                DataSet dataLista = C_Paquete.TraerPaqueteLecturadoBuscar(_idSucursal, _IdPaquete);
+                
+                int _piezaItem = 0;
+                decimal _pesoItem = 0;
+                foreach (DataRow item in dataLista.Tables[0].Rows)
+                {
+                    if(_codigoPr == item[3].ToString())
+                    {
+                        if (!_paqList.Any(n => n.p_PaqueteId == _codigoPr))
+                        {
+                            _paqList.Add(new PaqueteLecturado
+                            {
+                                p_ItemId = item[0].ToString(),
+                                p_ItemFerro = item[1].ToString(),
+                                p_Descripcion = item[2].ToString(),
+                                p_PaqueteId = item[3].ToString(),
+                                p_Piezas = Convert.ToInt32(item[4]),
+                                p_Peso = Convert.ToDecimal(item[5]),
+                                p_Retirar = Convert.ToInt32(item[4])
+                            });
+                            _IdPaquete = item[3].ToString();
+                            _piezaItem = Convert.ToInt32(item[4]);
+                            _pesoItem = Convert.ToDecimal(item[5]);
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                }
+                this.gridControl1.RefreshDataSource();
+                this.gridControl1.Refresh();
+                _codigoPr = string.Empty;
+                txtEtiqueta.Text = string.Empty;
+                txtEtiqueta.DoValidate();
+                //
+                DataSet dataL = C_Paquete.BuscarPaqueteLecturar(_IdPaquete);
+                foreach (DataRow item in dataL.Tables[0].Rows)
+                {
+                    _desProdList.Add(new DespProductos
+                    {
+                        DespachoId = _IdDespacho,
+                        ProductoId = item[0].ToString(),
+                        ItemId = item[1].ToString(),
+                        Fecha = _FechaDesp,
+                        Status = "OPEN",
+                        Cantidad = Convert.ToInt32(item[4] is DBNull ? 0 : item[4]),
+                        Peso = _pesoItem,
+                        CeldaId = item[2].ToString(),
+                        SucursalId = _idSucursal,
+                        ItemFId = item[3].ToString(),
+                        Piezas = Convert.ToInt32(item[4] is DBNull ? 0:item[4]), 
+                        Metros = Convert.ToDecimal(item[5] is DBNull ? 0 : item[5]),
+                        Colada = item[6].ToString()
+                    });
+                }
+            }
+            catch (Exception err)
+            {
+                //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
+            }
+        }
+        public void PaqueteAbierto(string _IdPaquete, int _PiezasEnt, decimal _PesoEnt)
+        {
+            try
+            {
+                foreach(var item in _paqList)
+                {
+                    if(item.p_PaqueteId == _IdPaquete)
+                    {
+                        item.p_Piezas = _PiezasEnt;
+                        item.p_Peso = _PesoEnt;
+                    }
+                }
+                this.gridControl1.RefreshDataSource();
+                this.gridControl1.Refresh();
+            }
+            catch (Exception err)
+            {
+                //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
+            }
+        }
+        private void btnAceptar_Click(object sender, EventArgs e)
+        {
+            //guardar despproductos
+            try
+            {
+                if(_desProdList.Count > 0)
+                {
+                    CDespProductos c_ProdDesp = new CDespProductos();
+                    int responseD = 0;
+                    foreach (var item in _desProdList)
+                    {
+                        CDespProductos c_DespPr = new CDespProductos();
+                        DataSet dataLista = c_DespPr.VerificarLlaves(item.DespachoId, item.ProductoId);
+                        if(dataLista.Tables[0].Rows.Count > 0)
+                        {
+                            DespProductos _despProductos = new DespProductos();
+                            _despProductos = item;
+                            string _idPaquete = item.ProductoId;
+                            int _cantRetirada = Convert.ToInt32(item.Cantidad);
+                            int _pesoNuevo = Convert.ToInt32(item.Peso);
+                            responseD = c_ProdDesp.ModificarCantidad(_IdDespacho, _idPaquete, _cantRetirada, _pesoNuevo);
+                            if(responseD > 0)
+                            {
+                                int resReservar = C_Paquete.ReservarPaquete(_idPaquete);
+                                if (resReservar != 1)
+                                {
+                                    //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Guardar");
+                                    XtraMessageBox.Show("Problemas con la conexion", "Guardar");
+                                }
+                            } 
+                        }
+                        else
+                        {
+                            DespProductos _despProductos = new DespProductos();
+                            _despProductos = item;
+                            string _idPaquete = item.ProductoId;
+                            responseD = c_ProdDesp.GuardarDespacho(_despProductos);
+                            if(responseD > 0)
+                            {
+                                int resReservar = C_Paquete.ReservarPaquete(_idPaquete);
+                                if(resReservar != 1)
+                                {
+                                    XtraMessageBox.Show("Problemas con la conexion", "Guardar");
+                                }
+                            }
+                            if (responseD != 1)
+                            {
+                                //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Guardar");
+                                XtraMessageBox.Show("Problemas con la conexion", "Guardar");
+                            }
+                        } 
+                    }
+                    XtraMessageBox.Show("Se guardo correctamente", "Guardado");
+                    this.Close();
+                }
+                else
+                {
+                    XtraMessageBox.Show("Lista de productos vacia", "Guardar");
+                }
+            }
+            catch(Exception err)
+            {
+                //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                Console.WriteLine("############################# = " + err.ToString());
+                Console.WriteLine("$$$$$$$$$$$$$ = " + err.HResult.ToString());
+            }
+        }
+        private void btnBusquedaMan_Click(object sender, EventArgs e)
+        {
+            int IdSucursal = _idSucursal;
+            try
+            {
+                for (int i = 0; i < gridView1.DataRowCount; i++)
+                {
+                    string ValPaq = gridView1.GetRowCellValue(i, "p_PaqueteId").ToString();
+
+                    if (ValPaq != null && ValPaq != string.Empty)
+                    {
+                        _listPaqLecturados.Add(ValPaq);
+                    }
+                }
+            }
+            catch(Exception err)
+            {
+                Console.WriteLine("############################################# = " + err.ToString());
+            }
+            
+            ListaProductosLecturado form2 = new ListaProductosLecturado(IdSucursal, _IdDespacho, _listPaqLecturados);
+            form2.Owner = this;
+            form2.ShowDialog(this);
+        }
+        public void ProductoElegido(string _idItem, string _itemFerro, string _descripcion, string _paquete, int _piezas, decimal _peso, string _unidad, int _cantidad)
+        {
+            try
+            {
+                if (_cantidad > 0)
+                {
+                    string _IdPaquete = "0";
+                    int _piezaItem = 0;
+                    decimal _pesoItem = 0;
+                    decimal _retirar = 0;
+                    if (!_paqList.Any(n => n.p_PaqueteId == _paquete))
+                    {
+                        if(_unidad.ToUpper() == "KG")
+                        {
+                            _paqList.Add(new PaqueteLecturado
+                            {
+                                p_ItemId = _idItem,
+                                p_ItemFerro = _itemFerro,
+                                p_Descripcion = _descripcion,
+                                p_PaqueteId = _paquete,
+                                p_Piezas = _piezas,
+                                p_Peso = _peso,
+                                p_Unidad = _unidad,
+                                p_Retirar = _cantidad
+                            });
+                            _retirar = _peso;
+                        }
+                        else if(_unidad.ToUpper() == "PCS")
+                        {
+                            _paqList.Add(new PaqueteLecturado
+                            {
+                                p_ItemId = _idItem,
+                                p_ItemFerro = _itemFerro,
+                                p_Descripcion = _descripcion,
+                                p_PaqueteId = _paquete,
+                                p_Piezas = _piezas,
+                                p_Peso = _peso,
+                                p_Unidad = _unidad,
+                                p_Retirar = _cantidad
+                            });
+                            _retirar = _cantidad;
+                        }
+                        else
+                        {
+                            _paqList.Add(new PaqueteLecturado
+                            {
+                                p_ItemId = _idItem,
+                                p_ItemFerro = _itemFerro,
+                                p_Descripcion = _descripcion,
+                                p_PaqueteId = _paquete,
+                                p_Piezas = _piezas,
+                                p_Peso = _peso,
+                                p_Unidad = _unidad,
+                                p_Retirar = _cantidad
+                            });
+                        }
+                        _IdPaquete = _paquete;
+                        _piezaItem = _cantidad;
+                        _pesoItem = _peso;
+                    }
+                        
+                    this.gridControl1.RefreshDataSource();
+                    this.gridControl1.Refresh();
+                    //
+                    DataSet dataL = C_Paquete.BuscarPaqueteLecturar(_IdPaquete);
+                    foreach (DataRow item in dataL.Tables[0].Rows)
+                    {
+                        if (_unidad.ToUpper() == "KG")
+                        {
+                            _desProdList.Add(new DespProductos
+                            {
+                                DespachoId = _IdDespacho,
+                                ProductoId = item[0].ToString(),
+                                ItemId = item[1].ToString(),
+                                Fecha = _FechaDesp,
+                                Status = "OPEN",
+                                Cantidad = _piezaItem,
+                                Peso = _retirar,
+                                CeldaId = item[2].ToString(),
+                                SucursalId = _idSucursal,
+                                ItemFId = item[3].ToString(),
+                                Piezas = Convert.ToInt32(item[4] is DBNull ? 0 : item[4]),
+                                Metros = Convert.ToDecimal(item[5] is DBNull ? 0 : item[5]),
+                                Colada = item[6].ToString()
+                            });
+                        }
+                        else if (_unidad.ToUpper() == "PCS")
+                        {
+                            _desProdList.Add(new DespProductos
+                            {
+                                DespachoId = _IdDespacho,
+                                ProductoId = item[0].ToString(),
+                                ItemId = item[1].ToString(),
+                                Fecha = _FechaDesp,
+                                Status = "OPEN",
+                                Cantidad = _retirar,
+                                Peso = _pesoItem,
+                                CeldaId = item[2].ToString(),
+                                SucursalId = _idSucursal,
+                                ItemFId = item[3].ToString(),
+                                Piezas = Convert.ToInt32(item[4] is DBNull ? 0 : item[4]),
+                                Metros = Convert.ToDecimal(item[5] is DBNull ? 0 : item[5]),
+                                Colada = item[6].ToString()
+                            });
+                        }
+                        else
+                        {
+                            _desProdList.Add(new DespProductos
+                            {
+                                DespachoId = _IdDespacho,
+                                ProductoId = item[0].ToString(),
+                                ItemId = item[1].ToString(),
+                                Fecha = _FechaDesp,
+                                Status = "OPEN",
+                                Cantidad = _piezaItem,
+                                Peso = _pesoItem,
+                                CeldaId = item[2].ToString(),
+                                SucursalId = _idSucursal,
+                                ItemFId = item[3].ToString(),
+                                Piezas = Convert.ToInt32(item[4] is DBNull ? 0 : item[4]),
+                                Metros = Convert.ToDecimal(item[5] is DBNull ? 0 : item[5]),
+                                Colada = item[6].ToString()
+                            });
+                        }
+                    }
+                }
+                else
+                {
+                    //XtraMessageBox.Show("Cantidad= ", _cantidad.ToString());
+                }
+            }
+            catch (Exception err)
+            {
+                //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                Console.WriteLine("############################# = " + err.ToString());
+            }
+        }
+        private void btnBusqPaquete_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(txtNroOrden.Text) || (!string.IsNullOrEmpty(txtNroOrden.Text)))
+            {
+                try
+                {
+                    #region Comentada
+                    //_paqList.Clear();
+                    //string _NroOrden = txtNroOrden.Text;
+                    //DataSet dataLista = C_Paquete.BuscarPaquetePorOrden(_NroOrden);
+                    //foreach (DataRow item in dataLista.Tables[0].Rows)
+                    //{
+                    //    if (item[5].ToString().ToUpper() == "KG")
+                    //    {
+                    //        //_paqList.Find(p => p.p_ItemId == item[0].ToString()).p_Retirar = Convert.ToDecimal(item[4]);
+                    //        _paqList.Add(new PaqueteLecturado
+                    //        {
+                    //            p_ItemId = item[0].ToString(),
+                    //            p_Descripcion = item[1].ToString(),
+                    //            p_PaqueteId = item[2].ToString(),
+                    //            p_Piezas = Convert.ToInt32(item[3]),
+                    //            p_Peso = Convert.ToDecimal(item[4]),
+                    //            p_Unidad = item[5].ToString(),
+                    //            p_Retirar = Convert.ToInt32(item[4])
+                    //        });
+                    //    }
+                    //    else if (item[5].ToString().ToUpper() == "PCS")
+                    //    {
+                    //        _paqList.Add(new PaqueteLecturado
+                    //        {
+                    //            p_ItemId = item[0].ToString(),
+                    //            p_Descripcion = item[1].ToString(),
+                    //            p_PaqueteId = item[2].ToString(),
+                    //            p_Piezas = Convert.ToInt32(item[3]),
+                    //            p_Peso = Convert.ToDecimal(item[4]),
+                    //            p_Unidad = item[5].ToString(),
+                    //            p_Retirar = Convert.ToInt32(item[3])
+                    //        });
+                    //        //XtraMessageBox.Show(item[5].ToString(), "Aviso");
+                    //    }
+                    //    else
+                    //    {
+                    //        _paqList.Find(p => p.p_ItemId == item[0].ToString()).p_Retirar = 1;
+                    //    }
+                    //}
+                    //this.gridControl1.RefreshDataSource();
+                    //this.gridControl1.Refresh();
+                    #endregion
+                    string _OrdenId = txtNroOrden.Text;
+                    DataSet dataP = C_Despacho.TraerPaqProduccion(_OrdenId);
+                    foreach(DataRow itemPrd in dataP.Tables[0].Rows)
+                    {
+                        string paquete = itemPrd[0].ToString();
+                        _codigoPr = paquete;
+                        Console.WriteLine("paquete = " + itemPrd[0].ToString()); 
+                        DataSet dataOrd = C_Despacho.TraerInfoPaquete(paquete, _idSucursal);
+                        int _piezaItem = 0;
+                        decimal _pesoItem = 0;
+                        foreach (DataRow itemOrd in dataOrd.Tables[0].Rows)
+                        {
+                            if (_codigoPr == itemOrd[3].ToString())
+                            {
+                                if (!_paqList.Any(n => n.p_PaqueteId == _codigoPr))
+                                {
+                                    _paqList.Add(new PaqueteLecturado
+                                    {
+                                        p_ItemId = itemOrd[0].ToString(),
+                                        p_ItemFerro = itemOrd[1].ToString(),
+                                        p_Descripcion = itemOrd[2].ToString(),
+                                        p_PaqueteId = itemOrd[3].ToString(),
+                                        p_Piezas = Convert.ToInt32(itemOrd[4]),
+                                        p_Peso = Convert.ToDecimal(itemOrd[5]),
+                                        p_Retirar = Convert.ToInt32(itemOrd[4])
+                                    }); 
+                                    _piezaItem = Convert.ToInt32(itemOrd[4]);
+                                    _pesoItem = Convert.ToDecimal(itemOrd[5]);
+                                    Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$$$$$ = " + itemOrd[3].ToString());
+                                }
+                                else
+                                {
+
+                                }
+                            }
+                        }
+                    }
+                    this.gridControl1.RefreshDataSource();
+                    this.gridControl1.Refresh();
+                    _codigoPr = string.Empty;
+                }
+                catch (Exception err)
+                {
+                    //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                    Console.WriteLine("############################# = " + err.ToString());
+                }
+            }
+            else
+            {
+                XtraMessageBox.Show("Ingrese un numero de orden");
+            }
+        }
+        private void gridView1_CellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
+            try
+            {
+                int _valData = e.RowHandle;
+                ColumnView view = gridControl1.MainView as ColumnView;
+                
+                string _itmId = view.GetRowCellDisplayText(_valData, view.Columns[0]);
+                string _paqtId = view.GetRowCellDisplayText(_valData, view.Columns[3]);
+                int _cantN = Convert.ToInt32(view.GetRowCellDisplayText(_valData, view.Columns[6]));
+                int _piezas = Convert.ToInt32(view.GetRowCellDisplayText(_valData, view.Columns[4]));
+                decimal _peso = Convert.ToDecimal(view.GetRowCellDisplayText(_valData, view.Columns[5]));
+                decimal _pesoFinal = (_peso / _piezas) * _cantN;
+                _desProdList.Find(p => p.ItemId == _itmId && p.ProductoId == _paqtId).Cantidad = _cantN;
+                _desProdList.Find(p => p.ItemId == _itmId && p.ProductoId == _paqtId).Peso = _pesoFinal;
+            }
+            catch (Exception err)
+            {
+                //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
+            }
+        }
+        private void btnQuitar_Click(object sender, EventArgs e)
+        {
+            ColumnView view = gridControl1.MainView as ColumnView;
+            int[] row = view.GetSelectedRows();
+            if (row.Length > 0)
+            {
+                view.FocusedRowHandle = row[0];
+            }
+            try
+            {
+                string _itmId = view.GetRowCellDisplayText(row[0], view.Columns[0]);
+                var itemToRemove = _desProdList.Single(r => r.ItemId == _itmId);
+                _desProdList.Remove(itemToRemove);
+            }
+            catch(Exception err)
+            {
+                //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
+            }
+            
+        }
+    }
+}

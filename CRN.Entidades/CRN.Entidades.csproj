@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EFCD9F8F-D445-4117-AF2C-91D0FA1007B0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CRN.Entidades</RootNamespace>
+    <AssemblyName>CRN.Entidades</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CadParametros.cs" />
+    <Compile Include="CatalogoProducto.cs" />
+    <Compile Include="CatCamion.cs" />
+    <Compile Include="CatChofer.cs" />
+    <Compile Include="CatTabla.cs" />
+    <Compile Include="CatTablaDetalle.cs" />
+    <Compile Include="CausaCuarentena.cs" />
+    <Compile Include="Celdas.cs" />
+    <Compile Include="CentroTrabajo.cs" />
+    <Compile Include="ClientesInformix.cs" />
+    <Compile Include="CObjeto.cs" />
+    <Compile Include="Consumido.cs" />
+    <Compile Include="Despacho.cs" />
+    <Compile Include="DespachoEditar.cs" />
+    <Compile Include="DespDetalle.cs" />
+    <Compile Include="DespProductos.cs" />
+    <Compile Include="DespProgCelda.cs" />
+    <Compile Include="DespProgSob.cs" />
+    <Compile Include="EmpleadoUser.cs" />
+    <Compile Include="Ensayo.cs" />
+    <Compile Include="Entrega.cs" />
+    <Compile Include="EntregaDet.cs" />
+    <Compile Include="EntregaMecanizado.cs" />
+    <Compile Include="GlobalItem.cs" />
+    <Compile Include="Item.cs" />
+    <Compile Include="ItemEntrega.cs" />
+    <Compile Include="ItemTraerOrden.cs" />
+    <Compile Include="ItemTraspaso.cs" />
+    <Compile Include="ListaNroOrdenInf.cs" />
+    <Compile Include="LogError.cs" />
+    <Compile Include="MedidaPrecio.cs" />
+    <Compile Include="ModFechaFMec.cs" />
+    <Compile Include="MovConsumido.cs" />
+    <Compile Include="MovDetalle.cs" />
+    <Compile Include="Movimiento.cs" />
+    <Compile Include="MovProducido.cs" />
+    <Compile Include="NoConformidad.cs" />
+    <Compile Include="Observacion.cs" />
+    <Compile Include="OrdenEntrega.cs" />
+    <Compile Include="OrdenEntregaDetalle.cs" />
+    <Compile Include="OrdenProduccion.cs" />
+    <Compile Include="OrdenProduccionV2.cs" />
+    <Compile Include="OrdenSync.cs" />
+    <Compile Include="PaqueteLecturado.cs" />
+    <Compile Include="Paquetes.cs" />
+    <Compile Include="PaquetesRotos.cs" />
+    <Compile Include="PartesEnsayos.cs" />
+    <Compile Include="ProduccionDetalle.cs" />
+    <Compile Include="Producido.cs" />
+    <Compile Include="Producto.cs" />
+    <Compile Include="Recepcion.cs" />
+    <Compile Include="RecepcionProducto.cs" />
+    <Compile Include="RecepcionProductosDel.cs" />
+    <Compile Include="RespuestaMecanizado.cs" />
+    <Compile Include="scartsuc.cs" />
+    <Compile Include="scentreg.cs" />
+    <Compile Include="scmovart.cs" />
+    <Compile Include="scmovorca.cs" />
+    <Compile Include="scordcarg.cs" />
+    <Compile Include="scttrasp.cs" />
+    <Compile Include="Sector.cs" />
+    <Compile Include="ServicioMecanizado.cs" />
+    <Compile Include="Sesion.cs" />
+    <Compile Include="Modulos.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecepcionDetalle.cs" />
+    <Compile Include="RecursosUser.cs" />
+    <Compile Include="SucItem.cs" />
+    <Compile Include="Sucursal.cs" />
+    <Compile Include="SucursalElegir.cs" />
+    <Compile Include="TAccion.cs" />
+    <Compile Include="TblEnsayo.cs" />
+    <Compile Include="TblEnsayoDetalle.cs" />
+    <Compile Include="TipoCambio.cs" />
+    <Compile Include="TipoCosteo.cs" />
+    <Compile Include="TraspasoQuery.cs" />
+    <Compile Include="UserSuc.cs" />
+    <Compile Include="Usuario.cs" />
+    <Compile Include="UsuarioMecanizado.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

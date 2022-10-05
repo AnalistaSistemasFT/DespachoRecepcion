@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<FTBOOMJournal xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/dynamics/2008/01/documents/FTBOOMJournal">
+  <DocPurpose>Original</DocPurpose>
+  <SenderId>FERP</SenderId>
+  <InventJournalTable class="entity">
+    <Description>Inventory Boom Journal</Description>
+    <JournalNameId>IBOM</JournalNameId>
+    <NumOfLines>31</NumOfLines>
+    <InventJournalTransList>
+      <InventJournalTrans class="entity">
+        <BOMLine>NO</BOMLine>
+        <CostAmount>0.00</CostAmount>
+        <CostPrice>1.00</CostPrice>
+        <ItemId>00876</ItemId>
+        <LineNum>1</LineNum>
+        <PriceUnit>1.00</PriceUnit>
+        <Qty>66.00</Qty>
+        <TransDate>2017-09-14</TransDate>
+        <InventDim class="entity">
+          <InventBatchId />
+          <InventLocationId>SCZ-PDV-PR</InventLocationId>
+          <InventSerialId />
+          <InventSiteId>FERR-PRO</InventSiteId>
+          <InventStatusId>Disponible</InventStatusId>
+          <LicensePlateID>17SCR08235</LicensePlateID>
+          <WMSLocationId>N-ETIQUETA</WMSLocationId>
+        </InventDim>
+      </InventJournalTrans>
+    </InventJournalTransList>
+  </InventJournalTable>
+</FTBOOMJournal>

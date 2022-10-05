@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="file:///E:/ARCHIVOS DE PROGRAMA/MICROSOFT VISUAL STUDIO 12.0/COMMON7/IDE/EXTENSIONS/MICROSOFT/ARCHITECTURE TOOLS/EXTENSIBILITY/Logging/ReverseEngineeringLog.xslt"?>
+<Log xmlns="http://schemas.microsoft.com/VisualStudio/2010/CodeGen.RE.Log" Label="Registro de generación de código/transformación de texto">
+  <MessageClass Name="Message" Label="Mensaje" Option="Mostrar mensajes informativos" />
+  <MessageClass Name="Warning" Label="Advertencia" Option="Mostrar advertencias" />
+  <MessageClass Name="Error" Label="Error" Option="Mostrar errores" />
+  <MessageClass Name="Property" Label="Propiedad" Option="Mostrar metadatos" />
+  <MessageClass Name="Diagnostic" Label="Mensaje" Option="Mostrar mensajes de diagnóstico" />
+  <Message Timestamp="2017-08-24T17:14:10" Importance="High" Text="Se inició la ingeniería inversa." />
+  <Message Timestamp="2017-08-24T17:14:16" Importance="Diagnostic" Text="Se realizó ingeniería inversa del elemento en el modelo UML: 'FTBOOMJournal::Entidades' -  (Package)" />
+  <Message Timestamp="2017-08-24T17:14:16" Importance="Medium" Text="Se realizó ingeniería inversa del elemento en el modelo UML: 'FTBOOMJournal::Entidades::InventDim' -  (Class)" />
+  <Message Timestamp="2017-08-24T17:14:16" Importance="Diagnostic" Text="Se realizó ingeniería inversa del elemento en el modelo UML: 'FTBOOMJournal::Entidades::InventDim::Clase' -  (Property)" />
+  <Message Timestamp="2017-08-24T17:14:16" Importance="Diagnostic" Text="Se realizó ingeniería inversa del elemento en el modelo UML: 'FTBOOMJournal::Entidades::InventDim::InventBatchId' -  (Property)" />
+  <Message Timestamp="2017-08-24T17:14:16" Importance="Diagnostic" Text="Se realizó ingeniería inversa del elemento en el modelo UML: 'FTBOOMJournal::Entidades::InventDim::InventColorId' -  (Property)" />
+  <Message Timestamp="2017-08-24T17:14:16" Importance="Diagnostic" Text="Se realizó ingeniería inversa del elemento en el modelo UML: 'FTBOOMJournal::Entidades::InventDim::InventDim' -  (Operation)" />
+  <Message Timestamp="2017-08-24T17:14:16" Importance="Diagnostic" Text="Se realizó ingeniería inversa del elemento en el modelo UML: 'FTBOOMJournal::Entidades::InventDim::InventLocationId' -  (Property)" />
+  <Message Timestamp="2017-08-24T17:14:16" Importance="Diagnostic" Text="Se realizó ingeniería inversa del elemento en el modelo UML: 'FTBOOMJournal::Entidades::InventDim::InventSerialId' -  (Property)" />
+  <Message Timestamp="2017-08-24T17:14:16" Importance="Diagnostic" Text="Se realizó ingeniería inversa del elemento en el modelo UML: 'FTBOOMJournal::Entidades::InventDim::InventSiteId' -  (Property)" />
+  <Message Timestamp="2017-08-24T17:14:16" Importance="Diagnostic" Text="Se realizó ingeniería inversa del elemento en el modelo UML: 'FTBOOMJournal::Entidades::InventDim::InventSizeId' -  (Property)" />
+  <Message Timestamp="2017-08-24T17:14:16" Importance="Diagnostic" Text="Se realizó ingeniería inversa del elemento en el modelo UML: 'FTBOOMJournal::Entidades::InventDim::InventStatusId' -  (Property)" />
+  <Message Timestamp="2017-08-24T17:14:16" Importance="Diagnostic" Text="Se realizó ingeniería inversa del elemento en el modelo UML: 'FTBOOMJournal::Entidades::InventDim::LicensePlateID' -  (Property)" />
+  <Message Timestamp="2017-08-24T17:14:16" Importance="Diagnostic" Text="Se realizó ingeniería inversa del elemento en el modelo UML: 'FTBOOMJournal::Entidades::InventDim::WMSLocationId' -  (Property)" />
+  <Message Timestamp="2017-08-24T17:14:16" Importance="Diagnostic" Text="Se realizó ingeniería inversa del elemento en el modelo UML: 'String' -  (PrimitiveType)" />
+  <Message Timestamp="2017-08-24T17:14:16" Importance="High" Text="Se realizó ingeniería inversa total de los siguientes tipos: (1)." />
+  <Message Timestamp="2017-08-24T17:14:16" Importance="High" Text="La operación de ingeniería inversa se completó con (0) errores y (0) advertencias." />
+</Log>

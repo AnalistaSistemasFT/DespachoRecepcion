@@ -1,0 +1,1 @@
+alter table lybk.dbo.Producido add CostoUnitario decimal(9,3) null,CostoTotal decimal(9,3) null

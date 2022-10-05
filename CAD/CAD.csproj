@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7EEC1098-9CC3-44CF-9302-50A7D77D61A2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CAD</RootNamespace>
+    <AssemblyName>CAD</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>WFConsumo_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CADCamion.cs" />
+    <Compile Include="CADCatalogoProducto.cs" />
+    <Compile Include="CADCatTablaDetalle.cs" />
+    <Compile Include="CADCatTablas.cs" />
+    <Compile Include="CADCausaCuarentena.cs" />
+    <Compile Include="CADCeldas.cs" />
+    <Compile Include="CADCentroTrabajo.cs" />
+    <Compile Include="CADChofer.cs" />
+    <Compile Include="CADConforme.cs" />
+    <Compile Include="CADConsumido.cs" />
+    <Compile Include="CADDespacho.cs" />
+    <Compile Include="CADDespProductos.cs" />
+    <Compile Include="CADDetalleTraspaso.cs" />
+    <Compile Include="CADEnsayo.cs" />
+    <Compile Include="CADEntrega.cs" />
+    <Compile Include="CADEntregaDet.cs" />
+    <Compile Include="CADEntregaMecanizado.cs" />
+    <Compile Include="CADInformix.cs" />
+    <Compile Include="CADItem.cs" />
+    <Compile Include="CADLogError.cs" />
+    <Compile Include="CADMateriaPrima.cs" />
+    <Compile Include="CADModFechaFMec.cs" />
+    <Compile Include="CADMovConsumido.cs" />
+    <Compile Include="CADMovDetalle.cs" />
+    <Compile Include="CADMovimiento.cs" />
+    <Compile Include="CADMovProducido.cs" />
+    <Compile Include="CADNoConformeAccion.cs" />
+    <Compile Include="CADNroOrden.cs" />
+    <Compile Include="CADObservacion.cs" />
+    <Compile Include="CADOrdenEntrega.cs" />
+    <Compile Include="CADOrdenProduccion.cs" />
+    <Compile Include="CADOrdenProduccionV2.cs" />
+    <Compile Include="CADOrdenSync.cs" />
+    <Compile Include="CADConCI.cs" />
+    <Compile Include="CADPackingList.cs" />
+    <Compile Include="CADPaquetes.cs" />
+    <Compile Include="CADParametros.cs" />
+    <Compile Include="CADPartesEnsayos.cs" />
+    <Compile Include="CADProduccionesCerradas.cs" />
+    <Compile Include="CADProducido.cs" />
+    <Compile Include="CADProducto.cs" />
+    <Compile Include="CADRecepcion.cs" />
+    <Compile Include="CADRecepcionProducto.cs" />
+    <Compile Include="CADRecepcionProductosDel.cs" />
+    <Compile Include="CADRespuestaMecanizado.cs" />
+    <Compile Include="CADscentrega.cs" />
+    <Compile Include="CADSector.cs" />
+    <Compile Include="CADServicioMecanizado.cs" />
+    <Compile Include="CADSesion.cs" />
+    <Compile Include="CADModulos.cs" />
+    <Compile Include="CADRecepcionDetalle.cs" />
+    <Compile Include="CADRecursosUser.cs" />
+    <Compile Include="CADSincronizacion.cs" />
+    <Compile Include="CADSucItem.cs" />
+    <Compile Include="CADSucursal.cs" />
+    <Compile Include="CADDespDetalle.cs" />
+    <Compile Include="CADTblEnsayo.cs" />
+    <Compile Include="CADTblEnsayoDetalle.cs" />
+    <Compile Include="CADTipoCambio.cs" />
+    <Compile Include="CADTipoCosteo.cs" />
+    <Compile Include="CADTransaction.cs" />
+    <Compile Include="CADTraspaso.cs" />
+    <Compile Include="CADUserSuc.cs" />
+    <Compile Include="CADUsuario.cs" />
+    <Compile Include="CADUsuarioMecanizado.cs" />
+    <Compile Include="CAItemF.cs" />
+    <Compile Include="DBDAC.cs" />
+    <Compile Include="IDAC.cs" />
+    <Compile Include="CADMedidaPrecio.cs" />
+    <Compile Include="oledb.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CRN.Entidades\CRN.Entidades.csproj">
+      <Project>{EFCD9F8F-D445-4117-AF2C-91D0FA1007B0}</Project>
+      <Name>CRN.Entidades</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="WFConsumo_TemporaryKey.pfx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

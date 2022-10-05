@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F5342131-1847-4526-A464-86C58CD99B2A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CRN.Componentes</RootNamespace>
+    <AssemblyName>CRN.Componentes</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CAnotacion.cs" />
+    <Compile Include="CAnotacionDet.cs" />
+    <Compile Include="CCamion.cs" />
+    <Compile Include="CCatalogoProducto.cs" />
+    <Compile Include="CCatChofer.cs" />
+    <Compile Include="CCatTablaDetalle.cs" />
+    <Compile Include="CCatTablas.cs" />
+    <Compile Include="CCausaCuarentena.cs" />
+    <Compile Include="CCeldas.cs" />
+    <Compile Include="CCentroTrabajo.cs" />
+    <Compile Include="CChofer.cs" />
+    <Compile Include="CConforme.cs" />
+    <Compile Include="CConsumido.cs" />
+    <Compile Include="CDespacho.cs" />
+    <Compile Include="CDespDetalle.cs" />
+    <Compile Include="CDespProductos.cs" />
+    <Compile Include="CDespProg.cs" />
+    <Compile Include="CDetalleTraspaso.cs" />
+    <Compile Include="CEnsayo.cs" />
+    <Compile Include="CEntregaMecanizado.cs" />
+    <Compile Include="CFabricante.cs" />
+    <Compile Include="CInformix.cs" />
+    <Compile Include="CItemF.cs" />
+    <Compile Include="CLogError.cs" />
+    <Compile Include="CModFechaFMec.cs" />
+    <Compile Include="CMovDespacho.cs" />
+    <Compile Include="CMovDetalle.cs" />
+    <Compile Include="CMovimiento.cs" />
+    <Compile Include="CNroOrden.cs" />
+    <Compile Include="COrdenEntrega.cs" />
+    <Compile Include="CPackingList.cs" />
+    <Compile Include="CEntrega.cs" />
+    <Compile Include="CEntregaDet.cs" />
+    <Compile Include="CItem.cs" />
+    <Compile Include="CMedidaPrecio.cs" />
+    <Compile Include="CMovConsumido.cs" />
+    <Compile Include="CMovProducido.cs" />
+    <Compile Include="CObservacion.cs" />
+    <Compile Include="COrdenProduccion.cs" />
+    <Compile Include="COrdenProduccionV2.cs" />
+    <Compile Include="COrdenSync.cs" />
+    <Compile Include="CPaquetes.cs" />
+    <Compile Include="CParametros.cs" />
+    <Compile Include="CPartesEnsayos.cs" />
+    <Compile Include="CProduccionesCerradas.cs" />
+    <Compile Include="CProduccionMateriaPrima.cs" />
+    <Compile Include="CProducido.cs" />
+    <Compile Include="CProducto.cs" />
+    <Compile Include="CRecepcion.cs" />
+    <Compile Include="CRecepcionProducto.cs" />
+    <Compile Include="CRecepcionProductosDel.cs" />
+    <Compile Include="CRespuestaMecanizado.cs" />
+    <Compile Include="Cscentrega.cs" />
+    <Compile Include="CSector.cs" />
+    <Compile Include="CServicioMecanizado.cs" />
+    <Compile Include="CSesion.cs" />
+    <Compile Include="CModulos.cs" />
+    <Compile Include="CRecursosUser.cs" />
+    <Compile Include="CSincronizacion.cs" />
+    <Compile Include="CSucItem.cs" />
+    <Compile Include="CSucursal.cs" />
+    <Compile Include="CSys_Secuencia.cs" />
+    <Compile Include="CTblEnsayo.cs" />
+    <Compile Include="CTblEnsayoDetalle.cs" />
+    <Compile Include="CTblMovSync.cs" />
+    <Compile Include="CTblMovSyncDet.cs" />
+    <Compile Include="CTipoCambio.cs" />
+    <Compile Include="CTipoCosteo.cs" />
+    <Compile Include="CTraspaso.cs" />
+    <Compile Include="CUserSuc.cs" />
+    <Compile Include="CUsuario.cs" />
+    <Compile Include="CUsuarioMecanizado.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SysSecuencia.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CAD\CAD.csproj">
+      <Project>{7EEC1098-9CC3-44CF-9302-50A7D77D61A2}</Project>
+      <Name>CAD</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CRN.Entidades\CRN.Entidades.csproj">
+      <Project>{EFCD9F8F-D445-4117-AF2C-91D0FA1007B0}</Project>
+      <Name>CRN.Entidades</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="5046b261-e2e6-4aa9-95b2-866f1104f89d" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://provitsrv05.ferrotodo.com/MicrosoftDynamicsAXAif60/FTSendXMLBomJournal/xppservice.svc?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="xppservice11.xsd" MetadataType="Schema" ID="52dd4eec-8f3d-4f2d-9c4a-cf2e8fb5be5a" SourceId="1" SourceUrl="http://provitsrv05.ferrotodo.com/MicrosoftDynamicsAXAif60/FTSendXMLBomJournal/xppservice.svc?xsd=xsd2" />
+    <MetadataFile FileName="xppservice111.xsd" MetadataType="Schema" ID="597df081-8940-475e-85ed-c6f200ebe44b" SourceId="1" SourceUrl="http://provitsrv05.ferrotodo.com/MicrosoftDynamicsAXAif60/FTSendXMLBomJournal/xppservice.svc?xsd=xsd3" />
+    <MetadataFile FileName="xppservice2.wsdl" MetadataType="Wsdl" ID="362fa2c4-995f-4714-829f-1cf3e0f1c531" SourceId="1" SourceUrl="http://provitsrv05.ferrotodo.com/MicrosoftDynamicsAXAif60/FTSendXMLBomJournal/xppservice.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="xppservice21.wsdl" MetadataType="Wsdl" ID="5ac1feef-a82f-4662-b6c5-1afe6a8dcf05" SourceId="1" SourceUrl="http://provitsrv05.ferrotodo.com/MicrosoftDynamicsAXAif60/FTSendXMLBomJournal/xppservice.svc?wsdl=wsdl1" />
+    <MetadataFile FileName="xppservice112.xsd" MetadataType="Schema" ID="e382f598-8760-45fe-a48c-a2893be34533" SourceId="1" SourceUrl="http://provitsrv05.ferrotodo.com/MicrosoftDynamicsAXAif60/FTSendXMLBomJournal/xppservice.svc?xsd=xsd4" />
+    <MetadataFile FileName="RoutingService1.wsdl" MetadataType="Wsdl" ID="489a89fb-9936-4f2b-a996-3b18bf050e22" SourceId="1" SourceUrl="http://provitsrv05.ferrotodo.com/MicrosoftDynamicsAXAif60/FTSendXMLBomJournal/xppservice.svc?wsdl" />
+    <MetadataFile FileName="xppservice113.xsd" MetadataType="Schema" ID="90b37c88-a00c-4a92-aabe-388fe1827eac" SourceId="1" SourceUrl="http://provitsrv05.ferrotodo.com/MicrosoftDynamicsAXAif60/FTSendXMLBomJournal/xppservice.svc?xsd=xsd5" />
+    <MetadataFile FileName="xppservice114.xsd" MetadataType="Schema" ID="5ea94c66-4117-4d1b-b5f1-5968fb41502c" SourceId="1" SourceUrl="http://provitsrv05.ferrotodo.com/MicrosoftDynamicsAXAif60/FTSendXMLBomJournal/xppservice.svc?xsd=xsd0" />
+    <MetadataFile FileName="xppservice115.xsd" MetadataType="Schema" ID="02398d75-a767-4777-b6a8-8c4b70462410" SourceId="1" SourceUrl="http://provitsrv05.ferrotodo.com/MicrosoftDynamicsAXAif60/FTSendXMLBomJournal/xppservice.svc?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
