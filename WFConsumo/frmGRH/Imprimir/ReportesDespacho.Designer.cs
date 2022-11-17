@@ -30,10 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReportesDespacho));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtDespacho = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.crystalReportViewer1 = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
             this.CrystalReport11 = new WFConsumo.Reportes.CrystalReport1();
-            this.txtDespacho = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,6 +47,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1084, 51);
             this.panel1.TabIndex = 1;
+            // 
+            // txtDespacho
+            // 
+            this.txtDespacho.AutoSize = true;
+            this.txtDespacho.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDespacho.Location = new System.Drawing.Point(117, 14);
+            this.txtDespacho.Name = "txtDespacho";
+            this.txtDespacho.Size = new System.Drawing.Size(25, 20);
+            this.txtDespacho.TabIndex = 14;
+            this.txtDespacho.Text = " - ";
             // 
             // label3
             // 
@@ -70,16 +80,6 @@
             this.crystalReportViewer1.TabIndex = 2;
             this.crystalReportViewer1.ToolPanelWidth = 150;
             // 
-            // txtDespacho
-            // 
-            this.txtDespacho.AutoSize = true;
-            this.txtDespacho.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDespacho.Location = new System.Drawing.Point(117, 14);
-            this.txtDespacho.Name = "txtDespacho";
-            this.txtDespacho.Size = new System.Drawing.Size(25, 20);
-            this.txtDespacho.TabIndex = 14;
-            this.txtDespacho.Text = " - ";
-            // 
             // ReportesDespacho
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -88,9 +88,12 @@
             this.Controls.Add(this.crystalReportViewer1);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ReportesDespacho";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ReportesDespacho";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);

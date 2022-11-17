@@ -208,7 +208,7 @@ namespace WFConsumo.frmGRH
             }
             catch (Exception err)
             {
-                XtraMessageBox.Show("Problemas con la conexion", "Error");
+                //XtraMessageBox.Show("Problemas con la conexion", "Error");
                 Console.WriteLine("################### = " + err.ToString());
             }
         }
@@ -510,8 +510,7 @@ namespace WFConsumo.frmGRH
         {
             txtNroOrden.Text = "0000"; 
             _ContFilasDataGrid = gridView1.RowCount;
-            int actualizar = 1;
-            (this.Owner as frmListaDespachoMercaderia).ActualizarLista(actualizar);
+            int actualizar = 1; 
             if (!string.IsNullOrWhiteSpace(textEdit1.Text) || (!string.IsNullOrEmpty(textEdit1.Text)))
             {
                 if (!string.IsNullOrWhiteSpace(comboBoxEdit1.Text) || (!string.IsNullOrEmpty(comboBoxEdit1.Text)))
@@ -596,7 +595,8 @@ namespace WFConsumo.frmGRH
                                                 if (c_despacho.InsertarDespacho(out sError, _despacho, dt, iSucursal) > 0)
                                                 {
                                                     XtraMessageBox.Show("Despacho agregado", "Guardar");
-                                                    
+                                                    int act = 1;
+                                                    (this.Owner as frmListaDespachoMercaderia).ActualizarLista(act);
                                                     this.Close();
                                                 }
                                                 else

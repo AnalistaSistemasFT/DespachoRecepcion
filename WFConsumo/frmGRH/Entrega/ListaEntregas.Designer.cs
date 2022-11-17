@@ -28,16 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.XtraGrid.GridLevelNode gridLevelNode1 = new DevExpress.XtraGrid.GridLevelNode();
+            DevExpress.XtraGrid.GridLevelNode gridLevelNode2 = new DevExpress.XtraGrid.GridLevelNode();
             this.btnAceptar = new DevExpress.XtraEditors.SimpleButton();
             this.btnCancelar = new DevExpress.XtraEditors.SimpleButton();
-            this.gridControl2 = new DevExpress.XtraGrid.GridControl();
-            this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.Despacho = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.Fecha = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.TipoDespacho = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.Destino = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.Estatus = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridControl3 = new DevExpress.XtraGrid.GridControl();
             this.gridView3 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.Codigo = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -52,15 +45,22 @@
             this.Descripcion = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Cantidad = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Peso_Total = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
+            this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.Despacho = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Fecha = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.TipoDespacho = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Destino = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Estatus = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridControl2 = new DevExpress.XtraGrid.GridControl();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).BeginInit();
             this.SuspendLayout();
             // 
             // btnAceptar
@@ -79,86 +79,11 @@
             this.btnCancelar.TabIndex = 9;
             this.btnCancelar.Text = "Cancelar";
             // 
-            // gridControl2
-            // 
-            this.gridControl2.Location = new System.Drawing.Point(12, 34);
-            this.gridControl2.MainView = this.gridView2;
-            this.gridControl2.Name = "gridControl2";
-            this.gridControl2.Size = new System.Drawing.Size(478, 336);
-            this.gridControl2.TabIndex = 11;
-            this.gridControl2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView2});
-            // 
-            // gridView2
-            // 
-            this.gridView2.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
-            this.gridView2.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.Despacho,
-            this.Fecha,
-            this.TipoDespacho,
-            this.Destino,
-            this.Estatus});
-            this.gridView2.GridControl = this.gridControl2;
-            this.gridView2.Name = "gridView2";
-            this.gridView2.OptionsBehavior.Editable = false;
-            this.gridView2.OptionsCustomization.AllowGroup = false;
-            this.gridView2.OptionsSelection.MultiSelect = true;
-            this.gridView2.OptionsView.AllowHtmlDrawGroups = false;
-            this.gridView2.OptionsView.AnimationType = DevExpress.XtraGrid.Views.Base.GridAnimationType.AnimateFocusedItem;
-            this.gridView2.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.Never;
-            this.gridView2.OptionsView.ShowGroupPanel = false;
-            this.gridView2.RowCellClick += new DevExpress.XtraGrid.Views.Grid.RowCellClickEventHandler(this.gridView2_RowCellClick);
-            // 
-            // Despacho
-            // 
-            this.Despacho.Caption = "Despacho";
-            this.Despacho.FieldName = "despachoid";
-            this.Despacho.Name = "Despacho";
-            this.Despacho.Visible = true;
-            this.Despacho.VisibleIndex = 0;
-            this.Despacho.Width = 156;
-            // 
-            // Fecha
-            // 
-            this.Fecha.Caption = "Fecha";
-            this.Fecha.FieldName = "fecha";
-            this.Fecha.Name = "Fecha";
-            this.Fecha.Visible = true;
-            this.Fecha.VisibleIndex = 1;
-            this.Fecha.Width = 154;
-            // 
-            // TipoDespacho
-            // 
-            this.TipoDespacho.Caption = "TipoDespacho";
-            this.TipoDespacho.FieldName = "Naturaleza";
-            this.TipoDespacho.Name = "TipoDespacho";
-            this.TipoDespacho.Visible = true;
-            this.TipoDespacho.VisibleIndex = 2;
-            this.TipoDespacho.Width = 129;
-            // 
-            // Destino
-            // 
-            this.Destino.Caption = "Destino";
-            this.Destino.FieldName = "DESTINO";
-            this.Destino.Name = "Destino";
-            this.Destino.Visible = true;
-            this.Destino.VisibleIndex = 3;
-            this.Destino.Width = 299;
-            // 
-            // Estatus
-            // 
-            this.Estatus.Caption = "Estatus";
-            this.Estatus.FieldName = "status";
-            this.Estatus.Name = "Estatus";
-            this.Estatus.Visible = true;
-            this.Estatus.VisibleIndex = 4;
-            this.Estatus.Width = 125;
-            // 
             // gridControl3
             // 
-            gridLevelNode1.RelationName = "Level1";
+            gridLevelNode2.RelationName = "Level1";
             this.gridControl3.LevelTree.Nodes.AddRange(new DevExpress.XtraGrid.GridLevelNode[] {
-            gridLevelNode1});
+            gridLevelNode2});
             this.gridControl3.Location = new System.Drawing.Point(13, 406);
             this.gridControl3.MainView = this.gridView3;
             this.gridControl3.Name = "gridControl3";
@@ -300,16 +225,6 @@
             this.Peso_Total.VisibleIndex = 3;
             this.Peso_Total.Width = 60;
             // 
-            // labelControl1
-            // 
-            this.labelControl1.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelControl1.Appearance.Options.UseFont = true;
-            this.labelControl1.Location = new System.Drawing.Point(12, 12);
-            this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(70, 16);
-            this.labelControl1.TabIndex = 13;
-            this.labelControl1.Text = "Despachos";
-            // 
             // labelControl2
             // 
             this.labelControl2.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -330,6 +245,91 @@
             this.labelControl3.TabIndex = 15;
             this.labelControl3.Text = "Detalle";
             // 
+            // gridView2
+            // 
+            this.gridView2.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.gridView2.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.Despacho,
+            this.Fecha,
+            this.TipoDespacho,
+            this.Destino,
+            this.Estatus});
+            this.gridView2.GridControl = this.gridControl2;
+            this.gridView2.Name = "gridView2";
+            this.gridView2.OptionsBehavior.Editable = false;
+            this.gridView2.OptionsCustomization.AllowGroup = false;
+            this.gridView2.OptionsSelection.MultiSelect = true;
+            this.gridView2.OptionsView.AllowHtmlDrawGroups = false;
+            this.gridView2.OptionsView.AnimationType = DevExpress.XtraGrid.Views.Base.GridAnimationType.AnimateFocusedItem;
+            this.gridView2.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.Never;
+            this.gridView2.OptionsView.ShowGroupPanel = false;
+            this.gridView2.RowCellClick += new DevExpress.XtraGrid.Views.Grid.RowCellClickEventHandler(this.gridView2_RowCellClick);
+            // 
+            // Despacho
+            // 
+            this.Despacho.Caption = "Despacho";
+            this.Despacho.FieldName = "despachoid";
+            this.Despacho.Name = "Despacho";
+            this.Despacho.Visible = true;
+            this.Despacho.VisibleIndex = 0;
+            this.Despacho.Width = 156;
+            // 
+            // Fecha
+            // 
+            this.Fecha.Caption = "Fecha";
+            this.Fecha.FieldName = "fecha";
+            this.Fecha.Name = "Fecha";
+            this.Fecha.Visible = true;
+            this.Fecha.VisibleIndex = 1;
+            this.Fecha.Width = 154;
+            // 
+            // TipoDespacho
+            // 
+            this.TipoDespacho.Caption = "TipoDespacho";
+            this.TipoDespacho.FieldName = "Naturaleza";
+            this.TipoDespacho.Name = "TipoDespacho";
+            this.TipoDespacho.Visible = true;
+            this.TipoDespacho.VisibleIndex = 2;
+            this.TipoDespacho.Width = 129;
+            // 
+            // Destino
+            // 
+            this.Destino.Caption = "Destino";
+            this.Destino.FieldName = "DESTINO";
+            this.Destino.Name = "Destino";
+            this.Destino.Visible = true;
+            this.Destino.VisibleIndex = 3;
+            this.Destino.Width = 299;
+            // 
+            // Estatus
+            // 
+            this.Estatus.Caption = "Estatus";
+            this.Estatus.FieldName = "status";
+            this.Estatus.Name = "Estatus";
+            this.Estatus.Visible = true;
+            this.Estatus.VisibleIndex = 4;
+            this.Estatus.Width = 125;
+            // 
+            // gridControl2
+            // 
+            this.gridControl2.Location = new System.Drawing.Point(12, 34);
+            this.gridControl2.MainView = this.gridView2;
+            this.gridControl2.Name = "gridControl2";
+            this.gridControl2.Size = new System.Drawing.Size(478, 336);
+            this.gridControl2.TabIndex = 11;
+            this.gridControl2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView2});
+            // 
+            // labelControl1
+            // 
+            this.labelControl1.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelControl1.Appearance.Options.UseFont = true;
+            this.labelControl1.Location = new System.Drawing.Point(12, 12);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(70, 16);
+            this.labelControl1.TabIndex = 13;
+            this.labelControl1.Text = "Despachos";
+            // 
             // ListaEntregas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -345,26 +345,20 @@
             this.Controls.Add(this.btnCancelar);
             this.Name = "ListaEntregas";
             this.Text = "ListaEntregas";
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
         private DevExpress.XtraEditors.SimpleButton btnAceptar;
         private DevExpress.XtraEditors.SimpleButton btnCancelar;
-        private DevExpress.XtraGrid.GridControl gridControl2;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView2;
-        private DevExpress.XtraGrid.Columns.GridColumn Despacho;
-        private DevExpress.XtraGrid.Columns.GridColumn Fecha;
-        private DevExpress.XtraGrid.Columns.GridColumn TipoDespacho;
-        private DevExpress.XtraGrid.Columns.GridColumn Destino;
-        private DevExpress.XtraGrid.Columns.GridColumn Estatus;
         private DevExpress.XtraGrid.GridControl gridControl3;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView3;
         private DevExpress.XtraGrid.Columns.GridColumn Codigo;
@@ -379,8 +373,15 @@
         private DevExpress.XtraGrid.Columns.GridColumn Descripcion;
         private DevExpress.XtraGrid.Columns.GridColumn Cantidad;
         private DevExpress.XtraGrid.Columns.GridColumn Peso_Total;
-        private DevExpress.XtraEditors.LabelControl labelControl1;
         private DevExpress.XtraEditors.LabelControl labelControl2;
         private DevExpress.XtraEditors.LabelControl labelControl3;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView2;
+        private DevExpress.XtraGrid.Columns.GridColumn Despacho;
+        private DevExpress.XtraGrid.Columns.GridColumn Fecha;
+        private DevExpress.XtraGrid.Columns.GridColumn TipoDespacho;
+        private DevExpress.XtraGrid.Columns.GridColumn Destino;
+        private DevExpress.XtraGrid.Columns.GridColumn Estatus;
+        private DevExpress.XtraGrid.GridControl gridControl2;
+        private DevExpress.XtraEditors.LabelControl labelControl1;
     }
 }

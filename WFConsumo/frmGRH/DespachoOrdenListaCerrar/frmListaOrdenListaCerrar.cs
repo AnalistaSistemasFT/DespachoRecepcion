@@ -722,8 +722,15 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
                     {
                         if (_listEntrega.Count > 0)
                         {
-                            var myForm = new CrearEntregaC(IdDespacho, _idSucursal, Placa, Chofer, _listEntrega, _pesoTotal, _login);
-                            myForm.Show();
+                            string envio = "Listas";
+                            //CrearEntregaC form20 = new CrearEntregaC(IdDespacho, _idSucursal, Placa, Chofer, _listEntrega, _pesoTotal, _login, envio);
+                            ////form20.Owner = this;
+                            //form20.Show(this);
+
+                            CrearEntregaC f2 = new CrearEntregaC(IdDespacho, _idSucursal, Placa, Chofer, _listEntrega, _pesoTotal, _login, envio);
+                            f2.FormClosed += F2_FormClosed;
+                            f2.Show();
+
                         }
                         else
                         {
@@ -736,6 +743,31 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
                     XtraMessageBox.Show("Seleccione un despacho de la lista e intentelo de nuevo");
                     Console.WriteLine("######################### = " + err.ToString());
                 }
+            }
+        }
+        private void F2_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.gridControl1.Refresh();
+            this.gridControl1.RefreshDataSource();
+            this.gridView1.RefreshData();
+            TraerData();
+        }
+        public void ActualizarLista(int actualizar)
+        {
+            try
+            {
+                if (actualizar == 1)
+                {
+                    this.gridControl1.Refresh();
+                    this.gridControl1.RefreshDataSource();
+                    this.gridView1.RefreshData();
+                    TraerData();
+                }
+            }
+            catch (Exception err)
+            {
+                //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                Console.WriteLine("################### = " + err.ToString());
             }
         }
         private void btnCerrarEntregar_Click(object sender, EventArgs e)
@@ -759,6 +791,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
                     {
                         var myForm = new CerrarEntregar(IdDespacho, _fecha, _sucursal, _camion, _chofer);
                         myForm.Show();
+                        this.Close();
                     }
                 }
                 catch (Exception err)

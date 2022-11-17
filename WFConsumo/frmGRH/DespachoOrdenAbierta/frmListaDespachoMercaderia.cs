@@ -127,12 +127,18 @@ namespace WFConsumo.frmGRH
         {
             int Sucursal = _idSucursal;
             DateTime _hoy = DateTime.Now;
-            //var myForm = new frmNuevoDespachoMercaderia(Sucursal, _usuario);
-            //myForm.Show();
-            //this.Enabled = false;
-            frmNuevoDespachoMercaderia form20 = new frmNuevoDespachoMercaderia(Sucursal, _usuario, _hoy);
-            form20.Owner = this;
-            form20.Show();
+            frmNuevoDespachoMercaderia f2 = new frmNuevoDespachoMercaderia(Sucursal, _usuario, _hoy);
+            f2.FormClosed += F2_FormClosed;
+            f2.Show();
+        }
+        private void F2_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.gridControl1.Refresh();
+            this.gridControl1.RefreshDataSource();
+            this.gridView1.RefreshData();
+            this.gridView1.BeginDataUpdate();
+            this.gridView1.EndDataUpdate();
+            TraerData();
         }
         private void btnEditar_Click(object sender, EventArgs e)
         {
@@ -482,8 +488,10 @@ namespace WFConsumo.frmGRH
         {
             try
             {
-                if(actualizar == 1)
+                if (actualizar == 1)
                 {
+                    this.gridControl1.Refresh();
+                    this.gridControl1.RefreshDataSource();
                     this.gridView1.RefreshData();
                     TraerData();
                 }

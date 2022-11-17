@@ -16,14 +16,14 @@ namespace WFConsumo.frmGRH.Imprimir {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class DespachosAutorizados : ReportClass {
+    public class OrdendeEntrega : ReportClass {
         
-        public DespachosAutorizados() {
+        public OrdendeEntrega() {
         }
         
         public override string ResourceName {
             get {
-                return "DespachosAutorizados.rpt";
+                return "OrdendeEntrega.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace WFConsumo.frmGRH.Imprimir {
         
         public override string FullResourceName {
             get {
-                return "WFConsumo.frmGRH.Imprimir.DespachosAutorizados.rpt";
+                return "WFConsumo.frmGRH.Imprimir.OrdendeEntrega.rpt";
             }
             set {
                 // Do nothing
@@ -114,9 +114,9 @@ namespace WFConsumo.frmGRH.Imprimir {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedDespachosAutorizados : Component, ICachedReport {
+    public class CachedOrdendeEntrega : Component, ICachedReport {
         
-        public CachedDespachosAutorizados() {
+        public CachedOrdendeEntrega() {
         }
         
         [Browsable(false)]
@@ -153,7 +153,7 @@ namespace WFConsumo.frmGRH.Imprimir {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            DespachosAutorizados rpt = new DespachosAutorizados();
+            OrdendeEntrega rpt = new OrdendeEntrega();
             rpt.Site = this.Site;
             return rpt;
         }

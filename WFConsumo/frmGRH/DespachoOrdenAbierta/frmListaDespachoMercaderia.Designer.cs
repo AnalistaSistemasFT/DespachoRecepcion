@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
-            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
-            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SuperToolTip superToolTip2 = new DevExpress.Utils.SuperToolTip();
+            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem2 = new DevExpress.Utils.ToolTipTitleItem();
+            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions2 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject5 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject6 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject7 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject8 = new DevExpress.Utils.SerializableAppearanceObject();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmListaDespachoMercaderia));
             this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
             this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
@@ -199,9 +199,9 @@
             // gridControl1
             // 
             this.gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            toolTipTitleItem1.Text = "Nuevo";
-            superToolTip1.Items.Add(toolTipTitleItem1);
-            this.gridControl1.EmbeddedNavigator.SuperTip = superToolTip1;
+            toolTipTitleItem2.Text = "Nuevo";
+            superToolTip2.Items.Add(toolTipTitleItem2);
+            this.gridControl1.EmbeddedNavigator.SuperTip = superToolTip2;
             this.gridControl1.Location = new System.Drawing.Point(0, 0);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.MenuManager = this.barManager1;
@@ -482,21 +482,21 @@
             // 
             // repositoryItemButtonEdit1
             // 
-            serializableAppearanceObject1.BackColor = System.Drawing.Color.DarkGreen;
-            serializableAppearanceObject1.ForeColor = System.Drawing.Color.LimeGreen;
-            serializableAppearanceObject1.Options.UseBackColor = true;
-            serializableAppearanceObject1.Options.UseForeColor = true;
-            serializableAppearanceObject1.Options.UseTextOptions = true;
-            serializableAppearanceObject1.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            serializableAppearanceObject1.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            serializableAppearanceObject2.ForeColor = System.Drawing.Color.LimeGreen;
-            serializableAppearanceObject2.Options.UseForeColor = true;
-            serializableAppearanceObject3.ForeColor = System.Drawing.Color.LimeGreen;
-            serializableAppearanceObject3.Options.UseForeColor = true;
-            serializableAppearanceObject4.ForeColor = System.Drawing.Color.LimeGreen;
-            serializableAppearanceObject4.Options.UseForeColor = true;
+            serializableAppearanceObject5.BackColor = System.Drawing.Color.DarkGreen;
+            serializableAppearanceObject5.ForeColor = System.Drawing.Color.LimeGreen;
+            serializableAppearanceObject5.Options.UseBackColor = true;
+            serializableAppearanceObject5.Options.UseForeColor = true;
+            serializableAppearanceObject5.Options.UseTextOptions = true;
+            serializableAppearanceObject5.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            serializableAppearanceObject5.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            serializableAppearanceObject6.ForeColor = System.Drawing.Color.LimeGreen;
+            serializableAppearanceObject6.Options.UseForeColor = true;
+            serializableAppearanceObject7.ForeColor = System.Drawing.Color.LimeGreen;
+            serializableAppearanceObject7.Options.UseForeColor = true;
+            serializableAppearanceObject8.ForeColor = System.Drawing.Color.LimeGreen;
+            serializableAppearanceObject8.Options.UseForeColor = true;
             this.repositoryItemButtonEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Plus, "", 1, true, true, false, editorButtonImageOptions1, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, serializableAppearanceObject2, serializableAppearanceObject3, serializableAppearanceObject4, "Programar despacho", null, null)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Plus, "", 1, true, true, false, editorButtonImageOptions2, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject5, serializableAppearanceObject6, serializableAppearanceObject7, serializableAppearanceObject8, "Programar despacho", null, null)});
             this.repositoryItemButtonEdit1.ContextImageOptions.Alignment = DevExpress.XtraEditors.ContextImageAlignment.Far;
             this.repositoryItemButtonEdit1.ContextImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("repositoryItemButtonEdit1.ContextImageOptions.Image")));
             this.repositoryItemButtonEdit1.Name = "repositoryItemButtonEdit1";

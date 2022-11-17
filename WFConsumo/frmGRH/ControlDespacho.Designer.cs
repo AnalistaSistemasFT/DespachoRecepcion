@@ -241,6 +241,7 @@
             this.btnImprimir.Size = new System.Drawing.Size(75, 23);
             this.btnImprimir.TabIndex = 4;
             this.btnImprimir.Text = "Imprimir";
+            this.btnImprimir.Visible = false;
             this.btnImprimir.Click += new System.EventHandler(this.btnImprimir_Click);
             // 
             // btnSalir

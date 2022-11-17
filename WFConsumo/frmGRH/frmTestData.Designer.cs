@@ -35,10 +35,6 @@
             this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.Nombre = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.Total = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.Entregado = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.Pendiente = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
@@ -50,7 +46,7 @@
             this.gridControl2.Location = new System.Drawing.Point(13, 267);
             this.gridControl2.MainView = this.gridView2;
             this.gridControl2.Name = "gridControl2";
-            this.gridControl2.Size = new System.Drawing.Size(1300, 211);
+            this.gridControl2.Size = new System.Drawing.Size(1158, 211);
             this.gridControl2.TabIndex = 1;
             this.gridControl2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView2});
@@ -59,6 +55,7 @@
             // 
             this.gridView2.GridControl = this.gridControl2;
             this.gridView2.Name = "gridView2";
+            this.gridView2.OptionsView.ShowGroupPanel = false;
             // 
             // simpleButton1
             // 
@@ -96,66 +93,22 @@
             this.gridControl1.Location = new System.Drawing.Point(13, 55);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(910, 200);
+            this.gridControl1.Size = new System.Drawing.Size(1158, 200);
             this.gridControl1.TabIndex = 5;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
             // 
             // gridView1
             // 
-            this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.Nombre,
-            this.Entregado,
-            this.Total,
-            this.Pendiente});
             this.gridView1.GridControl = this.gridControl1;
             this.gridView1.Name = "gridView1";
-            // 
-            // Nombre
-            // 
-            this.Nombre.Caption = "Nombre";
-            this.Nombre.FieldName = "Nombre";
-            this.Nombre.Name = "Nombre";
-            this.Nombre.OptionsColumn.AllowEdit = false;
-            this.Nombre.OptionsColumn.ReadOnly = true;
-            this.Nombre.Visible = true;
-            this.Nombre.VisibleIndex = 0;
-            this.Nombre.Width = 300;
-            // 
-            // Total
-            // 
-            this.Total.Caption = "Total";
-            this.Total.FieldName = "Total";
-            this.Total.Name = "Total";
-            this.Total.OptionsColumn.AllowEdit = false;
-            this.Total.Visible = true;
-            this.Total.VisibleIndex = 2;
-            this.Total.Width = 50;
-            // 
-            // Entregado
-            // 
-            this.Entregado.Caption = "Entregado";
-            this.Entregado.FieldName = "Entregado";
-            this.Entregado.Name = "Entregado";
-            this.Entregado.OptionsColumn.AllowEdit = false;
-            this.Entregado.Visible = true;
-            this.Entregado.VisibleIndex = 1;
-            this.Entregado.Width = 50;
-            // 
-            // Pendiente
-            // 
-            this.Pendiente.Caption = "Pendiente";
-            this.Pendiente.FieldName = "Pendiente";
-            this.Pendiente.Name = "Pendiente";
-            this.Pendiente.Visible = true;
-            this.Pendiente.VisibleIndex = 3;
-            this.Pendiente.Width = 100;
+            this.gridView1.OptionsView.ShowGroupPanel = false;
             // 
             // frmTestData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1325, 490);
+            this.ClientSize = new System.Drawing.Size(1183, 490);
             this.Controls.Add(this.gridControl1);
             this.Controls.Add(this.simpleButton3);
             this.Controls.Add(this.simpleButton2);
@@ -179,9 +132,5 @@
         private DevExpress.XtraEditors.SimpleButton simpleButton3;
         private DevExpress.XtraGrid.GridControl gridControl1;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
-        private DevExpress.XtraGrid.Columns.GridColumn Nombre;
-        private DevExpress.XtraGrid.Columns.GridColumn Entregado;
-        private DevExpress.XtraGrid.Columns.GridColumn Total;
-        private DevExpress.XtraGrid.Columns.GridColumn Pendiente;
     }
 }

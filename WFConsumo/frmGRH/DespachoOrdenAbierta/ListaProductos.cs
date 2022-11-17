@@ -86,7 +86,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
             }
             catch(Exception err)
             {
-                XtraMessageBox.Show("Problemas con la conexion", "Error");
+                //XtraMessageBox.Show("Problemas con la conexion", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
             } 
         }

@@ -15,6 +15,7 @@ using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.BandedGrid;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
+using WFConsumo.frmGRH.DespachoOrdenEntrega;
 
 namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
 { 
@@ -38,8 +39,10 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
         public List<ItemEntrega> _listEntrega = new List<ItemEntrega>();
         List<ItemEntregaParcial> _listEntregaParcial = new List<ItemEntregaParcial>();
         public List<ItemEntrega> _listCheckPend = new List<ItemEntrega>();
+        string _envio = string.Empty;
+        frmListaOrdenListaCerrar _frmParent;
 
-        public CrearEntregaC(string IdDespacho, int _idSucursal, string Placa, string Chofer, List<ItemEntrega> itemEntregas, decimal _pesoTotal, string _login)
+        public CrearEntregaC(string IdDespacho, int _idSucursal, string Placa, string Chofer, List<ItemEntrega> itemEntregas, decimal _pesoTotal, string _login, string envio)
         {
             InitializeComponent();
             _idDespacho = IdDespacho;
@@ -63,6 +66,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
             pesoTotal = _pesoTotal;
             _Login = _login;
             //CerrarDespacho();
+            _envio = envio;
         }
 
         public class ProductosEnvio
@@ -523,8 +527,30 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
                                             }
                                             ////////////////////////////////////////
                                             XtraMessageBox.Show("Orden insertada", "Guardar");
-                                            VerificarPendientes(_idDespacho);
-                                            this.Close();
+                                            try
+                                            {
+                                                VerificarPendientes(_idDespacho);
+                                                int act = 1;
+                                                if (_envio == "Listas")
+                                                {
+                                                    //(this.Owner as frmListaOrdenListaCerrar).ActualizarLista(act);
+                                                    
+                                                    this.Close(); 
+                                                }
+                                                else if (_envio == "Parcial")
+                                                {
+                                                    //(this.Owner as frmListaOrdenEntrega).ActualizarLista(act);
+                                                    this.Close();
+                                                }
+                                                else
+                                                {
+                                                    this.Close();
+                                                }
+                                            }
+                                            catch(Exception err)
+                                            {
+                                                Console.WriteLine("######################### = " + err.ToString());
+                                            }
                                         }
                                         else
                                         {
@@ -676,6 +702,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
         {
             try
             {
+                txtDif.Text = "0"; 
                 decimal peso_camion = Convert.ToDecimal(txtCapKg.Text);
                 decimal peso_carga = Convert.ToDecimal(txtKgSegNota.Text);
                 txtDif.Text = (peso_camion - peso_carga).ToString();

@@ -30,11 +30,11 @@
         {
             DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
             DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
-            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions5 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject17 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject18 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject19 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject20 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmListaOrdenTransito));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
@@ -69,6 +69,8 @@
             this.lbTitle = new System.Windows.Forms.Label();
             this.btnVer = new DevExpress.XtraEditors.SimpleButton();
             this.btnBuscar = new DevExpress.XtraEditors.SimpleButton();
+            this.btnImprimirLocaliza = new DevExpress.XtraEditors.SimpleButton();
+            this.btnImprimir = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -358,21 +360,21 @@
             // 
             // repositoryItemButtonEdit1
             // 
-            serializableAppearanceObject17.BackColor = System.Drawing.Color.DarkGreen;
-            serializableAppearanceObject17.ForeColor = System.Drawing.Color.LimeGreen;
-            serializableAppearanceObject17.Options.UseBackColor = true;
-            serializableAppearanceObject17.Options.UseForeColor = true;
-            serializableAppearanceObject17.Options.UseTextOptions = true;
-            serializableAppearanceObject17.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            serializableAppearanceObject17.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            serializableAppearanceObject18.ForeColor = System.Drawing.Color.LimeGreen;
-            serializableAppearanceObject18.Options.UseForeColor = true;
-            serializableAppearanceObject19.ForeColor = System.Drawing.Color.LimeGreen;
-            serializableAppearanceObject19.Options.UseForeColor = true;
-            serializableAppearanceObject20.ForeColor = System.Drawing.Color.LimeGreen;
-            serializableAppearanceObject20.Options.UseForeColor = true;
+            serializableAppearanceObject1.BackColor = System.Drawing.Color.DarkGreen;
+            serializableAppearanceObject1.ForeColor = System.Drawing.Color.LimeGreen;
+            serializableAppearanceObject1.Options.UseBackColor = true;
+            serializableAppearanceObject1.Options.UseForeColor = true;
+            serializableAppearanceObject1.Options.UseTextOptions = true;
+            serializableAppearanceObject1.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            serializableAppearanceObject1.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            serializableAppearanceObject2.ForeColor = System.Drawing.Color.LimeGreen;
+            serializableAppearanceObject2.Options.UseForeColor = true;
+            serializableAppearanceObject3.ForeColor = System.Drawing.Color.LimeGreen;
+            serializableAppearanceObject3.Options.UseForeColor = true;
+            serializableAppearanceObject4.ForeColor = System.Drawing.Color.LimeGreen;
+            serializableAppearanceObject4.Options.UseForeColor = true;
             this.repositoryItemButtonEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Plus, "", 1, true, true, false, editorButtonImageOptions5, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject17, serializableAppearanceObject18, serializableAppearanceObject19, serializableAppearanceObject20, "Programar despacho", null, null)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Plus, "", 1, true, true, false, editorButtonImageOptions1, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, serializableAppearanceObject2, serializableAppearanceObject3, serializableAppearanceObject4, "Programar despacho", null, null)});
             this.repositoryItemButtonEdit1.ContextImageOptions.Alignment = DevExpress.XtraEditors.ContextImageAlignment.Far;
             this.repositoryItemButtonEdit1.ContextImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("repositoryItemButtonEdit1.ContextImageOptions.Image")));
             this.repositoryItemButtonEdit1.Name = "repositoryItemButtonEdit1";
@@ -412,6 +414,8 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(45)))), ((int)(((byte)(60)))));
+            this.panel1.Controls.Add(this.btnImprimirLocaliza);
+            this.panel1.Controls.Add(this.btnImprimir);
             this.panel1.Controls.Add(this.btnControlDespacho);
             this.panel1.Controls.Add(this.lbTitle);
             this.panel1.Controls.Add(this.btnVer);
@@ -428,7 +432,7 @@
             this.btnControlDespacho.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.btnControlDespacho.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnControlDespacho.ImageOptions.Image")));
             this.btnControlDespacho.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnControlDespacho.Location = new System.Drawing.Point(94, 8);
+            this.btnControlDespacho.Location = new System.Drawing.Point(135, 8);
             this.btnControlDespacho.Name = "btnControlDespacho";
             this.btnControlDespacho.Size = new System.Drawing.Size(35, 35);
             this.btnControlDespacho.TabIndex = 83;
@@ -442,7 +446,7 @@
             this.lbTitle.ForeColor = System.Drawing.Color.White;
             this.lbTitle.Location = new System.Drawing.Point(815, 9);
             this.lbTitle.Name = "lbTitle";
-            this.lbTitle.Size = new System.Drawing.Size(370, 26);
+            this.lbTitle.Size = new System.Drawing.Size(274, 26);
             this.lbTitle.TabIndex = 2;
             this.lbTitle.Text = "ORDENES EN TRANSITO";
             // 
@@ -463,12 +467,40 @@
             this.btnBuscar.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.btnBuscar.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnBuscar.ImageOptions.Image")));
             this.btnBuscar.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnBuscar.Location = new System.Drawing.Point(53, 8);
+            this.btnBuscar.Location = new System.Drawing.Point(94, 8);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(35, 35);
             this.btnBuscar.TabIndex = 69;
             this.btnBuscar.ToolTip = "Buscar";
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            // 
+            // btnImprimirLocaliza
+            // 
+            this.btnImprimirLocaliza.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.btnImprimirLocaliza.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.btnImprimirLocaliza.Appearance.Options.UseBackColor = true;
+            this.btnImprimirLocaliza.Appearance.Options.UseForeColor = true;
+            this.btnImprimirLocaliza.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.btnImprimirLocaliza.Enabled = false;
+            this.btnImprimirLocaliza.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnImprimirLocaliza.ImageOptions.Image")));
+            this.btnImprimirLocaliza.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.btnImprimirLocaliza.Location = new System.Drawing.Point(176, 8);
+            this.btnImprimirLocaliza.Name = "btnImprimirLocaliza";
+            this.btnImprimirLocaliza.Size = new System.Drawing.Size(35, 35);
+            this.btnImprimirLocaliza.TabIndex = 85;
+            this.btnImprimirLocaliza.ToolTip = "Imprimir Orden de Carga";
+            // 
+            // btnImprimir
+            // 
+            this.btnImprimir.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.btnImprimir.Enabled = false;
+            this.btnImprimir.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnImprimir.ImageOptions.Image")));
+            this.btnImprimir.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.btnImprimir.Location = new System.Drawing.Point(53, 8);
+            this.btnImprimir.Name = "btnImprimir";
+            this.btnImprimir.Size = new System.Drawing.Size(35, 35);
+            this.btnImprimir.TabIndex = 84;
+            this.btnImprimir.ToolTip = "Imprimir Despachos Autorizados";
             // 
             // frmListaOrdenTransito
             // 
@@ -538,5 +570,7 @@
         private System.Windows.Forms.Label lbTitle;
         private DevExpress.XtraEditors.SimpleButton btnVer;
         private DevExpress.XtraEditors.SimpleButton btnBuscar;
+        private DevExpress.XtraEditors.SimpleButton btnImprimirLocaliza;
+        private DevExpress.XtraEditors.SimpleButton btnImprimir;
     }
 }

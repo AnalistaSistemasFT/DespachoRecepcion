@@ -46,6 +46,37 @@ namespace WFConsumo.frmGRH.DespachoOrdenEnProceso
             this.gridControl1.DataSource = _paqList;
             txtEtiqueta.Enabled = false;
         } 
+        private void VerificarSucursal()
+        {
+            try
+            {
+                if(_idSucursal == 12071)
+                {
+                    btnBusqPaquete.Visible = true;
+                    btnBusqPaquete.Enabled = true;
+                    txtNroOrden.Visible = true;
+                    txtNroOrden.Enabled = true;
+                }
+                else if(_idSucursal == 12081)
+                {
+                    btnBusqPaquete.Visible = true;
+                    btnBusqPaquete.Enabled = true;
+                    txtNroOrden.Visible = true;
+                    txtNroOrden.Enabled = true;
+                }
+                else
+                {
+                    btnBusqPaquete.Visible = false;
+                    btnBusqPaquete.Enabled = false;
+                    txtNroOrden.Visible = false;
+                    txtNroOrden.Enabled = false;
+                }
+            }
+            catch(Exception err)
+            {
+                Console.WriteLine("################################### = " + err.ToString());
+            }
+        }
         private void TraerData()
         {
             try

@@ -13,7 +13,7 @@ using CRN.Componentes;
 
 using CrystalDecisions.Shared;
 using WFConsumo.frmGRH.Imprimir;
-using WFConsumo.Reportes;
+using WFConsumo.Reportes; 
 
 namespace WFConsumo.frmGRH.Imprimir
 {
@@ -35,9 +35,19 @@ namespace WFConsumo.frmGRH.Imprimir
             if(_tipoReporte == "AUTORIZADOS")
             {
                 DespachosAutorizados _autorizados = new DespachosAutorizados();
-                _autorizados.SetDatabaseLogon("sa", "PlantaV.", "192.168.0.200", "LYBK");
+                //_autorizados.SetDatabaseLogon("sa", "PlantaV.", "192.168.0.200", "LYBK");
+                _autorizados.SetDatabaseLogon("sa", "Passw0rd", "10.10.100.26", "LYBK");
                 _autorizados.SetParameterValue("DespachoId", _idDespacho);
                 crystalReportViewer1.ReportSource = _autorizados;
+                crystalReportViewer1.Refresh();
+                crystalReportViewer1.Zoom(70);
+            }
+            else if(_tipoReporte == "AUTHORIZADOS-PARCIAL")
+            {
+                DespachosAutorizadosParcial _autorizadosParcial = new DespachosAutorizadosParcial();
+                _autorizadosParcial.SetDatabaseLogon("sa", "PlantaV.", "192.168.0.200", "LYBK");
+                _autorizadosParcial.SetParameterValue("DespachoId", _idDespacho);
+                crystalReportViewer1.ReportSource = _autorizadosParcial;
                 crystalReportViewer1.Refresh();
                 crystalReportViewer1.Zoom(70);
             }
@@ -47,6 +57,24 @@ namespace WFConsumo.frmGRH.Imprimir
                 _orden.SetDatabaseLogon("sa", "PlantaV.", "192.168.0.200", "LYBK");
                 _orden.SetParameterValue("DespachoId", _idDespacho);
                 crystalReportViewer1.ReportSource = _orden;
+                crystalReportViewer1.Refresh();
+                crystalReportViewer1.Zoom(70);
+            }
+            else if (_tipoReporte == "ORDENCARGA-PARCIAL")
+            {
+                OrdenCargaParcial _ordenParcial = new OrdenCargaParcial();
+                _ordenParcial.SetDatabaseLogon("sa", "PlantaV.", "192.168.0.200", "LYBK");
+                _ordenParcial.SetParameterValue("DespachoId", _idDespacho);
+                crystalReportViewer1.ReportSource = _ordenParcial;
+                crystalReportViewer1.Refresh();
+                crystalReportViewer1.Zoom(70);
+            } 
+            else if(_tipoReporte == "ORDENENTREGA")
+            {
+                OrdendeEntrega _ordenEntrega = new OrdendeEntrega();
+                _ordenEntrega.SetDatabaseLogon("sa", "PlantV.", "10.10.100.26", "LYBK");
+                _ordenEntrega.SetParameterValue("DespachoId", _idDespacho);
+                crystalReportViewer1.ReportSource = _ordenEntrega;
                 crystalReportViewer1.Refresh();
                 crystalReportViewer1.Zoom(70);
             }
