@@ -11,7 +11,7 @@ namespace CRN.Entidades
        
         string p_ItemId;
         string p_Descripcion;
-        float p_CapKilos;
+        decimal p_CapKilos;
         int p_CapVertical;
         int p_CapHorizontal;
         decimal p_PesoPaq;
@@ -29,6 +29,8 @@ namespace CRN.Entidades
         int p_UnidadesXCelda;
         string p_UnidadCalculo;
         int p_Caducidad;
+        int p_Id_DimSeguimiento;
+        int p_Id_TipoGalvanizado;
         #endregion
 
         #region Propiedades
@@ -42,7 +44,7 @@ namespace CRN.Entidades
             get { return p_Descripcion; }
             set { p_Descripcion = value; }
         }
-        public float CapKilos
+        public Decimal CapKilos
         {
             get { return p_CapKilos; }
             set { p_CapKilos = value; }
@@ -133,6 +135,20 @@ namespace CRN.Entidades
             get { return p_Caducidad; }
             set { p_Caducidad = value; }
         }
+
+        public int Id_DimSeguimiento
+        {
+            get { return p_Id_DimSeguimiento; }
+            set { p_Id_DimSeguimiento = value; }
+        }
+
+        public int Id_TipoGalvanizado
+        {
+            get { return p_Id_TipoGalvanizado; }
+            set { p_Id_TipoGalvanizado = value; }
+        }
+
+        
 
         #endregion
     }

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dtsPalets" targetNamespace="http://tempuri.org/dtsPalets.xsd" xmlns:mstns="http://tempuri.org/dtsPalets.xsd" xmlns="http://tempuri.org/dtsPalets.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dtsPalets" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dtsPalets" msprop:Generator_UserDSName="dtsPalets">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DsPalet" msprop:Generator_TableClassName="DsPaletDataTable" msprop:Generator_TableVarName="tableDsPalet" msprop:Generator_TablePropName="DsPalet" msprop:Generator_RowDeletingName="DsPaletRowDeleting" msprop:Generator_RowChangingName="DsPaletRowChanging" msprop:Generator_RowEvHandlerName="DsPaletRowChangeEventHandler" msprop:Generator_RowDeletedName="DsPaletRowDeleted" msprop:Generator_UserTableName="DsPalet" msprop:Generator_RowChangedName="DsPaletRowChanged" msprop:Generator_RowEvArgName="DsPaletRowChangeEvent" msprop:Generator_RowClassName="DsPaletRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="PaletId" msprop:Generator_ColumnVarNameInTable="columnPaletId" msprop:Generator_ColumnPropNameInRow="PaletId" msprop:Generator_ColumnPropNameInTable="PaletIdColumn" msprop:Generator_UserColumnName="PaletId" type="xs:string" minOccurs="0" />
+              <xs:element name="ItemId" msprop:Generator_ColumnVarNameInTable="columnItemId" msprop:Generator_ColumnPropNameInRow="ItemId" msprop:Generator_ColumnPropNameInTable="ItemIdColumn" msprop:Generator_UserColumnName="ItemId" type="xs:string" minOccurs="0" />
+              <xs:element name="ItemFId" msprop:Generator_ColumnVarNameInTable="columnItemFId" msprop:Generator_ColumnPropNameInRow="ItemFId" msprop:Generator_ColumnPropNameInTable="ItemFIdColumn" msprop:Generator_UserColumnName="ItemFId" type="xs:string" minOccurs="0" />
+              <xs:element name="SucursalId" msprop:Generator_ColumnVarNameInTable="columnSucursalId" msprop:Generator_ColumnPropNameInRow="SucursalId" msprop:Generator_ColumnPropNameInTable="SucursalIdColumn" msprop:Generator_UserColumnName="SucursalId" type="xs:string" minOccurs="0" />
+              <xs:element name="Cantidad_Paqs" msprop:Generator_ColumnVarNameInTable="columnCantidad_Paqs" msprop:Generator_ColumnPropNameInRow="Cantidad_Paqs" msprop:Generator_ColumnPropNameInTable="Cantidad_PaqsColumn" msprop:Generator_UserColumnName="Cantidad_Paqs" type="xs:string" minOccurs="0" />
+              <xs:element name="Peso_Paqs" msprop:Generator_ColumnVarNameInTable="columnPeso_Paqs" msprop:Generator_ColumnPropNameInRow="Peso_Paqs" msprop:Generator_ColumnPropNameInTable="Peso_PaqsColumn" msprop:Generator_UserColumnName="Peso_Paqs" type="xs:string" minOccurs="0" />
+              <xs:element name="Estado" msprop:Generator_ColumnVarNameInTable="columnEstado" msprop:Generator_ColumnPropNameInRow="Estado" msprop:Generator_ColumnPropNameInTable="EstadoColumn" msprop:Generator_UserColumnName="Estado" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.Utils.SuperToolTip superToolTip2 = new DevExpress.Utils.SuperToolTip();
-            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem2 = new DevExpress.Utils.ToolTipTitleItem();
-            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions2 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject5 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject6 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject7 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject8 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
+            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
+            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmListaDespachoMercaderia));
             this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
             this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
@@ -102,7 +102,6 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnLecturar = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
-            this.btnNuevoTrasp = new DevExpress.XtraEditors.SimpleButton();
             this.btnControlDespacho = new DevExpress.XtraEditors.SimpleButton();
             this.lbTitle = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -199,9 +198,9 @@
             // gridControl1
             // 
             this.gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            toolTipTitleItem2.Text = "Nuevo";
-            superToolTip2.Items.Add(toolTipTitleItem2);
-            this.gridControl1.EmbeddedNavigator.SuperTip = superToolTip2;
+            toolTipTitleItem1.Text = "Nuevo";
+            superToolTip1.Items.Add(toolTipTitleItem1);
+            this.gridControl1.EmbeddedNavigator.SuperTip = superToolTip1;
             this.gridControl1.Location = new System.Drawing.Point(0, 0);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.MenuManager = this.barManager1;
@@ -482,21 +481,21 @@
             // 
             // repositoryItemButtonEdit1
             // 
-            serializableAppearanceObject5.BackColor = System.Drawing.Color.DarkGreen;
-            serializableAppearanceObject5.ForeColor = System.Drawing.Color.LimeGreen;
-            serializableAppearanceObject5.Options.UseBackColor = true;
-            serializableAppearanceObject5.Options.UseForeColor = true;
-            serializableAppearanceObject5.Options.UseTextOptions = true;
-            serializableAppearanceObject5.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            serializableAppearanceObject5.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            serializableAppearanceObject6.ForeColor = System.Drawing.Color.LimeGreen;
-            serializableAppearanceObject6.Options.UseForeColor = true;
-            serializableAppearanceObject7.ForeColor = System.Drawing.Color.LimeGreen;
-            serializableAppearanceObject7.Options.UseForeColor = true;
-            serializableAppearanceObject8.ForeColor = System.Drawing.Color.LimeGreen;
-            serializableAppearanceObject8.Options.UseForeColor = true;
+            serializableAppearanceObject1.BackColor = System.Drawing.Color.DarkGreen;
+            serializableAppearanceObject1.ForeColor = System.Drawing.Color.LimeGreen;
+            serializableAppearanceObject1.Options.UseBackColor = true;
+            serializableAppearanceObject1.Options.UseForeColor = true;
+            serializableAppearanceObject1.Options.UseTextOptions = true;
+            serializableAppearanceObject1.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            serializableAppearanceObject1.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            serializableAppearanceObject2.ForeColor = System.Drawing.Color.LimeGreen;
+            serializableAppearanceObject2.Options.UseForeColor = true;
+            serializableAppearanceObject3.ForeColor = System.Drawing.Color.LimeGreen;
+            serializableAppearanceObject3.Options.UseForeColor = true;
+            serializableAppearanceObject4.ForeColor = System.Drawing.Color.LimeGreen;
+            serializableAppearanceObject4.Options.UseForeColor = true;
             this.repositoryItemButtonEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Plus, "", 1, true, true, false, editorButtonImageOptions2, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject5, serializableAppearanceObject6, serializableAppearanceObject7, serializableAppearanceObject8, "Programar despacho", null, null)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Plus, "", 1, true, true, false, editorButtonImageOptions1, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, serializableAppearanceObject2, serializableAppearanceObject3, serializableAppearanceObject4, "Programar despacho", null, null)});
             this.repositoryItemButtonEdit1.ContextImageOptions.Alignment = DevExpress.XtraEditors.ContextImageAlignment.Far;
             this.repositoryItemButtonEdit1.ContextImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("repositoryItemButtonEdit1.ContextImageOptions.Image")));
             this.repositoryItemButtonEdit1.Name = "repositoryItemButtonEdit1";
@@ -534,28 +533,22 @@
             this.Piezas_,
             this.Peso_});
             this.gridView3.GridControl = this.gridControl3;
-            this.gridView3.GroupCount = 1;
             this.gridView3.Name = "gridView3";
             this.gridView3.OptionsBehavior.Editable = false;
             this.gridView3.OptionsBehavior.ReadOnly = true;
             this.gridView3.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.Never;
-            this.gridView3.OptionsView.ShowGroupedColumns = true;
             this.gridView3.OptionsView.ShowGroupPanel = false;
-            this.gridView3.SortInfo.AddRange(new DevExpress.XtraGrid.Columns.GridColumnSortInfo[] {
-            new DevExpress.XtraGrid.Columns.GridColumnSortInfo(this.Codigo_, DevExpress.Data.ColumnSortOrder.Ascending)});
             this.gridView3.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always;
             // 
             // Codigo_
             // 
             this.Codigo_.Caption = "Codigo";
             this.Codigo_.FieldName = "Codigo";
-            this.Codigo_.FieldNameSortGroup = "Codigo";
-            this.Codigo_.FilterMode = DevExpress.XtraGrid.ColumnFilterMode.DisplayText;
             this.Codigo_.Name = "Codigo_";
             this.Codigo_.OptionsColumn.AllowEdit = false;
             this.Codigo_.OptionsColumn.ReadOnly = true;
-            this.Codigo_.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
-            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Codigo", "Codigo")});
+            this.Codigo_.Visible = true;
+            this.Codigo_.VisibleIndex = 0;
             this.Codigo_.Width = 133;
             // 
             // Descripcion
@@ -564,7 +557,7 @@
             this.Descripcion.FieldName = "Descripcion";
             this.Descripcion.Name = "Descripcion";
             this.Descripcion.Visible = true;
-            this.Descripcion.VisibleIndex = 0;
+            this.Descripcion.VisibleIndex = 1;
             this.Descripcion.Width = 506;
             // 
             // Paquete
@@ -573,7 +566,7 @@
             this.Paquete.FieldName = "Paquete";
             this.Paquete.Name = "Paquete";
             this.Paquete.Visible = true;
-            this.Paquete.VisibleIndex = 1;
+            this.Paquete.VisibleIndex = 2;
             this.Paquete.Width = 143;
             // 
             // Piezas_
@@ -583,7 +576,7 @@
             this.Piezas_.FieldNameSortGroup = "Piezas";
             this.Piezas_.Name = "Piezas_";
             this.Piezas_.Visible = true;
-            this.Piezas_.VisibleIndex = 2;
+            this.Piezas_.VisibleIndex = 3;
             this.Piezas_.Width = 153;
             // 
             // Peso_
@@ -592,7 +585,7 @@
             this.Peso_.FieldName = "Peso";
             this.Peso_.Name = "Peso_";
             this.Peso_.Visible = true;
-            this.Peso_.VisibleIndex = 3;
+            this.Peso_.VisibleIndex = 4;
             this.Peso_.Width = 130;
             // 
             // labelControl1
@@ -716,7 +709,6 @@
             this.btnImprimir.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.btnImprimir.AppearancePressed.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
             this.btnImprimir.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.UltraFlat;
-            this.btnImprimir.Enabled = false;
             this.btnImprimir.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnImprimir.ImageOptions.Image")));
             this.btnImprimir.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btnImprimir.Location = new System.Drawing.Point(216, 8);
@@ -917,7 +909,6 @@
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(45)))), ((int)(((byte)(60)))));
             this.panel1.Controls.Add(this.btnLecturar);
             this.panel1.Controls.Add(this.simpleButton3);
-            this.panel1.Controls.Add(this.btnNuevoTrasp);
             this.panel1.Controls.Add(this.btnControlDespacho);
             this.panel1.Controls.Add(this.btnNuevo);
             this.panel1.Controls.Add(this.lbTitle);
@@ -984,40 +975,12 @@
             this.simpleButton3.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.simpleButton3.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton3.ImageOptions.Image")));
             this.simpleButton3.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.simpleButton3.Location = new System.Drawing.Point(420, 8);
+            this.simpleButton3.Location = new System.Drawing.Point(379, 8);
             this.simpleButton3.Name = "simpleButton3";
             this.simpleButton3.Size = new System.Drawing.Size(35, 35);
             this.simpleButton3.TabIndex = 88;
             this.simpleButton3.ToolTip = "Observaciones";
             this.simpleButton3.Click += new System.EventHandler(this.simpleButton3_Click);
-            // 
-            // btnNuevoTrasp
-            // 
-            this.btnNuevoTrasp.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(45)))), ((int)(((byte)(60)))));
-            this.btnNuevoTrasp.Appearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(45)))), ((int)(((byte)(60)))));
-            this.btnNuevoTrasp.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(45)))), ((int)(((byte)(60)))));
-            this.btnNuevoTrasp.Appearance.Options.UseBackColor = true;
-            this.btnNuevoTrasp.Appearance.Options.UseBorderColor = true;
-            this.btnNuevoTrasp.Appearance.Options.UseForeColor = true;
-            this.btnNuevoTrasp.AppearancePressed.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.btnNuevoTrasp.AppearancePressed.BackColor2 = System.Drawing.SystemColors.ControlDarkDark;
-            this.btnNuevoTrasp.AppearancePressed.BorderColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.btnNuevoTrasp.AppearancePressed.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.btnNuevoTrasp.AppearancePressed.Options.UseBackColor = true;
-            this.btnNuevoTrasp.AppearancePressed.Options.UseBorderColor = true;
-            this.btnNuevoTrasp.AppearancePressed.Options.UseForeColor = true;
-            this.btnNuevoTrasp.AppearancePressed.Options.UseTextOptions = true;
-            this.btnNuevoTrasp.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.btnNuevoTrasp.AppearancePressed.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.btnNuevoTrasp.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnNuevoTrasp.Enabled = false;
-            this.btnNuevoTrasp.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnNuevoTrasp.ImageOptions.Image")));
-            this.btnNuevoTrasp.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnNuevoTrasp.Location = new System.Drawing.Point(379, 8);
-            this.btnNuevoTrasp.Name = "btnNuevoTrasp";
-            this.btnNuevoTrasp.Size = new System.Drawing.Size(35, 35);
-            this.btnNuevoTrasp.TabIndex = 87;
-            this.btnNuevoTrasp.ToolTip = "Nuevo Traspaso";
             // 
             // btnControlDespacho
             // 
@@ -1202,7 +1165,6 @@
         private System.Windows.Forms.Label lbTitle;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private DevExpress.XtraEditors.SimpleButton btnControlDespacho;
-        private DevExpress.XtraEditors.SimpleButton btnNuevoTrasp;
         private DevExpress.XtraEditors.SimpleButton simpleButton2;
         private DevExpress.XtraGrid.GridControl gridControl2;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView2;

@@ -18,6 +18,18 @@ using WFConsumo.frmGRH.Traspaso;
 using WFConsumo.frmGRH.DespachoOrdenEnProceso;
 using WFConsumo.frmGRH;
 using WFConsumo.frmGRH.DespachoOrdenCerrada;
+using WFConsumo.frmGRH.DespachoTransito;
+using WFConsumo.frmGRH.Localizacion;
+using WFConsumo.frmGRH.Devoluciones;
+using WFConsumo.frmGRH.DespachoVentaAbierta;
+using WFConsumo.frmGRH.DespachoVentaEnProceso;
+using WFConsumo.frmGRH.DespachoVentaListaCerrar;
+using WFConsumo.frmGRH.DespachoVentaCerrada;
+using WFConsumo.frmGRH.DespachoVentaEntrega;
+using System.Deployment;
+using System.Reflection;
+using WFConsumo.frmGRH.DespachoPorAjuste;
+using WFConsumo.frmGRH.Administradores;
 
 namespace WFConsumo
 {
@@ -42,6 +54,27 @@ namespace WFConsumo
             // form.Bounds = this.panel1.Bounds;
            //frmp.Show();
             frmp.Visible = false;
+            TraerVersion();
+        }
+        public void TraerVersion()
+        {
+            try
+            {
+                if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
+                {
+                    Version ver = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion;
+                    txtV.Text = string.Format("Versión: {0}.{1}.{2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision, Assembly.GetEntryAssembly().GetName().Name);
+                }
+                else
+                {
+                    var ver = Assembly.GetExecutingAssembly().GetName().Version;
+                    txtV.Text = string.Format("Version: {0}.{1}.{2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision, Assembly.GetEntryAssembly().GetName().Name);
+                }
+            }
+            catch (Exception err)
+            {
+                Console.WriteLine("################### = " + err.ToString());
+            }
         }
         private int sucursalId;
         private string sucursallocal;
@@ -431,8 +464,9 @@ namespace WFConsumo
         private void barButtonItem2_ItemClick(object sender, ItemClickEventArgs e)
         {
             apagar = 0;
-            this.Close();
-            ocu.Show();
+            //this.Close();
+            //ocu.Show();
+            Application.Restart();
         }
 
         private void navBarItem21_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
@@ -507,10 +541,6 @@ namespace WFConsumo
             rpt.Dock = DockStyle.Fill;
             rpt.Show();*/
         }
-        private void navBarControl2_Click(object sender, EventArgs e)
-        {
-        }
-
         private void nviRecepcion_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             //esperandoordenes
@@ -529,7 +559,7 @@ namespace WFConsumo
         {
             if (this.panel1.Controls.Count > 0)
                 this.panel1.Controls.RemoveAt(0);
-            frmGenCC frmgen = new frmGenCC();
+            frmSincroAzul frmgen = new frmSincroAzul(user,0);
             frmgen.TopLevel = false;
             frmgen.FormBorderStyle = FormBorderStyle.None;
             this.panel1.Controls.Add(frmgen);
@@ -567,7 +597,7 @@ namespace WFConsumo
         {
             if (this.panel1.Controls.Count > 0)
                 this.panel1.Controls.RemoveAt(0);
-            frmPaquetes frmAnot = new frmPaquetes();
+            frmPaquetes frmAnot = new frmPaquetes(1);
             frmAnot.TopLevel = false;
             this.panel1.Controls.Add(frmAnot);
             this.panel1.Tag = frmAnot;
@@ -612,7 +642,6 @@ namespace WFConsumo
             frmListaDespacho.Dock = DockStyle.Fill;
             frmListaDespacho.Show();
         }
-
         private void DespachoEnProceso_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             if (this.panel1.Controls.Count > 0)
@@ -624,7 +653,6 @@ namespace WFConsumo
             frmListaDespacho.Dock = DockStyle.Fill;
             frmListaDespacho.Show();
         }
-
         private void DespachoParcial_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             if (this.panel1.Controls.Count > 0)
@@ -636,7 +664,6 @@ namespace WFConsumo
             frmListaDespacho.Dock = DockStyle.Fill;
             frmListaDespacho.Show();
         }
-
         private void DespachoListoCerrar_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             if (this.panel1.Controls.Count > 0)
@@ -659,6 +686,17 @@ namespace WFConsumo
             frmListaDespacho.Dock = DockStyle.Fill;
             frmListaDespacho.Show();
         }
+        private void navBarDespachos_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmListaOrdenTransito frmListaTransito = new frmListaOrdenTransito(user, sucursalId);
+            frmListaTransito.TopLevel = false;
+            this.panel1.Controls.Add(frmListaTransito);
+            this.panel1.Tag = frmListaTransito;
+            frmListaTransito.Dock = DockStyle.Fill;
+            frmListaTransito.Show();
+        }
         private void Traspasos_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             if (this.panel1.Controls.Count > 0)
@@ -670,7 +708,6 @@ namespace WFConsumo
             frmListaDespacho.Dock = DockStyle.Fill;
             frmListaDespacho.Show();
         }
-
         private void navBarItem29_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             if (this.panel1.Controls.Count > 0)
@@ -683,9 +720,6 @@ namespace WFConsumo
             frmgen.Dock = DockStyle.Fill;
             frmgen.Show();
         }
-
-       
-
         private void navBarItem30_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             if (this.panel1.Controls.Count > 0)
@@ -697,7 +731,6 @@ namespace WFConsumo
             frmAnot.Dock = DockStyle.Fill;
             frmAnot.Show();
         }
-
         private void navBarItem31_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             if (this.panel1.Controls.Count > 0)
@@ -710,7 +743,6 @@ namespace WFConsumo
             frmgen.Dock = DockStyle.Fill;
             frmgen.Show();
         }
-
         private void navBarItem29_LinkClicked_1(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             if (this.panel1.Controls.Count > 0)
@@ -722,7 +754,6 @@ namespace WFConsumo
             frmAnot.Dock = DockStyle.Fill;
             frmAnot.Show();
         }
-
         private void navBarItem30_LinkClicked_1(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             if (this.panel1.Controls.Count > 0)
@@ -735,7 +766,6 @@ namespace WFConsumo
             frmgen.Dock = DockStyle.Fill;
             frmgen.Show();
         }
-
         private void nvRecDesp_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             if (this.panel1.Controls.Count > 0)
@@ -748,6 +778,287 @@ namespace WFConsumo
             frmgen.Dock = DockStyle.Fill;
             frmgen.Show();
             
+        }
+        private void navBarRelocalizar_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmListaRelocalizaciones frmListaLocalizacion = new frmListaRelocalizaciones(user, sucursalId);
+            frmListaLocalizacion.TopLevel = false;
+            this.panel1.Controls.Add(frmListaLocalizacion);
+            this.panel1.Tag = frmListaLocalizacion;
+            frmListaLocalizacion.Dock = DockStyle.Fill;
+            frmListaLocalizacion.Show();
+        }
+        private void navBarOrdenesProduccion_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmListaOrdenProduccion frmListaLocalizacion = new frmListaOrdenProduccion(user, sucursalId);
+            frmListaLocalizacion.TopLevel = false;
+            this.panel1.Controls.Add(frmListaLocalizacion);
+            this.panel1.Tag = frmListaLocalizacion;
+            frmListaLocalizacion.Dock = DockStyle.Fill;
+            frmListaLocalizacion.Show();
+        }
+        private void navBarOrdenesAbiertas_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmListaOrdenAbierta frmListaLocalizacion = new frmListaOrdenAbierta(user, sucursalId);
+            frmListaLocalizacion.TopLevel = false;
+            this.panel1.Controls.Add(frmListaLocalizacion);
+            this.panel1.Tag = frmListaLocalizacion;
+            frmListaLocalizacion.Dock = DockStyle.Fill;
+            frmListaLocalizacion.Show();
+        } 
+        private void navBarOrdenesCerradas_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmListaOrdenCerrada frmListaLocalizacion = new frmListaOrdenCerrada(user, sucursalId);
+            frmListaLocalizacion.TopLevel = false;
+            this.panel1.Controls.Add(frmListaLocalizacion);
+            this.panel1.Tag = frmListaLocalizacion;
+            frmListaLocalizacion.Dock = DockStyle.Fill;
+            frmListaLocalizacion.Show();
+        } 
+        private void navBarVerAlmacen_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmListaAlmacen _vistaAlmacen = new frmListaAlmacen(user, sucursalId, sucursallocal);
+            _vistaAlmacen.TopLevel = false;
+            this.panel1.Controls.Add(_vistaAlmacen);
+            this.panel1.Tag = _vistaAlmacen;
+            _vistaAlmacen.Dock = DockStyle.Fill;
+            _vistaAlmacen.Show();
+        } 
+        private void navBarAddDevolucion_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmListaDevoluciones _adDevolucion = new frmListaDevoluciones(user, sucursalId, sucursallocal);
+            _adDevolucion.TopLevel = false;
+            this.panel1.Controls.Add(_adDevolucion);
+            this.panel1.Tag = _adDevolucion;
+            _adDevolucion.Dock = DockStyle.Fill;
+            _adDevolucion.Show();
+        }
+
+        private void DespachoVentaAbierto_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmListaVentaAbierta _ventaAbierta = new frmListaVentaAbierta(user, sucursalId);
+            _ventaAbierta.TopLevel = false;
+            this.panel1.Controls.Add(_ventaAbierta);
+            this.panel1.Tag = _ventaAbierta;
+            _ventaAbierta.Dock = DockStyle.Fill;
+            _ventaAbierta.Show();
+        }
+
+        private void DespachoVentaEnProceso_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmListaVentaEnProceso _ventaProceso = new frmListaVentaEnProceso(user, sucursalId);
+            _ventaProceso.TopLevel = false;
+            this.panel1.Controls.Add(_ventaProceso);
+            this.panel1.Tag = _ventaProceso;
+            _ventaProceso.Dock = DockStyle.Fill;
+            _ventaProceso.Show();
+        }
+
+        private void OrdenVentaListaCerrar_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmListaVentaListaCerrar _ventaListaCerrar = new frmListaVentaListaCerrar(user, sucursalId);
+            _ventaListaCerrar.TopLevel = false;
+            this.panel1.Controls.Add(_ventaListaCerrar);
+            this.panel1.Tag = _ventaListaCerrar;
+            _ventaListaCerrar.Dock = DockStyle.Fill;
+            _ventaListaCerrar.Show();
+        }
+
+        private void OrdenVentaCerrada_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmListaVentaCerrada _ventaCerrada = new frmListaVentaCerrada(user, sucursalId);
+            _ventaCerrada.TopLevel = false;
+            this.panel1.Controls.Add(_ventaCerrada);
+            this.panel1.Tag = _ventaCerrada;
+            _ventaCerrada.Dock = DockStyle.Fill;
+            _ventaCerrada.Show();
+        } 
+        private void OrdenVentaParcial_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        { 
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmListaVentaEntrega _ventaEntrega = new frmListaVentaEntrega(user, sucursalId);
+            _ventaEntrega.TopLevel = false;
+            this.panel1.Controls.Add(_ventaEntrega);
+            this.panel1.Tag = _ventaEntrega;
+            _ventaEntrega.Dock = DockStyle.Fill;
+            _ventaEntrega.Show();
+        }
+
+        private void navBarAlmacen_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmAlmacen frmgen = new frmAlmacen(user);
+            frmgen.TopLevel = false;
+            frmgen.FormBorderStyle = FormBorderStyle.None;
+            this.panel1.Controls.Add(frmgen);
+            this.panel1.Tag = frmgen;
+            frmgen.Dock = DockStyle.Fill;
+            frmgen.Show();
+        }
+
+        private void navBarCuarentena_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmCuarentena frmgen = new frmCuarentena();
+            frmgen.TopLevel = false;
+            frmgen.FormBorderStyle = FormBorderStyle.None;
+            this.panel1.Controls.Add(frmgen);
+            this.panel1.Tag = frmgen;
+            frmgen.Dock = DockStyle.Fill;
+            frmgen.Show();
+        }
+
+        private void navBarStock_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmStock frmstok = new frmStock();
+            frmstok.TopLevel = false;
+            frmstok.FormBorderStyle = FormBorderStyle.None;
+            this.panel1.Controls.Add(frmstok);
+            this.panel1.Tag = frmstok;
+            frmstok.Dock = DockStyle.Fill;
+            frmstok.Show();
+        }
+
+        private void navBarMovAlmacen_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmMovimiento frmgen = new frmMovimiento(user, "TRANSITO");
+            frmgen.TopLevel = false;
+            frmgen.FormBorderStyle = FormBorderStyle.None;
+            this.panel1.Controls.Add(frmgen);
+            this.panel1.Tag = frmgen;
+            frmgen.Dock = DockStyle.Fill;
+            frmgen.Show();
+        }
+
+        private void navBarCambioCodigo_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmCambioCodigo frmgen = new frmCambioCodigo();
+            frmgen.TopLevel = false;
+            frmgen.FormBorderStyle = FormBorderStyle.None;
+            this.panel1.Controls.Add(frmgen);
+            this.panel1.Tag = frmgen;
+            frmgen.Dock = DockStyle.Fill;
+            frmgen.Show();
+        }
+
+        private void navBarItem24_LinkClicked_1(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmSincroAzul frmgen = new frmSincroAzul(user,1);
+            frmgen.TopLevel = false;
+            frmgen.FormBorderStyle = FormBorderStyle.None;
+            this.panel1.Controls.Add(frmgen);
+            this.panel1.Tag = frmgen;
+            frmgen.Dock = DockStyle.Fill;
+            frmgen.Show();
+        }
+
+        private void navBarItem31_LinkClicked_1(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmHisCuarentena frmgen = new frmHisCuarentena();
+            frmgen.TopLevel = false;
+            frmgen.FormBorderStyle = FormBorderStyle.None;
+            this.panel1.Controls.Add(frmgen);
+            this.panel1.Tag = frmgen;
+            frmgen.Dock = DockStyle.Fill;
+            frmgen.Show();
+        }
+
+        private void navBarPalet_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmListaPalet frmPalet = new frmListaPalet(sucursalId);
+            frmPalet.TopLevel = false;
+            frmPalet.FormBorderStyle = FormBorderStyle.None;
+            this.panel1.Controls.Add(frmPalet);
+            this.panel1.Tag = frmPalet;
+            frmPalet.Dock = DockStyle.Fill;
+            frmPalet.Show();
+        }
+
+        private void nvovpendientes_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmEntregasPendientes frmgen = new frmEntregasPendientes(sucursalId, user);
+            frmgen.TopLevel = false;
+            frmgen.FormBorderStyle = FormBorderStyle.None;
+            this.panel1.Controls.Add(frmgen);
+            this.panel1.Tag = frmgen;
+            frmgen.Dock = DockStyle.Fill;
+            frmgen.Show();
+        }
+
+        private void DespachoPorAjuste_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmNuevoDespachoAjuste frmgen = new frmNuevoDespachoAjuste(sucursalId, user);
+            frmgen.TopLevel = false;
+            frmgen.FormBorderStyle = FormBorderStyle.None;
+            this.panel1.Controls.Add(frmgen);
+            this.panel1.Tag = frmgen;
+            frmgen.Dock = DockStyle.Fill;
+            frmgen.Show();
+        }
+
+        private void DespachosPendientes_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            frmListaPendientesDespacho frmgen = new frmListaPendientesDespacho(sucursalId);
+            frmgen.TopLevel = false;
+            frmgen.FormBorderStyle = FormBorderStyle.None;
+            this.panel1.Controls.Add(frmgen);
+            this.panel1.Tag = frmgen;
+            frmgen.Dock = DockStyle.Fill;
+            frmgen.Show();
+        }
+
+        private void DespachosPendientesGral_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            if (this.panel1.Controls.Count > 0)
+                this.panel1.Controls.RemoveAt(0);
+            DespachosPendientesGeneral frmgen = new DespachosPendientesGeneral(sucursalId);
+            frmgen.TopLevel = false;
+            frmgen.FormBorderStyle = FormBorderStyle.None;
+            this.panel1.Controls.Add(frmgen);
+            this.panel1.Tag = frmgen;
+            frmgen.Dock = DockStyle.Fill;
+            frmgen.Show();
         }
     }
 }

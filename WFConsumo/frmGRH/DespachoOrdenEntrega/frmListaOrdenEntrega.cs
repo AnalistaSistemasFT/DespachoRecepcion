@@ -37,6 +37,8 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
         DataTable dataProd = new DataTable();
         List<ItemEntrega> _listEntrega = new List<ItemEntrega>();
         List<EntregaItem> _listEntregaItem = new List<EntregaItem>();
+        int _idDestino = 0;
+        int _ImpTab = 0;
 
         public frmListaOrdenEntrega(Usuario user, int sucursalId)
         {
@@ -49,6 +51,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
             C_Paquetes = new CPaquetes();
             C_OrdenEntrega = new COrdenEntrega();
             TraerData();
+            TraerDestino();
             gridControl4.DataSource = _listEntregaItem;
         }
 
@@ -62,7 +65,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
 
                 //DataSet dataEntregas = C_OrdenEntrega.TraerOrdenesEntregas();
                 string Estado = "Enviado";
-                DataSet dataEntregas = C_OrdenEntrega.TraerTodasOrdenEntregaList(Estado);
+                DataSet dataEntregas = C_OrdenEntrega.TraerTodasOrdenEntregaList(Estado, _idSucursal);
                 Console.WriteLine(dataEntregas.Tables[0].Rows.Count);
                 this.gridControl5.DataSource = dataEntregas.Tables[0];
             }
@@ -71,6 +74,22 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
                 XtraMessageBox.Show("Problemas con la conexion", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
             } 
+        }
+        public void TraerDestino()
+        {
+            try
+            {
+                DataSet dataDest = C_Despacho.TraerDestinoId(_idDespacho);
+                foreach (DataRow item in dataDest.Tables[0].Rows)
+                {
+                    _idDestino = Convert.ToInt32(item[0]);
+                }
+            }
+            catch (Exception err)
+            {
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
+            }
         }
         private void btnEjecutar_Click(object sender, EventArgs e)
         {
@@ -168,8 +187,8 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
                 {
                     string TipoReporte = "AUTORIZADOS";
                     IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
-                    var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
-                    myForm.Show();
+                    //var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
+                    //myForm.Show();
                 }
                 catch (Exception err)
                 {
@@ -313,17 +332,17 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
                             dr["NuevoEstado"] = _status;
                             dtsDetalle.Rows.Add(dr);
                         }
-                        a = C_MovDespacho.CerrarDespacho(dtsDetalle, dtsDetalle, _idSucursal, DespachoId);
-                        if (a > 0)
-                        {
-                            TraerData();
-                            XtraMessageBox.Show("Orden cerrada", "Cerrar despacho");
-                        }
-                        else
-                        {
-                            //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
-                            //Console.WriteLine("###########################: A = 0");
-                        }
+                        //a = C_MovDespacho.CerrarDespacho(dtsDetalle, dtsDetalle, _idSucursal, DespachoId, _idDestino);
+                        //if (a > 0)
+                        //{
+                        //    TraerData();
+                        //    XtraMessageBox.Show("Orden cerrada", "Cerrar despacho");
+                        //}
+                        //else
+                        //{
+                        //    //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                        //    //Console.WriteLine("###########################: A = 0");
+                        //}
                     }
                     else
                     {
@@ -355,10 +374,9 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
                 try
                 {
                     IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
-                    if (IdDespacho != "0")
+                    if (IdDespacho != string.Empty)
                     {
-                        var myForm = new ConsultarDespacho(IdDespacho);
-                        //this.Enabled = false;
+                        var myForm = new ConsultarDespacho(IdDespacho); 
                         myForm.Show();
                     }
                 }
@@ -385,6 +403,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
                     IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
                     string Placa = view.GetRowCellDisplayText(row[0], view.Columns[3]);
                     string Chofer = view.GetRowCellDisplayText(row[0], view.Columns[5]);
+                    string _Naturaleza = view.GetRowCellDisplayText(row[0], view.Columns[6]);
                     if (IdDespacho != "0")
                     {
                         _listEntrega.Clear();
@@ -421,7 +440,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
                             //var myForm = new CrearEntregaC(IdDespacho, _idSucursal, Placa, Chofer, _listEntrega, _pesoTotal, _login);
                             //myForm.Show();
                             string envio = "Parcial";
-                            CrearEntregaC f2 = new CrearEntregaC(IdDespacho, _idSucursal, Placa, Chofer, _listEntrega, _pesoTotal, _login, envio);
+                            CrearEntregaC f2 = new CrearEntregaC(IdDespacho, _idSucursal, Placa, Chofer, _listEntrega, _pesoTotal, _login, envio, _Naturaleza);
                             //form20.Owner = this;
                             f2.FormClosed += F2_FormClosed;
                             f2.Show();
@@ -470,37 +489,32 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
         }
         private void btnImprimirLocaliza_Click(object sender, EventArgs e)
         {
-            if (gridControl1.CanSelect)
-            {
-                ColumnView view = gridControl1.MainView as ColumnView;
-                int[] row = view.GetSelectedRows();
-                if (row.Length > 0)
-                {
-                    view.FocusedRowHandle = row[0];
-                }
-                try
-                {
-                    IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
-                    if (IdDespacho != "0")
-                    {
-                        string TipoReporte = "ORDENCARGA";
-                        IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
-                        var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
-                        myForm.Show();
-                    }
-                }
-                catch (Exception err)
-                {
-                    XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
-                    Console.WriteLine("################## = " + err.ToString());
-                }
-            }
+
         }
         private void gridView4_RowClick(object sender, DevExpress.XtraGrid.Views.Grid.RowClickEventArgs e)
         {
             try
             {
                 ColumnView view = this.gridControl1.MainView as ColumnView;
+                int[] row = Convert.ToInt32(view.FocusedRowHandle).ToArray();
+                string dataRow = view.GetRowCellDisplayText(row[0], view.Columns[0]);
+                _idDespacho = dataRow;
+                DataSet dataDetEnt = C_OrdenEntrega.TraerTodasOrdenDetalleDespacho(_idDespacho);
+                this.gridControl2.DataSource = dataDetEnt.Tables[0];
+                GetDetalle();
+                gridView2.UpdateTotalSummary();
+            }
+            catch (Exception err)
+            {
+                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
+            }
+        }
+        private void gridView6_RowCellClick(object sender, DevExpress.XtraGrid.Views.Grid.RowCellClickEventArgs e)
+        {
+            try
+            {
+                ColumnView view = this.gridControl5.MainView as ColumnView;
                 int[] row = Convert.ToInt32(view.FocusedRowHandle).ToArray();
                 string dataRow = view.GetRowCellDisplayText(row[0], view.Columns[0]);
                 _idDespacho = dataRow;
@@ -539,8 +553,11 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
                 DataSet dataPend = C_Paquetes.BuscarPaqueteEntregaParcialPendiente(_idDespacho);
                 foreach(DataRow itemE in dataPend.Tables[0].Rows)
                 {
-                    int _nuevoPend = Convert.ToInt32(itemE[2]);
-                    _listEntregaItem.Find(p => p.e_Paquete == itemE[0].ToString() && p.e_Codigo == itemE[1].ToString()).e_Pendiente = (_listEntregaItem.Find(p => p.e_Paquete == itemE[0].ToString() && p.e_Codigo == itemE[1].ToString()).e_Pendiente - _nuevoPend);
+                    string _paquete = itemE[0].ToString();
+                    string _codigo = itemE[1].ToString();
+
+                    int _nuevoPend = Convert.ToInt32(itemE[2] is DBNull ? 0 : itemE[2]);
+                    _listEntregaItem.Find(p => p.e_Paquete == _paquete && p.e_Codigo == _codigo).e_Pendiente = (_listEntregaItem.Find(p => p.e_Paquete == _paquete && p.e_Codigo == _codigo).e_Pendiente - _nuevoPend);
                 }
                  
                 this.gridControl4.DataSource = _listEntregaItem;
@@ -673,6 +690,174 @@ namespace WFConsumo.frmGRH.DespachoOrdenEntrega
                 get { return Pendiente; }
                 set { Pendiente = value; }
             }
+        }
+
+        private void btnImprimirParcial_Click(object sender, EventArgs e)
+        {
+            if (_ImpTab == 0)
+            {
+                if (gridControl1.CanSelect)
+                {
+                    ColumnView view = gridControl1.MainView as ColumnView;
+                    int[] row = view.GetSelectedRows();
+                    if (row.Length > 0)
+                    {
+                        view.FocusedRowHandle = row[0];
+                    }
+                    try
+                    {
+                        IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
+                        if (IdDespacho != "0")
+                        {
+                            IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
+                            DataSet _despOrdenCarga = C_Despacho.TraerOrdenCarga(IdDespacho);
+                            OrdenCargaParcial _ordCarga = new OrdenCargaParcial();
+                            _ordCarga.SetDataSource(_despOrdenCarga.Tables[0]);
+                            frmReportViewer viwer = new frmReportViewer(_ordCarga);
+                            viwer.Width = 1000;
+                            viwer.Height = 800;
+                            viwer.StartPosition = FormStartPosition.CenterScreen;
+                            viwer.ShowDialog();
+                        }
+                    }
+                    catch (Exception err)
+                    {
+                        XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                        Console.WriteLine("################## = " + err.ToString());
+                    }
+                }
+            }
+            else if(_ImpTab == 1)
+            {
+
+            }
+            if (gridControl5.CanSelect)
+            {
+                ColumnView view = gridControl5.MainView as ColumnView;
+                int[] row = view.GetSelectedRows();
+                if (row.Length > 0)
+                {
+                    view.FocusedRowHandle = row[0];
+                }
+                try
+                {
+                    IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
+                    if (IdDespacho != "0")
+                    {
+                        IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
+                        DataSet _despOrdenCarga = C_Despacho.TraerOrdenCarga(IdDespacho);
+                        OrdenCargaParcial _ordCarga = new OrdenCargaParcial();
+                        _ordCarga.SetDataSource(_despOrdenCarga.Tables[0]);
+                        frmReportViewer viwer = new frmReportViewer(_ordCarga);
+                        viwer.Width = 1000;
+                        viwer.Height = 800;
+                        viwer.StartPosition = FormStartPosition.CenterScreen;
+                        viwer.ShowDialog();
+                    }
+                }
+                catch (Exception err)
+                {
+                    XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                    Console.WriteLine("################## = " + err.ToString());
+                }
+            }
+        }
+        private void btnImprimirEntrega_Click(object sender, EventArgs e)
+        {
+            if (_ImpTab == 0)
+            {
+                if (gridControl1.CanSelect)
+                {
+                    ColumnView view = gridControl1.MainView as ColumnView;
+                    int[] row = view.GetSelectedRows();
+                    if (row.Length > 0)
+                    {
+                        view.FocusedRowHandle = row[0];
+                    }
+                    try
+                    {
+                        IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
+                        if (IdDespacho != "0")
+                        {
+                            DataSet _despOrdenEntrega = C_Despacho.TraerOrdenEntrega(IdDespacho, _idSucursal);
+                            OrdendeEntrega _ordEnt = new OrdendeEntrega();
+                            _ordEnt.SetDataSource(_despOrdenEntrega.Tables[0]);
+                            frmReportViewer viwer = new frmReportViewer(_ordEnt);
+                            viwer.Width = 1000;
+                            viwer.Height = 700;
+                            viwer.StartPosition = FormStartPosition.CenterScreen;
+                            viwer.ShowDialog();
+                        }
+                    }
+                    catch (Exception err)
+                    {
+                        XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                        Console.WriteLine("################## = " + err.ToString());
+                    }
+                }
+            }
+            else if(_ImpTab == 1)
+            {
+                if (gridControl5.CanSelect)
+                {
+                    ColumnView view = gridControl5.MainView as ColumnView;
+                    int[] row = view.GetSelectedRows();
+                    if (row.Length > 0)
+                    {
+                        view.FocusedRowHandle = row[0];
+                    }
+                    try
+                    {
+                        IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
+                        if (IdDespacho != "0")
+                        {
+                            DataSet _despOrdenEntrega = C_Despacho.TraerOrdenEntrega(IdDespacho, _idSucursal);
+                            OrdendeEntrega _ordEnt = new OrdendeEntrega();
+                            _ordEnt.SetDataSource(_despOrdenEntrega.Tables[0]);
+                            frmReportViewer viwer = new frmReportViewer(_ordEnt);
+                            viwer.Width = 1000;
+                            viwer.Height = 700;
+                            viwer.StartPosition = FormStartPosition.CenterScreen;
+                            viwer.ShowDialog();
+                        }
+                    }
+                    catch (Exception err)
+                    {
+                        XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                        Console.WriteLine("################## = " + err.ToString());
+                    }
+                }
+            }  
         } 
+        private void xtraTabControl2_SelectedPageChanged(object sender, DevExpress.XtraTab.TabPageChangedEventArgs e)
+        {
+            try
+            {
+                if (e.Page.Name == "tabDespachos")
+                {
+                    _ImpTab = 0;
+                    btnVer.Enabled = true;
+                    simpleButton1.Enabled = true;
+                }
+                else if (e.Page.Name == "tabEntregas")
+                {
+                    _ImpTab = 1;
+                    btnVer.Enabled = false;
+                    simpleButton1.Enabled = false;
+                }
+                else
+                {
+                    _ImpTab = 0;
+                    btnVer.Enabled = true;
+                    simpleButton1.Enabled = true;
+                }
+            }
+            catch(Exception err)
+            {
+                Console.WriteLine("####################### = " + err.ToString());
+            }
+        }
+
+        
     }
 }

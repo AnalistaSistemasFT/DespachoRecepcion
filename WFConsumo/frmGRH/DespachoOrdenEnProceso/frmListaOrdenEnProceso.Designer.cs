@@ -39,7 +39,6 @@
             this.btnLecturar = new DevExpress.XtraEditors.SimpleButton();
             this.btnBuscar = new DevExpress.XtraEditors.SimpleButton();
             this.btnVer = new DevExpress.XtraEditors.SimpleButton();
-            this.btnCerrar = new DevExpress.XtraEditors.SimpleButton();
             this.btnEjecutar = new DevExpress.XtraEditors.SimpleButton();
             this.Codigo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Fecha = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -147,7 +146,7 @@
             this.btnBuscar.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.btnBuscar.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnBuscar.ImageOptions.Image")));
             this.btnBuscar.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnBuscar.Location = new System.Drawing.Point(258, 9);
+            this.btnBuscar.Location = new System.Drawing.Point(217, 9);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(35, 35);
             this.btnBuscar.TabIndex = 41;
@@ -165,21 +164,6 @@
             this.btnVer.TabIndex = 40;
             this.btnVer.ToolTip = "Consultar";
             this.btnVer.Click += new System.EventHandler(this.btnVer_Click);
-            // 
-            // btnCerrar
-            // 
-            this.btnCerrar.Appearance.Options.UseImage = true;
-            this.btnCerrar.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnCerrar.Enabled = false;
-            this.btnCerrar.ImageOptions.AllowGlyphSkinning = DevExpress.Utils.DefaultBoolean.False;
-            this.btnCerrar.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnCerrar.ImageOptions.Image")));
-            this.btnCerrar.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnCerrar.Location = new System.Drawing.Point(217, 9);
-            this.btnCerrar.Name = "btnCerrar";
-            this.btnCerrar.Size = new System.Drawing.Size(35, 35);
-            this.btnCerrar.TabIndex = 42;
-            this.btnCerrar.ToolTip = "Cerrar";
-            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
             // btnEjecutar
             // 
@@ -539,7 +523,7 @@
             // 
             this.Piezas.Caption = "Piezas";
             this.Piezas.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.Piezas.FieldName = "Pendientes";
+            this.Piezas.FieldName = "Piezas";
             this.Piezas.Name = "Piezas";
             this.Piezas.OptionsColumn.AllowEdit = false;
             this.Piezas.OptionsColumn.ReadOnly = true;
@@ -590,7 +574,6 @@
             // btnImprimir
             // 
             this.btnImprimir.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnImprimir.Enabled = false;
             this.btnImprimir.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnImprimir.ImageOptions.Image")));
             this.btnImprimir.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btnImprimir.Location = new System.Drawing.Point(135, 9);
@@ -783,7 +766,7 @@
             this.btnVolverEstado.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.btnVolverEstado.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnVolverEstado.ImageOptions.Image")));
             this.btnVolverEstado.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnVolverEstado.Location = new System.Drawing.Point(340, 9);
+            this.btnVolverEstado.Location = new System.Drawing.Point(299, 9);
             this.btnVolverEstado.Name = "btnVolverEstado";
             this.btnVolverEstado.Size = new System.Drawing.Size(35, 35);
             this.btnVolverEstado.TabIndex = 61;
@@ -793,10 +776,9 @@
             // btnNuevoTrasp
             // 
             this.btnNuevoTrasp.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnNuevoTrasp.Enabled = false;
             this.btnNuevoTrasp.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnNuevoTrasp.ImageOptions.Image")));
             this.btnNuevoTrasp.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnNuevoTrasp.Location = new System.Drawing.Point(463, 9);
+            this.btnNuevoTrasp.Location = new System.Drawing.Point(422, 9);
             this.btnNuevoTrasp.Name = "btnNuevoTrasp";
             this.btnNuevoTrasp.Size = new System.Drawing.Size(35, 35);
             this.btnNuevoTrasp.TabIndex = 71;
@@ -816,7 +798,6 @@
             this.panel1.Controls.Add(this.btnVer);
             this.panel1.Controls.Add(this.btnVolverEstado);
             this.panel1.Controls.Add(this.btnBuscar);
-            this.panel1.Controls.Add(this.btnCerrar);
             this.panel1.Controls.Add(this.btnEjecutar);
             this.panel1.Controls.Add(this.btnImprimir);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -843,7 +824,7 @@
             this.simpleButton3.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.simpleButton3.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton3.ImageOptions.Image")));
             this.simpleButton3.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.simpleButton3.Location = new System.Drawing.Point(422, 9);
+            this.simpleButton3.Location = new System.Drawing.Point(381, 9);
             this.simpleButton3.Name = "simpleButton3";
             this.simpleButton3.Size = new System.Drawing.Size(35, 35);
             this.simpleButton3.TabIndex = 89;
@@ -855,7 +836,7 @@
             this.btnControlDespacho.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.btnControlDespacho.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnControlDespacho.ImageOptions.Image")));
             this.btnControlDespacho.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnControlDespacho.Location = new System.Drawing.Point(299, 9);
+            this.btnControlDespacho.Location = new System.Drawing.Point(258, 9);
             this.btnControlDespacho.Name = "btnControlDespacho";
             this.btnControlDespacho.Size = new System.Drawing.Size(35, 35);
             this.btnControlDespacho.TabIndex = 85;
@@ -865,10 +846,9 @@
             // btnImprimirLocaliza
             // 
             this.btnImprimirLocaliza.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnImprimirLocaliza.Enabled = false;
             this.btnImprimirLocaliza.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnImprimirLocaliza.ImageOptions.Image")));
             this.btnImprimirLocaliza.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnImprimirLocaliza.Location = new System.Drawing.Point(381, 9);
+            this.btnImprimirLocaliza.Location = new System.Drawing.Point(340, 9);
             this.btnImprimirLocaliza.Name = "btnImprimirLocaliza";
             this.btnImprimirLocaliza.Size = new System.Drawing.Size(35, 35);
             this.btnImprimirLocaliza.TabIndex = 72;
@@ -955,7 +935,6 @@
         private DevExpress.XtraEditors.SimpleButton btnLecturar;
         private DevExpress.XtraEditors.SimpleButton btnBuscar;
         private DevExpress.XtraEditors.SimpleButton btnVer;
-        private DevExpress.XtraEditors.SimpleButton btnCerrar;
         private DevExpress.XtraEditors.SimpleButton btnEjecutar;
         private DevExpress.XtraEditors.LabelControl labelControl1;
         private DevExpress.XtraTab.XtraTabControl xtraTabControl1;

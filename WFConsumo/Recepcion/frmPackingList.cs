@@ -24,14 +24,17 @@ namespace WFConsumo
 
             InitializeComponent();
             CargarGrid();
-            FormatoGrid();
+            //FormatoGrid();
             DataTable d = new DataTable();
             d.Columns.Add("iitem");
             d.Columns.Add("sdesc");
-            d.Columns.Add("scolada");
-            d.Columns.Add("sserie");
-            d.Columns.Add("dpeson");
-            d.Columns.Add("dpesob");
+            d.Columns.Add("Colada");
+            d.Columns.Add("Serie");
+            d.Columns.Add("Cantidad");
+            d.Columns.Add("peson");
+            d.Columns.Add("pesob");
+            d.Columns.Add("Lote");
+            d.Columns.Add("FechaFabricacion");
             this.gridControl2.DataSource = d;
         }
 
@@ -55,9 +58,12 @@ namespace WFConsumo
             gridView2.Columns["scmadesc"].Caption = "Descripcion";
             gridView2.Columns["sColada"].Caption = "Colada";
             gridView2.Columns["sSerie"].Caption = "Serie";
+            gridView2.Columns["icantidad"].Caption = "Cantidad";
             gridView2.Columns["dPeso"].Caption = "Peso Bruto";
             gridView2.Columns["dPesoNeto"].Caption = "Peso Neto";
-            gridView2.Columns["dPesocc"].Caption = "Peso CC";
+            //gridView2.Columns["dPesocc"].Caption = "Peso CC";
+            gridView2.Columns["sLote"].Caption = "Lote";
+            gridView2.Columns["dtFechaFabricacion"].Caption = "Fecha Fab.";
 
             gridView2.Columns["idetalle_id"].Visible = false;
             gridView2.Columns["iNroRec"].Visible = false;
@@ -70,8 +76,11 @@ namespace WFConsumo
             gridView2.Columns["sColada"].Width = 90;
             gridView2.Columns["sSerie"].Width = 90;
             gridView2.Columns["dPeso"].Width = 60;
+            gridView2.Columns["dPeso"].Width = 60;
             gridView2.Columns["dPesoNeto"].Width = 60;
-            gridView2.Columns["dPesocc"].Width = 60;
+           // gridView2.Columns["dPesocc"].Width = 60;
+            gridView2.Columns["sLote"].Width = 60;
+            gridView2.Columns["dtFechaFabricacion"].Width = 60;
         }
 
         private void gridView2_RowClick(object sender, DevExpress.XtraGrid.Views.Grid.RowClickEventArgs e)
@@ -132,6 +141,7 @@ namespace WFConsumo
                     {
                         a = 1;
                         datarow["ItemId"] = dtsitem.Tables[0].Rows[0]["ItemId"].ToString().Trim();
+                        datarow["FechaCaducidad"] = DateTime.Now.AddDays(Convert.ToInt32(dtsitem.Tables[0].Rows[0]["Caducidad"].ToString()));
                     }
                     else
                     {
@@ -140,13 +150,18 @@ namespace WFConsumo
                         break;
                     }
                     datarow["sdesc"] = row["sdesc"].ToString();
-                    datarow["Piezas"] = "1";
-                    datarow["Peso"] = row["dpeson"].ToString();
-                    datarow["CodPackList"] = row["sserie"].ToString();
-                    datarow["Colada"] = row["scolada"].ToString();
-                    datarow["PesoBrutoProveedor"] = row["dpesob"].ToString();
-                    datarow["PesoNetoProveedor"] = row["dpeson"].ToString();
+                    datarow["Piezas"] = row["Cantidad"].ToString();
+                    datarow["Peso"] = row["peson"].ToString();
+                    datarow["CodPackList"] = row["Serie"].ToString();
+                    datarow["Colada"] = row["Colada"].ToString();
+                    datarow["PesoBrutoProveedor"] = row["pesob"].ToString();
+                    datarow["PesoNetoProveedor"] = row["peson"].ToString();
                     datarow["Sincronizado"] ="0";
+                    datarow["sLote"] = row["Lote"].ToString();
+                    if (!string.IsNullOrEmpty(row["FechaFabricacion"].ToString()))
+                        datarow["Fecha"] = row["FechaFabricacion"].ToString();
+                    else
+                        datarow["Fecha"] = DateTime.Now.ToString("dd/MM/yyyy");
                     dt2.Rows.Add(datarow);
                 }
                 if(a>0)
@@ -156,7 +171,7 @@ namespace WFConsumo
             }
         }
 
-       
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -180,22 +195,30 @@ namespace WFConsumo
                         {
                             DataRow row1 = gridView3.GetDataRow(a);
                             string sSerie1 = row["sSerie"].ToString();
-                            string sSerie2 = row1["sserie"].ToString();
-                            if (sSerie1 == sSerie2)
-                                bband = true;
+                            string sSerie2 = row1["Serie"].ToString();
+                            if (sSerie2.Trim() != "0")
+                            {
+                                if (sSerie1 == sSerie2)
+                                    bband = true;
+                            }
+
                         }
                     }
-                    if (!bband) { 
-                    DataRow datarow;
-                    datarow = dt2.NewRow();
-                    //p.idetalle_id,sNroFac,iNroRec,iPedido_id,iItem_id,m.scmadesc,sColada,sSerie,dPeso,dtFechaReg,dPesoNeto,(dPesoNeto - dPesocc) as dPesocc
-                    datarow["iitem"] = row["iItem_id"].ToString();
-                    datarow["sdesc"] = row["scmadesc"].ToString();
-                    datarow["scolada"] = row["sColada"].ToString();
-                    datarow["sserie"] = row["sSerie"].ToString();
-                    datarow["dpeson"] = row["dPesoNeto"].ToString();
-                    datarow["dpesob"] = row["dPeso"].ToString();
-                    dt2.Rows.Add(datarow);
+                    if (!bband)
+                    {
+                        DataRow datarow;
+                        datarow = dt2.NewRow();
+                        //p.idetalle_id,sNroFac,iNroRec,iPedido_id,iItem_id,m.scmadesc,sColada,sSerie,dPeso,dtFechaReg,dPesoNeto,(dPesoNeto - dPesocc) as dPesocc
+                        datarow["iitem"] = row["iItem_id"].ToString();
+                        datarow["sdesc"] = row["scmadesc"].ToString();
+                        datarow["Colada"] = row["sColada"].ToString();
+                        datarow["Serie"] = row["sSerie"].ToString();
+                        datarow["Cantidad"] = row["icantidad"].ToString();
+                        datarow["peson"] = row["dPesoNeto"].ToString();
+                        datarow["pesob"] = row["dPeso"].ToString();
+                        datarow["Lote"] = row["sLote"].ToString();
+                        datarow["FechaFabricacion"] = row["dtFechaFabricacion"].ToString();
+                        dt2.Rows.Add(datarow);
                     }
 
                 }

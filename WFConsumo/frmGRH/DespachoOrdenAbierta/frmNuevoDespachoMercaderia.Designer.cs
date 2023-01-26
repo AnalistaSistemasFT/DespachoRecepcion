@@ -81,7 +81,6 @@
             this.btnBuscOrdenVenta = new DevExpress.XtraEditors.SimpleButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.lbTitle = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit1.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateEdit1.Properties)).BeginInit();
@@ -121,6 +120,9 @@
             this.textEdit1.Location = new System.Drawing.Point(117, 78);
             this.textEdit1.Name = "textEdit1";
             this.textEdit1.Properties.AllowFocused = false;
+            this.textEdit1.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textEdit1.Properties.Appearance.Options.UseFont = true;
+            this.textEdit1.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
             this.textEdit1.Size = new System.Drawing.Size(180, 20);
             this.textEdit1.TabIndex = 1;
             // 
@@ -209,6 +211,7 @@
             // 
             this.textEdit3.Location = new System.Drawing.Point(569, 65);
             this.textEdit3.Name = "textEdit3";
+            this.textEdit3.Properties.MaxLength = 12;
             this.textEdit3.Size = new System.Drawing.Size(250, 20);
             this.textEdit3.TabIndex = 5;
             // 
@@ -516,6 +519,7 @@
             this.labelControl13.Size = new System.Drawing.Size(81, 13);
             this.labelControl13.TabIndex = 27;
             this.labelControl13.Text = "Tipo Documento:";
+            this.labelControl13.Visible = false;
             // 
             // txtTipoDoc
             // 
@@ -524,6 +528,7 @@
             this.txtTipoDoc.Properties.ReadOnly = true;
             this.txtTipoDoc.Size = new System.Drawing.Size(252, 20);
             this.txtTipoDoc.TabIndex = 28;
+            this.txtTipoDoc.Visible = false;
             // 
             // btnBuscarSucursal
             // 
@@ -645,7 +650,6 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(45)))), ((int)(((byte)(60)))));
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.lbTitle);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.ForeColor = System.Drawing.Color.MidnightBlue;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -664,17 +668,6 @@
             this.label1.Size = new System.Drawing.Size(254, 26);
             this.label1.TabIndex = 80;
             this.label1.Text = "AGREGAR DESPACHO";
-            // 
-            // lbTitle
-            // 
-            this.lbTitle.AutoSize = true;
-            this.lbTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 22F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.lbTitle.ForeColor = System.Drawing.Color.White;
-            this.lbTitle.Location = new System.Drawing.Point(900, 9);
-            this.lbTitle.Name = "lbTitle";
-            this.lbTitle.Size = new System.Drawing.Size(271, 26);
-            this.lbTitle.TabIndex = 79;
-            this.lbTitle.Text = "ORDENES DE ENTREGA";
             // 
             // frmNuevoDespachoMercaderia
             // 
@@ -800,7 +793,6 @@
         private DevExpress.XtraEditors.CheckEdit chckPlan;
         private DevExpress.XtraEditors.SimpleButton btnBuscOrdenVenta;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label lbTitle;
         private System.Windows.Forms.Label label1;
         private DevExpress.XtraEditors.CheckEdit checkAnticipada;
         private DevExpress.XtraEditors.CheckEdit checkNormal;

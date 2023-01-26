@@ -245,6 +245,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.comboBoxChofer.Size = new System.Drawing.Size(230, 20);
             this.comboBoxChofer.TabIndex = 11;
+            this.comboBoxChofer.SelectedIndexChanged += new System.EventHandler(this.comboBoxChofer_SelectedIndexChanged_1);
             // 
             // simpleButton2
             // 

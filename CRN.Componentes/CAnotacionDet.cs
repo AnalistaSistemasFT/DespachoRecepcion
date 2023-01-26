@@ -29,6 +29,7 @@ namespace CRN.Componentes
         private bool EsDeCliente;
         private bool Sincronizado;
         private DateTime FechaCaducidad;
+        private string sLote;
 
         public string CodigoBarra1 { get => CodigoBarra; set => CodigoBarra = value; }
         public string AnotacionId1 { get => AnotacionId; set => AnotacionId = value; }
@@ -50,7 +51,7 @@ namespace CRN.Componentes
         public bool EsDeCliente1 { get => EsDeCliente; set => EsDeCliente = value; }
         public bool Sincronizado1 { get => Sincronizado; set => Sincronizado = value; }
         public DateTime FechaCaducidad1 { get => FechaCaducidad; set => FechaCaducidad = value; }
-
+        public string Lote1 { get => sLote; set => sLote = value; }
         public CAnotacionDet()
         {
             this.sConnName = "SQLSERVER";
@@ -59,10 +60,10 @@ namespace CRN.Componentes
         public int InsertAnotacionDet(out string sError,DbTransaction trnproxy )
         {
              sError = string.Empty;
-            string sInsert = @"INSERT INTO tblAnotacionDet (CodigoBarra,AnotacionId,Fabricante,ItemId,Piezas,Peso,Colada,SucursalId,AlmacenId,CeldaId,Fecha,Correlativo,Login,Status,CodPackList,PesoNetoProveedor,PesoBrutoProveedor,EsDeCliente,Sincronizado,FechaCaducidad)
+            string sInsert = @"INSERT INTO tblAnotacionDet (CodigoBarra,AnotacionId,Fabricante,ItemId,Piezas,Peso,Colada,SucursalId,AlmacenId,CeldaId,Fecha,Correlativo,Login,Status,CodPackList,PesoNetoProveedor,PesoBrutoProveedor,EsDeCliente,Sincronizado,FechaCaducidad,sLote)
                              VALUES
-                               ('{0}', '{1}', '{2}', '{3}',{4},{5}, '{6}',{7},{8}, '{9}', '{10}',{11}, '{12}', '{13}', '{14}',{15},{16}, '{17}', '{18}', '{19}')";
-            sInsert = string.Format(sInsert, CodigoBarra, AnotacionId, Fabricante, ItemId, Piezas, Peso, Colada, SucursalId, AlmacenId, CeldaId, Fecha.ToString("dd/MM/yyyy"), Correlativo, Login, Status, CodPackList, PesoNetoProveedor, PesoBrutoProveedor, EsDeCliente, Sincronizado, FechaCaducidad.ToString("dd/MM/yyyy"));
+                               ('{0}', '{1}', '{2}', '{3}',{4},{5}, '{6}',{7},{8}, '{9}', '{10}',{11}, '{12}', '{13}', '{14}',{15},{16}, '{17}', '{18}', '{19}', '{20}')";
+            sInsert = string.Format(sInsert, CodigoBarra, AnotacionId, Fabricante, ItemId, Piezas, Peso, Colada, SucursalId, AlmacenId, CeldaId, Fecha.ToString("dd/MM/yyyy"), Correlativo, Login, Status, CodPackList, PesoNetoProveedor, PesoBrutoProveedor, EsDeCliente, Sincronizado, FechaCaducidad.ToString("dd/MM/yyyy"),sLote);
             return ejecutar(ref sError, sInsert, trnproxy);
         }
         public int InsertAnotacionDet(out string sError)
@@ -131,8 +132,8 @@ namespace CRN.Componentes
         public DataSet CargarAnotacionesDet(string anotacion)
         {
 
-            string sSelect = @"select CodigoBarra,	AnotacionId,	Fabricante,	d.ItemId,	i.Descripcion,d.Piezas,	Peso,	Colada,	SucursalId,	AlmacenId,	CeldaId,	Fecha,	Correlativo	,Login,	Status,	CodPackList,	PesoNetoProveedor,
-	                PesoBrutoProveedor,	EsDeCliente,	Sincronizado,i.Calidad,FechaCaducidad
+            string sSelect = @"select CodigoBarra as  CodigoBarraid,	AnotacionId as AnotacionIddet,	Fabricante,	d.ItemId,	i.Descripcion,d.Piezas,	Peso as Pesoi,	Colada as Coladai,	SucursalId as SucursalIdi,	AlmacenId,	CeldaId,	Fecha as Fechai,	Correlativo as Correlativodet	,Login as Logini,Status as Statusi,	CodPackList,	PesoNetoProveedor,
+	                PesoBrutoProveedor,	EsDeCliente as EsDeClientei,	Sincronizado,i.Calidad as Calidadi,FechaCaducidad,i.ItemFId,sLote
                  from tblAnotacionDet d inner join 
 				 tblItem i on d.ItemId = i.ItemId
 				 where AnotacionId = '{0}'";

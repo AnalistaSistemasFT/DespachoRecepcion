@@ -109,6 +109,7 @@
             this.labelX8.Name = "labelX8";
             this.labelX8.Size = new System.Drawing.Size(40, 31);
             this.labelX8.TabIndex = 2;
+            this.labelX8.Visible = false;
             this.labelX8.Click += new System.EventHandler(this.labelX8_Click);
             // 
             // panel2
@@ -198,6 +199,7 @@
             this.gridView1.Name = "gridView1";
             this.gridView1.OptionsBehavior.Editable = false;
             this.gridView1.OptionsSelection.MultiSelect = true;
+            this.gridView1.OptionsView.ShowGroupPanel = false;
             this.gridView1.RowCellClick += new DevExpress.XtraGrid.Views.Grid.RowCellClickEventHandler(this.gridView1_RowCellClick);
             this.gridView1.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gridView1_RowCellStyle);
             // 
@@ -266,7 +268,7 @@
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
             this.toolStripButton2.Size = new System.Drawing.Size(24, 24);
-            this.toolStripButton2.Text = "toolStripButton2";
+            this.toolStripButton2.Text = "Imprimir";
             this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
             // splitContainer1
@@ -306,7 +308,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(761, 205);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.Text = "Detalle Item";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // gridControl2
@@ -355,9 +357,12 @@
             gridFormatRule2.Rule = formatConditionRuleIconSet2;
             this.gridView2.FormatRules.Add(gridFormatRule2);
             this.gridView2.GridControl = this.gridControl2;
+            this.gridView2.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Sum, "peso", null, "")});
             this.gridView2.Name = "gridView2";
             this.gridView2.OptionsBehavior.Editable = false;
             this.gridView2.OptionsSelection.MultiSelect = true;
+            this.gridView2.OptionsView.ShowGroupPanel = false;
             // 
             // tabPage2
             // 
@@ -367,7 +372,7 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(761, 205);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Detalle Paquete";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // gridControl3
@@ -419,6 +424,7 @@
             this.gridView3.Name = "gridView3";
             this.gridView3.OptionsBehavior.Editable = false;
             this.gridView3.OptionsSelection.MultiSelect = true;
+            this.gridView3.OptionsView.ShowGroupPanel = false;
             // 
             // frmRecepInt
             // 

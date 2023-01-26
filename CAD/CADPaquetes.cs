@@ -46,8 +46,8 @@ namespace CAD
         public DataSet TraerListaStock(int _IdSucursal)
         {
             string consulta = "SELECT a.ItemId as Codigo, c.ItemFId as ItemFerro, c.Descripcion, SUM(a.Piezas) as Piezas, SUM(a.Peso) as Peso, c.UnidadF " +
-                "FROM tblPaquetes a INNER JOIN tblSucItem b ON a.ItemId = b.ItemId INNER JOIN tblItem c ON a.ItemId = c.Itemid " +
-                "where a.Status = 'ACTIVO' AND b.SucursalId = " + _IdSucursal + " group by a.ItemId, c.ItemFId, c.Descripcion, c.UnidadF";
+                "FROM tblPaquetes a INNER JOIN tblSucItem b ON a.ItemId = b.ItemId AND a.SucursalId = b.SucursalId INNER JOIN tblItem c ON a.ItemId = c.Itemid " +
+                "where a.Status = 'ACTIVO' AND a.SucursalId = " + _IdSucursal + " group by a.ItemId, c.ItemFId, c.Descripcion, c.UnidadF";
             return this.EjecutarConsulta(consulta);
         }
         public DataSet TraerStock(string _codigoPr, int _idSucursal)
@@ -78,6 +78,27 @@ namespace CAD
             string consulta = "SELECT a.DespachoId, b.ProductoId, a.ItemId, b.Cantidad, b.Piezas FROM tblDespDetalle a INNER JOIN tblDespProductos B on A.DespachoId = B.DespachoId where a.DespachoId = '" + _idDespacho + "' AND Piezas > 0 order by a.ItemId ASC";
             return this.EjecutarConsulta(consulta);
         }
+        //Para palet
+        public DataSet TraerProductosLecturarPaletValidar(int _idSucursal)
+        {
+            string consulta = "SELECT b.ItemFId, a.ItemId, b.Descripcion, a.PaqueteId, a.Piezas, a.Peso FROM tblPaquetes a INNER JOIN tblItem b ON a.ItemId = b.ItemId where SucursalId = " + _idSucursal + " AND a.Status = 'ACTIVO' AND Len(contenedor) < 1";
+            return this.EjecutarConsulta(consulta);
+        }
+        public DataSet TraerPaquetesLecturadosPalet(int _idSucursal, string _Palet)
+        {
+            string consulta = "SELECT b.ItemFId, a.ItemId, b.Descripcion, a.PaqueteId, a.Piezas, a.Peso FROM tblPaquetes a INNER JOIN tblItem b ON a.ItemId = b.ItemId where SucursalId = " + _idSucursal + " AND a.Status = 'ACTIVO' AND Len(contenedor) < 1 AND a.Contenedor = '" + _Palet + "'";
+            return this.EjecutarConsulta(consulta);
+        }
+        public DataSet TraerPaquetesPaletParaLecturar(int _idSucursal, string _Palet)
+        {
+            string consulta = "SELECT b.ItemFId, a.ItemId, b.Descripcion, a.PaqueteId, a.Piezas, a.Peso, b.UnidadF, SUM(a.Piezas) as Cantidad, a.Fecha FROM tblPaquetes a INNER JOIN tblItem b ON a.ItemId = b.ItemId where a.SucursalId = " + _idSucursal + " AND a.Status = 'ACTIVO' AND a.Contenedor = '" + _Palet + "' group by a.ItemId, b.ItemFId, b.Descripcion, a.PaqueteId, a.Fecha, b.UnidadF, a.Piezas, a.Peso order by a.Fecha ASC";
+            return this.EjecutarConsulta(consulta);
+        }
+        public DataSet TraerPaqLecturadoPalet(int _idSucursal, string _Codigo)
+        {
+            string consulta = "select ProductoId from tblDespProductos where SucursalId = " + _idSucursal + " AND ItemId = '" + _Codigo + "'";
+            return this.EjecutarConsulta(consulta);
+        }
         public DataSet TraerPaqueteLecturado(int _idSucursal)
         {
             //string consulta = "SELECT a.ItemId, b.Descripcion, a.PaqueteId, a.Piezas, a.Peso FROM tblPaquetes a " +
@@ -92,7 +113,7 @@ namespace CAD
         {
             string consulta = "SELECT a.ItemId, c.ItemFId, c.Descripcion, a.PaqueteId, SUM(a.Piezas) as Piezas, SUM(a.Peso) as Peso, c.UnidadF " +
                 "FROM tblPaquetes a INNER JOIN tblSucItem b ON a.ItemId = b.ItemId INNER JOIN tblItem c ON a.ItemId = c.Itemid where a.Status = 'ACTIVO' " +
-                "AND b.SucursalId = " + _idSucursal + " AND PaqueteId = '" + _idPaquete + "' group by a.ItemId, c.ItemFId, c.Descripcion, a.PaqueteId, a.Fecha, c.UnidadF " +
+                "AND b.SucursalId = " + _idSucursal + " AND PaqueteId = '" + _idPaquete + "' group by a.ItemId, c.ItemFId, c.Descripcion, a.PaqueteId, a.Piezas, a.Fecha, c.UnidadF " +
                 "order by a.Fecha ASC";
             return this.EjecutarConsulta(consulta);
         }
@@ -105,7 +126,7 @@ namespace CAD
             string sSelect = @"select PaqueteId, SucursalId, AlmacenId, Fecha, CeldaId, Nivel, p.ItemId, i.Descripcion,Login, Status, Peso, p.Piezas, OrdenId, Contenedor, Colada, CentroTrabajo, p.ItemFId, Metros,i.Calidad 
                             from tblPaquetes p inner join 
                             tblItem i on p.ItemId = i.ItemId
-                            where Status = '{0}'  and SucursalId = {1}";
+                            where Status IN({0})  and SucursalId = {1}";
             sSelect = string.Format(sSelect, sEstado, Sucursal);
             return this.EjecutarConsulta(sSelect);
         }
@@ -119,9 +140,9 @@ namespace CAD
         }
         public DataSet TraerPaqueteLecturadoPorSucursal(int _idSucursal)
         {
-            string consulta = "SELECT a.ItemId, c.ItemFId, c.Descripcion, a.PaqueteId, SUM(a.Piezas) as Piezas, SUM(a.Peso) as Peso, c.UnidadF, SUM(a.Piezas) as Cantidad, a.Fecha " +
+            string consulta = "SELECT a.ItemId, c.ItemFId, c.Descripcion, a.PaqueteId, a.Piezas as Piezas, SUM(a.Peso) as Peso, c.UnidadF, SUM(a.Piezas) as Cantidad, a.Fecha " +
                 "FROM tblPaquetes a INNER JOIN tblSucItem b ON a.ItemId = b.ItemId INNER JOIN tblItem c ON a.ItemId = c.Itemid where a.Status = 'ACTIVO' " +
-                "AND b.SucursalId = " + _idSucursal + " group by a.ItemId, c.ItemFId, c.Descripcion, a.PaqueteId, a.Fecha, c.UnidadF " +
+                "AND a.SucursalId = " + _idSucursal + " group by a.ItemId, c.ItemFId, c.Descripcion, a.PaqueteId, a.Piezas, a.Fecha, c.UnidadF " +
                 "order by a.Fecha ASC";
             return this.EjecutarConsulta(consulta);
         }
@@ -186,7 +207,7 @@ namespace CAD
         }
         public DataSet BuscarPaqueteEntrega(string _idDespacho)
         {
-            string consulta = "select a.ItemId, a.ItemFId, b.Descripcion, a.ProductoId, b.UnidadF, a.Piezas, a.Peso, a.Piezas*a.Peso as PesoTotal, a.Cantidad as Pendiente from tblDespProductos a INNER JOIN tblItem b ON a.ItemId = b.ItemId where DespachoId = '" + _idDespacho + "'";
+            string consulta = "select a.ItemId, a.ItemFId, b.Descripcion, a.ProductoId, b.UnidadF, a.Piezas, a.Peso, a.Piezas*a.Peso as PesoTotal, a.Cantidad as Pendiente from tblDespProductos a INNER JOIN tblItem b ON a.ItemId = b.ItemId where a.DespachoId = '" + _idDespacho + "'";
             return this.EjecutarConsulta(consulta);
         }
         public DataSet TraerCelda(string _idPaquete)
@@ -202,6 +223,7 @@ namespace CAD
         }
         public DataSet BuscarPaqueteEntregaParcialPendiente(string _idDespacho)
         {
+            //string consulta = "select * from tblOrdenEntregaDetalle where DespachoId = '" + _idDespacho + "'";
             string consulta = "select PaqueteId, ItemId as Codigo, Cantidad from tblOrdenEntregaDetalle where DespachoId = '" + _idDespacho + "'";
             return this.EjecutarConsulta(consulta);
         }
@@ -214,6 +236,21 @@ namespace CAD
                 "group by a.DespachoId, a.ItemId, a.ItemFId, b.Descripcion, a.ProductoId, b.UnidadF, a.Cantidad, a.Peso, c.Cantidad";
             return this.EjecutarConsulta(consulta);
         }
+        public DataSet BuscarPaqItemControl(int _idSucursal)
+        {
+            string consulta = "select a.ItemId, b.ItemFId, b.Descripcion, a.CeldaId, a.Piezas, a.PaqueteId from tblPaquetes a INNER JOIN tblItem b ON a.ItemId = b.ItemId where Status = 'ACTIVO' AND SucursalId = " + _idSucursal;
+            return this.EjecutarConsulta(consulta);
+        }
+        public DataSet ImprimirPaqControlProd(string _Codigo, int _idSucursal)
+        {
+            string consulta = "select a.ItemId, b.ItemFId, b.Descripcion, a.CeldaId, a.Piezas, a.PaqueteId from tblPaquetes a INNER JOIN tblItem b ON a.ItemId = b.ItemId where Status = 'ACTIVO' AND a.ItemId = '" + _Codigo + "' AND SucursalId = " + _idSucursal;
+            return this.EjecutarConsulta(consulta);
+        }
+        public DataSet ImprimirPaqControlFerro(int _Codigo, int _idSucursal)
+        {
+            string consulta = "select a.ItemId, b.ItemFId, b.Descripcion, a.CeldaId, a.Piezas, a.PaqueteId from tblPaquetes a INNER JOIN tblItem b ON a.ItemId = b.ItemId where Status = 'ACTIVO' AND b.ItemFId = " + _Codigo + " AND SucursalId = " + _idSucursal;
+            return this.EjecutarConsulta(consulta);
+        }
         public DataSet ContEntregas(string _idDespacho)
         {
             string consulta = "select COUNT(despachoid) contEnt from tblOrdenEntrega where DespachoId = '" + _idDespacho + "'";
@@ -222,6 +259,7 @@ namespace CAD
         public DataSet BuscarDatosEntrega(string _idDespacho)
         {
             string consulta = "select a.ItemId, a.ItemFId, b.Descripcion, a.ProductoId, a.Piezas, a.Peso from tblDespProductos a INNER JOIN tblItem b ON a.ItemId = b.ItemId where DespachoId = '" + _idDespacho + "'";
+            //string consulta = "select * from tblMovSync where SucursalId = 12071";
             return this.EjecutarConsulta(consulta);
         }
         public DataSet TraerTodoPaquetes(string where)
@@ -325,6 +363,73 @@ namespace CAD
                 return true;
             else
                 return false;
+        }
+        public DataSet BuscarPaqueteLocaliza(int _IdSucursal)
+        {
+            string consulta = "select a.PaqueteId, a.ItemId, b.ItemFId, b.Descripcion, a.Peso, a.Piezas from tblPaquetes a INNER JOIN tblItem b ON a.ItemId = b.ItemId where a.Status = 'ACTIVO' AND a.SucursalId = " + _IdSucursal;
+            return this.EjecutarConsulta(consulta);
+        }
+        public DataSet TraerNavesXAlmacen(int _IdSucursal)
+        {
+            string consulta = "select Naves from tblAlmacen where SucursalId = " + _IdSucursal;
+            return this.EjecutarConsulta(consulta);
+        }
+        public DataSet PaquetesEnEstante(string _CeldaId)
+        {
+            string consulta = "select a.PaqueteId, a.ItemId, b.ItemFId, b.Descripcion, a.Peso, a.Piezas from tblPaquetes a INNER JOIN tblItem b ON a.ItemId = b.ItemId where CeldaId = '" + _CeldaId + "' and Status = 'ACTIVO'";
+            return this.EjecutarConsulta(consulta);
+        }
+        public DataSet TraerPaqueteBusqueda(string _IdPaquete, int _IdSucursal)
+        {
+            string consulta = "select a.OrdenId, a.ItemId, b.ItemFId, b.Descripcion, a.Piezas, a.Peso, a.SucursalId, c.Nombre as NombreSucursal, a.AlmacenId, a.CeldaId, a.Status from tblPaquetes a INNER JOIN tblItem b ON a.ItemId = b.ItemId INNER JOIN tblSucursal c ON a.SucursalId = c.SucursalID where a.PaqueteId = '" + _IdPaquete + "' AND a.SucursalId = " + _IdSucursal;
+            return this.EjecutarConsulta(consulta);
+        }
+        //Reporte Detalle de Paquetes
+        public DataSet DetallePaquetes(string _idPaquete)
+        {
+            string cadena = "select b.ItemId+' ('+b.ItemFId+')' as Codigo, b.Descripcion, a.CeldaId, a.Piezas, a.PaqueteId from tblPaquetes a INNER JOIN tblItem b ON a.ItemId = b.ItemId where PaqueteId = '" + _idPaquete + "'";
+            return this.EjecutarConsulta(cadena);
+        }
+        public DataSet BuscarPaquete(string CodPaquete, int Sucursal, string sEstado)
+        {
+            string cadena = @"select p.PaqueteId,p.ItemId,i.Descripcion,p.Piezas,p.Peso,i.UnidadF
+                             from tblPaquetes p inner
+                             join
+                            tblItem i on p.ItemId = i.ItemId
+                             where Status = '" + sEstado + "' and p.PaqueteId = '" + CodPaquete.Trim() + "' and SucursalId = " + Sucursal;
+            DataSet ds = EjecutarConsulta(cadena);
+            return ds;
+        }
+        //Palet
+        public DataSet TraerPaletSucursal(int _idSucursal)
+        {
+            //string cadena = "select a.Contenedor, COUNT(a.PaqueteId) as Paquetes, SUM(a.Peso) as Peso, a.CeldaId from tblPaquetes a INNER JOIN tblItem b ON a.ItemId = b.ItemId where SucursalId = " + _idSucursal + " AND LEN(contenedor) > 3 group by a.Contenedor, a.CeldaId order by a.Contenedor";
+            string cadena = "select PaletId, ItemId, ItemFId, Cantidad_Paqs, Peso_Paqs from tblPalet where Estado = 'ACTIVO' and SucursalId = " + _idSucursal;
+            return this.EjecutarConsulta(cadena);
+        }
+        public DataSet PaletImprimir(string _Palet)
+        {
+            string cadena = "Select * from tblPalet where PaletId = '" + _Palet + "'";
+            return this.EjecutarConsulta(cadena);
+        }
+        public DataSet TraerDetallePalet(int _idSucursal, string _Palet)
+        {
+            string cadena = "select a.PaqueteId, a.ItemId, b.ItemFId, b.Descripcion, a.Peso, a.Piezas, a.CeldaId from tblPaquetes a INNER JOIN tblItem b ON a.ItemId = b.ItemId where a.SucursalId = " + _idSucursal + " AND a.Contenedor = '" + _Palet + "'";
+            return this.EjecutarConsulta(cadena);
+        }
+        public int ActualizarPaquete(string _Palet, string _idPaquete, int _idSucursal)
+        {
+            return EjecutarComando("UPDATE tblPaquetes set Contenedor = '" + _Palet + "' WHERE SucursalId " + _idSucursal + " AND PaqueteId = '" + _idPaquete + "'");
+        }
+        public DataSet TraerItemPaquetesDisponibles(int _idSucursal)
+        {
+            string cadena = "select ItemId from tblPaquetes where SucursalId = " + _idSucursal + " and Status = 'ACTIVO' and Piezas > 0 group by ItemId";
+            return this.EjecutarConsulta(cadena);
+        }
+        public DataSet TraerListaPaqsPalet(string ItemId, int _idSucursal)
+        {
+            string cadena = "select b.ItemFId, a.ItemId, b.Descripcion, a.PaqueteId, a.FechaVenc, a.Fecha, a.Piezas, a.Peso, a.OrdenId from tblPaquetes a INNER JOIN tblItem b ON a.ItemId = b.ItemId where a.Status = 'ACTIVO' AND a.SucursalId = " + _idSucursal + " AND a.ItemId = '" + ItemId + "' order by a.FechaVenc, a.Fecha";
+            return this.EjecutarConsulta(cadena);
         }
     }
 }

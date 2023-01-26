@@ -241,7 +241,7 @@
             // 
             // labelControl7
             // 
-            this.labelControl7.Location = new System.Drawing.Point(35, 326);
+            this.labelControl7.Location = new System.Drawing.Point(45, 291);
             this.labelControl7.Name = "labelControl7";
             this.labelControl7.Size = new System.Drawing.Size(37, 13);
             this.labelControl7.TabIndex = 7;
@@ -258,7 +258,7 @@
             // 
             // labelControl9
             // 
-            this.labelControl9.Location = new System.Drawing.Point(430, 81);
+            this.labelControl9.Location = new System.Drawing.Point(430, 114);
             this.labelControl9.Name = "labelControl9";
             this.labelControl9.Size = new System.Drawing.Size(116, 13);
             this.labelControl9.TabIndex = 12;
@@ -266,9 +266,9 @@
             // 
             // txtNroOrden
             // 
-            this.txtNroOrden.Location = new System.Drawing.Point(574, 78);
+            this.txtNroOrden.Location = new System.Drawing.Point(574, 111);
             this.txtNroOrden.Name = "txtNroOrden";
-            this.txtNroOrden.Size = new System.Drawing.Size(215, 20);
+            this.txtNroOrden.Size = new System.Drawing.Size(232, 20);
             this.txtNroOrden.TabIndex = 14;
             this.txtNroOrden.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtNroOrden_KeyDown);
             // 
@@ -469,7 +469,7 @@
             // 
             // comboBoxSuc
             // 
-            this.comboBoxSuc.Location = new System.Drawing.Point(93, 288);
+            this.comboBoxSuc.Location = new System.Drawing.Point(574, 75);
             this.comboBoxSuc.Name = "comboBoxSuc";
             this.comboBoxSuc.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -481,7 +481,7 @@
             // 
             // labelControl12
             // 
-            this.labelControl12.Location = new System.Drawing.Point(28, 291);
+            this.labelControl12.Location = new System.Drawing.Point(502, 81);
             this.labelControl12.Name = "labelControl12";
             this.labelControl12.Size = new System.Drawing.Size(44, 13);
             this.labelControl12.TabIndex = 26;
@@ -507,7 +507,7 @@
             // 
             this.btnBuscarSucursal.ImageOptions.ImageUri.Uri = "Zoom;Size16x16;GrayScaled";
             this.btnBuscarSucursal.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnBuscarSucursal.Location = new System.Drawing.Point(331, 288);
+            this.btnBuscarSucursal.Location = new System.Drawing.Point(812, 74);
             this.btnBuscarSucursal.Name = "btnBuscarSucursal";
             this.btnBuscarSucursal.Size = new System.Drawing.Size(31, 20);
             this.btnBuscarSucursal.TabIndex = 31;
@@ -515,7 +515,7 @@
             // 
             // comBoxCliente
             // 
-            this.comBoxCliente.Location = new System.Drawing.Point(93, 323);
+            this.comBoxCliente.Location = new System.Drawing.Point(95, 288);
             this.comBoxCliente.Name = "comBoxCliente";
             this.comBoxCliente.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -529,7 +529,7 @@
             // 
             this.simpleButton7.ImageOptions.ImageUri.Uri = "Zoom;Size16x16;GrayScaled";
             this.simpleButton7.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.simpleButton7.Location = new System.Drawing.Point(331, 323);
+            this.simpleButton7.Location = new System.Drawing.Point(333, 288);
             this.simpleButton7.Name = "simpleButton7";
             this.simpleButton7.Size = new System.Drawing.Size(31, 20);
             this.simpleButton7.TabIndex = 34;
@@ -559,7 +559,7 @@
             // 
             this.btnBuscOrdenVenta.ImageOptions.ImageUri.Uri = "Zoom;Size16x16;GrayScaled";
             this.btnBuscOrdenVenta.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnBuscOrdenVenta.Location = new System.Drawing.Point(795, 78);
+            this.btnBuscOrdenVenta.Location = new System.Drawing.Point(812, 111);
             this.btnBuscOrdenVenta.Name = "btnBuscOrdenVenta";
             this.btnBuscOrdenVenta.Size = new System.Drawing.Size(31, 20);
             this.btnBuscOrdenVenta.TabIndex = 39;

@@ -237,8 +237,14 @@ namespace CAD
             return EjecutarConsulta(Consulta);
         
         }
- 
-        
+        public DataSet TraerMovimientos(int Sucursal, string TipoMov)
+        {
+            string Consulta = @" select* from tblMovimiento where SucursalID = {0} and TipoMovimiento = '{1}'";
+            Consulta = string.Format(Consulta, Sucursal, TipoMov);
+            return EjecutarConsulta(Consulta);
+
+        }
+
         public int EliminarArchivosCarpetas(int docId)
         {
             return EjecutarComando("DELETE FROM dbo.documentos WHERE docId=" + docId.ToString());
@@ -253,9 +259,5 @@ namespace CAD
             string cadena = "select docId,tituloDocumento,autor from documentos where tituloDocumento like '%" + nombDocumento + "%'";
             return EjecutarConsulta(cadena);
         }
-
-
-
     }
-    
 }

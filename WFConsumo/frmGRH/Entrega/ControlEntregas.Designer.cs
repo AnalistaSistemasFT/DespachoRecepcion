@@ -101,7 +101,7 @@
             this.splitContainerControl1.Panel2.Controls.Add(this.panelControl1);
             this.splitContainerControl1.Panel2.Text = "Panel2";
             this.splitContainerControl1.Size = new System.Drawing.Size(1202, 561);
-            this.splitContainerControl1.SplitterPosition = 331;
+            this.splitContainerControl1.SplitterPosition = 323;
             this.splitContainerControl1.TabIndex = 0;
             this.splitContainerControl1.Text = "splitContainerControl1";
             // 
@@ -111,7 +111,7 @@
             this.gridControl1.Location = new System.Drawing.Point(0, 50);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(1194, 277);
+            this.gridControl1.Size = new System.Drawing.Size(1194, 269);
             this.gridControl1.TabIndex = 0;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -154,7 +154,7 @@
             this.gridControl2.Location = new System.Drawing.Point(442, 0);
             this.gridControl2.MainView = this.gridView2;
             this.gridControl2.Name = "gridControl2";
-            this.gridControl2.Size = new System.Drawing.Size(752, 217);
+            this.gridControl2.Size = new System.Drawing.Size(752, 225);
             this.gridControl2.TabIndex = 0;
             this.gridControl2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView2});
@@ -199,7 +199,7 @@
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelControl1.Location = new System.Drawing.Point(0, 0);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(442, 217);
+            this.panelControl1.Size = new System.Drawing.Size(442, 225);
             this.panelControl1.TabIndex = 1;
             // 
             // txtVendedor

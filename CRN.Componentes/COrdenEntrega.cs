@@ -25,13 +25,18 @@ namespace CRN.Componentes
         {
             return cadOrdenEnt.TraerTodasOrdenEntrega(Estado);
         }
-        public DataSet TraerTodasOrdenEntregaList(string Estado)
+        public DataSet TraerTodasOrdenEntregaList(string Estado, int _idSucursal)
         {
-            return cadOrdenEnt.TraerTodasOrdenEntregaList(Estado);
+            return cadOrdenEnt.TraerTodasOrdenEntregaList(Estado, _idSucursal);
         }
         public DataSet TraerTodasOrdenDetalleDespacho(string IdDespacho)
         {
             return cadOrdenEnt.TraerTodasOrdenDetalleDespacho(IdDespacho);
+        }
+        //test
+        public int DataUpdate()
+        {
+            return cadOrdenEnt.DataUpdate();
         }
         //InsertarOrden
         public int InsertOrden(OrdenEntrega _ordenEntrega, DbTransaction trnproxy)
@@ -164,6 +169,14 @@ namespace CRN.Componentes
                 }
                 return a;
             }
+        }
+        public DataSet dts1()
+        {
+            return cadOrdenEnt.dts1();
+        }
+        public DataSet dts2()
+        {
+            return cadOrdenEnt.dts2();
         }
     }
 }

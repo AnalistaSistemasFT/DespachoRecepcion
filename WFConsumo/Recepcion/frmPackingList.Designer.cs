@@ -52,8 +52,29 @@ namespace WFConsumo
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.gridControl2 = new DevExpress.XtraGrid.GridControl();
             this.gridView3 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.iitem = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.sdesc = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Colada = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Serie = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Cantidad = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.peson = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.pesob = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Lote = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.FechaFabricacion = new DevExpress.XtraGrid.Columns.GridColumn();
             this.dgvPackingList = new DevExpress.XtraGrid.GridControl();
             this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.sNroFac = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.sLote = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.iItem_id = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.scmadesc = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.sColada = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.sSerie = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.icantidad = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.dPesoNeto = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.dPeso = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.CodPackList = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.dtFechaReg = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.dtFechaFabricacion = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -157,7 +178,7 @@ namespace WFConsumo
             this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
             this.barDockControlTop.Manager = this.barManager1;
-            this.barDockControlTop.Size = new System.Drawing.Size(833, 47);
+            this.barDockControlTop.Size = new System.Drawing.Size(1146, 47);
             // 
             // barDockControlBottom
             // 
@@ -165,7 +186,7 @@ namespace WFConsumo
             this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.barDockControlBottom.Location = new System.Drawing.Point(0, 518);
             this.barDockControlBottom.Manager = this.barManager1;
-            this.barDockControlBottom.Size = new System.Drawing.Size(833, 23);
+            this.barDockControlBottom.Size = new System.Drawing.Size(1146, 23);
             // 
             // barDockControlLeft
             // 
@@ -179,7 +200,7 @@ namespace WFConsumo
             // 
             this.barDockControlRight.CausesValidation = false;
             this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.barDockControlRight.Location = new System.Drawing.Point(833, 47);
+            this.barDockControlRight.Location = new System.Drawing.Point(1146, 47);
             this.barDockControlRight.Manager = this.barManager1;
             this.barDockControlRight.Size = new System.Drawing.Size(0, 471);
             // 
@@ -221,7 +242,7 @@ namespace WFConsumo
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.gridControl2);
-            this.splitContainer2.Size = new System.Drawing.Size(388, 471);
+            this.splitContainer2.Size = new System.Drawing.Size(536, 471);
             this.splitContainer2.SplitterDistance = 32;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -235,7 +256,7 @@ namespace WFConsumo
             this.toolStripButton2});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(388, 32);
+            this.toolStrip1.Size = new System.Drawing.Size(536, 32);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -273,16 +294,109 @@ namespace WFConsumo
             this.gridControl2.Location = new System.Drawing.Point(0, 0);
             this.gridControl2.MainView = this.gridView3;
             this.gridControl2.Name = "gridControl2";
-            this.gridControl2.Size = new System.Drawing.Size(388, 435);
+            this.gridControl2.Size = new System.Drawing.Size(536, 435);
             this.gridControl2.TabIndex = 15;
             this.gridControl2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView3});
             // 
             // gridView3
             // 
+            this.gridView3.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.iitem,
+            this.sdesc,
+            this.Colada,
+            this.Serie,
+            this.Cantidad,
+            this.peson,
+            this.pesob,
+            this.Lote,
+            this.FechaFabricacion});
             this.gridView3.GridControl = this.gridControl2;
+            this.gridView3.GroupSummary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridGroupSummaryItem(DevExpress.Data.SummaryItemType.Count, "iCantidad", null, "")});
             this.gridView3.Name = "gridView3";
             this.gridView3.OptionsSelection.MultiSelect = true;
+            this.gridView3.OptionsView.ShowFooter = true;
+            // 
+            // iitem
+            // 
+            this.iitem.Caption = "Item";
+            this.iitem.FieldName = "iitem";
+            this.iitem.Name = "iitem";
+            this.iitem.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "iitem", "Cantidad {0}")});
+            this.iitem.Visible = true;
+            this.iitem.VisibleIndex = 0;
+            // 
+            // sdesc
+            // 
+            this.sdesc.Caption = "Descripcion";
+            this.sdesc.FieldName = "sdesc";
+            this.sdesc.Name = "sdesc";
+            this.sdesc.Visible = true;
+            this.sdesc.VisibleIndex = 1;
+            // 
+            // Colada
+            // 
+            this.Colada.Caption = "Colada";
+            this.Colada.FieldName = "Colada";
+            this.Colada.Name = "Colada";
+            this.Colada.Visible = true;
+            this.Colada.VisibleIndex = 2;
+            // 
+            // Serie
+            // 
+            this.Serie.Caption = "Packing List";
+            this.Serie.FieldName = "Serie";
+            this.Serie.Name = "Serie";
+            this.Serie.Visible = true;
+            this.Serie.VisibleIndex = 3;
+            // 
+            // Cantidad
+            // 
+            this.Cantidad.Caption = "Cantidad";
+            this.Cantidad.FieldName = "Cantidad";
+            this.Cantidad.Name = "Cantidad";
+            this.Cantidad.Visible = true;
+            this.Cantidad.VisibleIndex = 4;
+            // 
+            // peson
+            // 
+            this.peson.Caption = "Peso Neto";
+            this.peson.FieldName = "peson";
+            this.peson.Name = "peson";
+            this.peson.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "peson", "Total P. Neto={0:#.##}")});
+            this.peson.Visible = true;
+            this.peson.VisibleIndex = 5;
+            // 
+            // pesob
+            // 
+            this.pesob.Caption = "Peso Bruto";
+            this.pesob.FieldName = "pesob";
+            this.pesob.Name = "pesob";
+            this.pesob.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "pesob", "Total P.Bruto={0:#.##}")});
+            this.pesob.Visible = true;
+            this.pesob.VisibleIndex = 6;
+            // 
+            // Lote
+            // 
+            this.Lote.Caption = "Lote";
+            this.Lote.FieldName = "Lote";
+            this.Lote.Name = "Lote";
+            this.Lote.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "Lote", "Contador Lote{0}")});
+            this.Lote.Visible = true;
+            this.Lote.VisibleIndex = 7;
+            // 
+            // FechaFabricacion
+            // 
+            this.FechaFabricacion.Caption = "Fecha Fab";
+            this.FechaFabricacion.FieldName = "FechaFabricacion";
+            this.FechaFabricacion.Name = "FechaFabricacion";
+            this.FechaFabricacion.Visible = true;
+            this.FechaFabricacion.VisibleIndex = 8;
             // 
             // dgvPackingList
             // 
@@ -290,7 +404,7 @@ namespace WFConsumo
             this.dgvPackingList.Location = new System.Drawing.Point(0, 0);
             this.dgvPackingList.MainView = this.gridView2;
             this.dgvPackingList.Name = "dgvPackingList";
-            this.dgvPackingList.Size = new System.Drawing.Size(400, 437);
+            this.dgvPackingList.Size = new System.Drawing.Size(549, 437);
             this.dgvPackingList.TabIndex = 24;
             this.dgvPackingList.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView2,
@@ -298,6 +412,19 @@ namespace WFConsumo
             // 
             // gridView2
             // 
+            this.gridView2.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.sNroFac,
+            this.sLote,
+            this.iItem_id,
+            this.scmadesc,
+            this.sColada,
+            this.sSerie,
+            this.icantidad,
+            this.dPesoNeto,
+            this.dPeso,
+            this.CodPackList,
+            this.dtFechaReg,
+            this.dtFechaFabricacion});
             this.gridView2.GridControl = this.dgvPackingList;
             this.gridView2.Name = "gridView2";
             this.gridView2.OptionsBehavior.Editable = false;
@@ -306,6 +433,118 @@ namespace WFConsumo
             this.gridView2.OptionsView.ShowAutoFilterRow = true;
             this.gridView2.OptionsView.ShowFooter = true;
             this.gridView2.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView2_RowClick);
+            // 
+            // sNroFac
+            // 
+            this.sNroFac.Caption = "NroFac";
+            this.sNroFac.FieldName = "sNroFac";
+            this.sNroFac.Name = "sNroFac";
+            this.sNroFac.Visible = true;
+            this.sNroFac.VisibleIndex = 1;
+            this.sNroFac.Width = 82;
+            // 
+            // sLote
+            // 
+            this.sLote.Caption = "Lote";
+            this.sLote.FieldName = "sLote";
+            this.sLote.Name = "sLote";
+            this.sLote.Visible = true;
+            this.sLote.VisibleIndex = 2;
+            this.sLote.Width = 82;
+            // 
+            // iItem_id
+            // 
+            this.iItem_id.Caption = "Item";
+            this.iItem_id.FieldName = "iItem_id";
+            this.iItem_id.Name = "iItem_id";
+            this.iItem_id.Visible = true;
+            this.iItem_id.VisibleIndex = 3;
+            this.iItem_id.Width = 82;
+            // 
+            // scmadesc
+            // 
+            this.scmadesc.Caption = "Descripcion";
+            this.scmadesc.FieldName = "scmadesc";
+            this.scmadesc.Name = "scmadesc";
+            this.scmadesc.Visible = true;
+            this.scmadesc.VisibleIndex = 4;
+            this.scmadesc.Width = 82;
+            // 
+            // sColada
+            // 
+            this.sColada.Caption = "Colada";
+            this.sColada.FieldName = "sColada";
+            this.sColada.Name = "sColada";
+            this.sColada.Visible = true;
+            this.sColada.VisibleIndex = 5;
+            this.sColada.Width = 72;
+            // 
+            // sSerie
+            // 
+            this.sSerie.Caption = "Serie";
+            this.sSerie.FieldName = "sSerie";
+            this.sSerie.Name = "sSerie";
+            this.sSerie.Visible = true;
+            this.sSerie.VisibleIndex = 6;
+            this.sSerie.Width = 66;
+            // 
+            // icantidad
+            // 
+            this.icantidad.Caption = "Cantidad";
+            this.icantidad.FieldName = "icantidad";
+            this.icantidad.Name = "icantidad";
+            this.icantidad.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "icantidad", "Total: {0:n0}")});
+            this.icantidad.Visible = true;
+            this.icantidad.VisibleIndex = 7;
+            this.icantidad.Width = 114;
+            // 
+            // dPesoNeto
+            // 
+            this.dPesoNeto.Caption = "Peso Neto";
+            this.dPesoNeto.FieldName = "dPesoNeto";
+            this.dPesoNeto.Name = "dPesoNeto";
+            this.dPesoNeto.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "dPesoNeto", "Total: {0:n}")});
+            this.dPesoNeto.Visible = true;
+            this.dPesoNeto.VisibleIndex = 8;
+            this.dPesoNeto.Width = 106;
+            // 
+            // dPeso
+            // 
+            this.dPeso.Caption = "Peso Bruto";
+            this.dPeso.FieldName = "dPeso";
+            this.dPeso.Name = "dPeso";
+            this.dPeso.Visible = true;
+            this.dPeso.VisibleIndex = 9;
+            this.dPeso.Width = 70;
+            // 
+            // CodPackList
+            // 
+            this.CodPackList.Caption = "PackList";
+            this.CodPackList.FieldName = "CodPackList";
+            this.CodPackList.Name = "CodPackList";
+            this.CodPackList.Visible = true;
+            this.CodPackList.VisibleIndex = 10;
+            this.CodPackList.Width = 70;
+            // 
+            // dtFechaReg
+            // 
+            this.dtFechaReg.Caption = "FechaReg";
+            this.dtFechaReg.FieldName = "dtFechaReg";
+            this.dtFechaReg.Name = "dtFechaReg";
+            this.dtFechaReg.Visible = true;
+            this.dtFechaReg.VisibleIndex = 11;
+            this.dtFechaReg.Width = 70;
+            // 
+            // dtFechaFabricacion
+            // 
+            this.dtFechaFabricacion.Caption = "Fecha Fab";
+            this.dtFechaFabricacion.FieldName = "dtFechaFabricacion";
+            this.dtFechaFabricacion.Name = "dtFechaFabricacion";
+            this.dtFechaFabricacion.Visible = true;
+            this.dtFechaFabricacion.VisibleIndex = 12;
+            this.dtFechaFabricacion.Width = 89;
             // 
             // gridView1
             // 
@@ -325,8 +564,8 @@ namespace WFConsumo
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(833, 471);
-            this.splitContainer1.SplitterDistance = 441;
+            this.splitContainer1.Size = new System.Drawing.Size(1146, 471);
+            this.splitContainer1.SplitterDistance = 606;
             this.splitContainer1.TabIndex = 29;
             // 
             // splitContainer3
@@ -339,7 +578,7 @@ namespace WFConsumo
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
-            this.splitContainer3.Size = new System.Drawing.Size(441, 471);
+            this.splitContainer3.Size = new System.Drawing.Size(606, 471);
             this.splitContainer3.SplitterDistance = 30;
             this.splitContainer3.TabIndex = 0;
             // 
@@ -357,8 +596,8 @@ namespace WFConsumo
             // 
             this.splitContainer4.Panel2.Controls.Add(this.button2);
             this.splitContainer4.Panel2.Controls.Add(this.button1);
-            this.splitContainer4.Size = new System.Drawing.Size(441, 437);
-            this.splitContainer4.SplitterDistance = 400;
+            this.splitContainer4.Size = new System.Drawing.Size(606, 437);
+            this.splitContainer4.SplitterDistance = 549;
             this.splitContainer4.TabIndex = 0;
             // 
             // button2
@@ -366,7 +605,7 @@ namespace WFConsumo
             this.button2.Dock = System.Windows.Forms.DockStyle.Top;
             this.button2.Location = new System.Drawing.Point(0, 23);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(37, 23);
+            this.button2.Size = new System.Drawing.Size(53, 23);
             this.button2.TabIndex = 1;
             this.button2.Text = "<<";
             this.button2.UseVisualStyleBackColor = true;
@@ -377,7 +616,7 @@ namespace WFConsumo
             this.button1.Dock = System.Windows.Forms.DockStyle.Top;
             this.button1.Location = new System.Drawing.Point(0, 0);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(37, 23);
+            this.button1.Size = new System.Drawing.Size(53, 23);
             this.button1.TabIndex = 0;
             this.button1.Text = ">>";
             this.button1.UseVisualStyleBackColor = true;
@@ -387,7 +626,7 @@ namespace WFConsumo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(833, 541);
+            this.ClientSize = new System.Drawing.Size(1146, 541);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.barDockControlLeft);
             this.Controls.Add(this.barDockControlRight);
@@ -457,5 +696,26 @@ namespace WFConsumo
         private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
+        private DevExpress.XtraGrid.Columns.GridColumn sNroFac;
+        private DevExpress.XtraGrid.Columns.GridColumn sLote;
+        private DevExpress.XtraGrid.Columns.GridColumn iItem_id;
+        private DevExpress.XtraGrid.Columns.GridColumn scmadesc;
+        private DevExpress.XtraGrid.Columns.GridColumn sColada;
+        private DevExpress.XtraGrid.Columns.GridColumn sSerie;
+        private DevExpress.XtraGrid.Columns.GridColumn icantidad;
+        private DevExpress.XtraGrid.Columns.GridColumn dPesoNeto;
+        private DevExpress.XtraGrid.Columns.GridColumn dPeso;
+        private DevExpress.XtraGrid.Columns.GridColumn CodPackList;
+        private DevExpress.XtraGrid.Columns.GridColumn dtFechaReg;
+        private DevExpress.XtraGrid.Columns.GridColumn dtFechaFabricacion;
+        private DevExpress.XtraGrid.Columns.GridColumn iitem;
+        private DevExpress.XtraGrid.Columns.GridColumn sdesc;
+        private DevExpress.XtraGrid.Columns.GridColumn Colada;
+        private DevExpress.XtraGrid.Columns.GridColumn Serie;
+        private DevExpress.XtraGrid.Columns.GridColumn Cantidad;
+        private DevExpress.XtraGrid.Columns.GridColumn peson;
+        private DevExpress.XtraGrid.Columns.GridColumn pesob;
+        private DevExpress.XtraGrid.Columns.GridColumn Lote;
+        private DevExpress.XtraGrid.Columns.GridColumn FechaFabricacion;
     }
 }

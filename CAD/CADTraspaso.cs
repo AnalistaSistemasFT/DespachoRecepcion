@@ -39,9 +39,9 @@ namespace CAD
             string consulta = "SELECT sccodfin, sctcdesc FROM sctabcon WHERE sctcgrup = 12 AND sctcdesc LIKE'%TRN%'";
             return this.consultar(consulta);
         }
-        public DataSet TraerCorrelativo(int _IdSucursal)
+        public DataSet TraerCorrelativo(string tipoDodId)
         {
-            string consulta = "select sctcvalo + 1 from sctabcon where sccodfin = " + _IdSucursal;
+            string consulta = "select sctcvalo + 1 from sctabcon where sccodfin = " + tipoDodId.Trim();
             return this.consultar(consulta);
         }
 

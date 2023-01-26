@@ -73,22 +73,42 @@ namespace CAD
         }
         public DataSet TraerDespachoAbierto(int _idSucursal)
         {
-            string cadena = "select tblDespacho.despachoid as Codigo, tblDespacho.fecha as Fecha, tbldespacho.nroorden as NroOrden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as Chofer, tblDespacho.Naturaleza as TipoDespacho,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso as NroTraspaso,tipo,tblDespacho.status as Estado,tblDespacho.LOGIN as Usuario from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " AND STATUS IN('OPEN') order by tblDespacho.despachoid";
+            string cadena = "select tblDespacho.despachoid as Codigo, tblDespacho.fecha as Fecha, tbldespacho.nroorden as NroOrden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as Chofer, tblDespacho.Naturaleza as TipoDespacho,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso as NroTraspaso,tipo,tblDespacho.status as Estado,tblDespacho.LOGIN as Usuario from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " AND STATUS IN('OPEN') order by tblDespacho.despachoid desc";
+            return this.EjecutarConsulta(cadena);
+        }
+        public DataSet TraerDespachoAbiertoVenta(int _idSucursal)
+        {
+            string cadena = "select tblDespacho.despachoid as Codigo, tblDespacho.fecha as Fecha, tbldespacho.nroorden as NroOrden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as Chofer, tblDespacho.Naturaleza as TipoDespacho,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso as NroTraspaso,tipo,tblDespacho.status as Estado,tblDespacho.LOGIN as Usuario from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " AND STATUS IN('OPEN') AND tblDespacho.Naturaleza = 'VENTA' order by tblDespacho.despachoid desc";
             return this.EjecutarConsulta(cadena);
         }
         public DataSet TraerDespachoEnProceso(int _idSucursal)
         {
-            string cadena = "select tblDespacho.despachoid,tblDespacho.fecha,tbldespacho.nroorden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = '" + _idSucursal + "' AND STATUS IN('INPROCESS') order by tblDespacho.despachoid";
+            string cadena = "select tblDespacho.despachoid,tblDespacho.fecha,tbldespacho.nroorden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = '" + _idSucursal + "' AND STATUS IN('INPROCESS') order by tblDespacho.despachoid desc";
+            return this.EjecutarConsulta(cadena);
+        }
+        public DataSet TraerDespachoEnProcesoVenta(int _idSucursal)
+        {
+            string cadena = "select tblDespacho.despachoid,tblDespacho.fecha,tbldespacho.nroorden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = '" + _idSucursal + "' AND STATUS IN('INPROCESS') AND tblDespacho.Naturaleza = 'VENTA' order by tblDespacho.despachoid desc";
             return this.EjecutarConsulta(cadena);
         }
         public DataSet TraerDespachoParcial(int _idSucursal)
         {
-            string cadena = "select tblDespacho.despachoid,tblDespacho.fecha,tbldespacho.nroorden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " AND STATUS IN('PARCIAL') order by tblDespacho.despachoid";
+            string cadena = "select tblDespacho.despachoid,tblDespacho.fecha,tbldespacho.nroorden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " AND STATUS IN('PARCIAL') order by tblDespacho.despachoid desc";
+            return this.EjecutarConsulta(cadena);
+        }
+        public DataSet TraerDespachoParcialVenta(int _idSucursal)
+        {
+            string cadena = "select tblDespacho.despachoid,tblDespacho.fecha,tbldespacho.nroorden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " AND STATUS IN('PARCIAL') AND tblDespacho.Naturaleza = 'VENTA' order by tblDespacho.despachoid desc";
             return this.EjecutarConsulta(cadena);
         }
         public DataSet TraerDespachoPorCerrar(int _idSucursal)
         {
-            string cadena = "select tblDespacho.despachoid,tblDespacho.fecha,tbldespacho.nroorden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " AND STATUS IN('LISTAS') order by tblDespacho.despachoid";
+            string cadena = "select tblDespacho.despachoid,tblDespacho.fecha,tbldespacho.nroorden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " AND STATUS IN('LISTAS') order by tblDespacho.despachoid desc";
+            return this.EjecutarConsulta(cadena);
+        }
+        public DataSet TraerDespachoPorCerrarVenta(int _idSucursal)
+        {
+            string cadena = "select tblDespacho.despachoid,tblDespacho.fecha,tbldespacho.nroorden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " AND STATUS IN('LISTAS') AND tblDespacho.Naturaleza = 'VENTA' order by tblDespacho.despachoid desc";
             return this.EjecutarConsulta(cadena);
         }
         public DataSet TraerDespachoCerrado(int _idSucursal)
@@ -96,9 +116,28 @@ namespace CAD
             string cadena = "select tblDespacho.despachoid,tblDespacho.fecha,tbldespacho.nroorden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " AND STATUS IN('CLOSE') order by tblDespacho.despachoid desc";
             return this.EjecutarConsulta(cadena);
         }
+        public DataSet TraerDespachoCerradoVenta(int _idSucursal)
+        {
+            string cadena = "select tblDespacho.despachoid,tblDespacho.fecha,tbldespacho.nroorden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " AND STATUS IN('CLOSE') AND tblDespacho.Naturaleza = 'VENTA' order by tblDespacho.despachoid desc";
+            return this.EjecutarConsulta(cadena);
+        }
         public DataSet TraerTodosLosDespachos(int _idSucursal)
         {
             string cadena = "select tblDespacho.despachoid,tblDespacho.fecha,tbldespacho.nroorden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " order by tblDespacho.despachoid desc";
+            return this.EjecutarConsulta(cadena);
+        }
+        public DataSet TraerTodosLosDespachosVenta(int _idSucursal)
+        {
+            string cadena = "select tblDespacho.despachoid,tblDespacho.fecha,tbldespacho.nroorden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " AND tblDespacho.Naturaleza = 'VENTA' order by tblDespacho.despachoid desc";
+            return this.EjecutarConsulta(cadena);
+        }
+        public DataSet TraerDespachosPendientes(int _idSucursal)
+        {
+            string cadena = "select tblDespacho.despachoid,tblDespacho.fecha, " +
+                "CASE WHEN tblDespacho.status = 'OPEN' THEN 'Abierto'" +
+                "WHEN tblDespacho.status = 'INPROCESS' THEN 'En proceso'" +
+                "WHEN tblDespacho.status = 'Parcial' THEN 'Parcial'" +
+                "Else 'En proceso' END AS status, tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " AND Status != 'CLOSE' AND Status != 'CANCEL' AND Status != 'TRANSITO' order by tblDespacho.despachoid desc";
             return this.EjecutarConsulta(cadena);
         }
         public DataSet TraerDespachoTransito(int _idSucursal)
@@ -149,23 +188,25 @@ namespace CAD
         public DataSet TraerDespDetalleTrasp(string _idDespacho)
         {
             //string cadena = "select b.ItemFId, a.ItemId, b.descripcion, a.Cantidad from tblDespDetalle a INNER JOIN tblItem b ON a.ItemId = b.ITemId where a.DespachoId = '" + _idDespacho + "'";
-            string cadena = "select b.ItemFId, a.ItemId, b.Descripcion, SUM(a.Piezas) as Cantidad, SUM(a.Peso) as Peso from tblDespProductos a INNER JOIN tblItem b ON a.ItemId = b.ItemId where a.DespachoId = '" + _idDespacho + "' GROUP BY b.ItemFId, a.ItemId, b.Descripcion";
+            string cadena = "select b.ItemFId, a.ItemId, b.Descripcion, SUM(a.Cantidad) as Cantidad, SUM(a.Peso) as Peso from tblDespProductos a INNER JOIN tblItem b ON a.ItemId = b.ItemId where a.DespachoId = '" + _idDespacho + "' GROUP BY b.ItemFId, a.ItemId, b.Descripcion";
             return this.EjecutarConsulta(cadena);
         }
         public DataSet TraerDespProductos(string _idDespacho)
         {
-            string cadena = "select a.ItemId as Codigo, b.Descripcion, a.ProductoId as Paquete, a.Piezas, a.Peso, a.Metros from tblDespProductos a INNER JOIN tblItem b ON a.ItemId = b.ItemId where a.DespachoId = '" + _idDespacho + "'";
+            //string cadena = "select a.ItemId as Codigo, b.Descripcion, a.ProductoId as Paquete, c.Piezas, a.Peso, a.Metros from tblDespProductos a INNER JOIN tblItem b ON a.ItemId = b.ItemId INNER JOIN tblPaquetes c ON a.ProductoId = c.PaqueteId where a.DespachoId = '" + _idDespacho + "'";
+            string cadena = "select a.ItemId as Codigo, b.Descripcion, a.ProductoId as Paquete, c.Piezas, a.Peso, a.Metros from tblDespProductos a INNER JOIN tblItem b ON a.ItemId = b.ItemId INNER JOIN tblPaquetes c ON a.ProductoId = c.PaqueteId where a.DespachoId = '" + _idDespacho + "' group by a.ProductoId, a.ItemId, b.Descripcion, c.Piezas, a.Peso, a.Metros";
             return this.EjecutarConsulta(cadena);
         }
         public DataSet TraerDetalleCerrarDespacho(string _idDespacho)
         {
-            string cadena = "select a.ItemId as Codigo, b.Descripcion, a.ProductoId as Paquete, a.Piezas, a.Peso, a.Metros, b.Calidad, c.CeldaId, c.CentroTrabajo, a.Cantidad from tblDespProductos a INNER JOIN tblItem b ON a.ItemId = b.ItemId INNER JOIN tblPaquetes c ON a.ProductoId = c.PaqueteId where a.DespachoId = '" + _idDespacho + "'";
+            //string cadena = "select a.ItemId as Codigo, b.Descripcion, a.ProductoId as Paquete, a.Piezas, a.Peso, a.Metros, b.Calidad, c.CeldaId, c.CentroTrabajo, a.Cantidad, a.ItemFId from tblDespProductos a INNER JOIN tblItem b ON a.ItemId = b.ItemId INNER JOIN tblPaquetes c ON a.ProductoId = c.PaqueteId where a.DespachoId = '" + _idDespacho + "'";
+            string cadena = "select a.ItemId as Codigo, b.Descripcion, a.ProductoId as Paquete, a.Piezas, a.Peso, a.Metros, b.Calidad, a.CeldaId, a.Cantidad, a.ItemFId from tblDespProductos a INNER JOIN tblItem b ON a.ItemId = b.ItemId where a.DespachoId = '" + _idDespacho + "'";
             return this.EjecutarConsulta(cadena);
         }
         //EditarDespacho
         public int EditarDespacho(DespachoEditar _DespEdit)
         {
-            return EjecutarComando("UPDATE tblDespacho SET Fecha = '" + _DespEdit.p_Fecha.ToString("yyyyMMdd") + "', Id_Camion = " + _DespEdit.p_Id_Camion + ", Placa = '" + _DespEdit.p_Placa + "', Chofer = '" + _DespEdit.p_Chofer + "', CI = '" + _DespEdit.p_CI + "', Obs = '" + _DespEdit.p_Obs + "', SucursalId = " + _DespEdit.p_SucursalId + ", SucDestino = '" + _DespEdit.p_SucDestino + "', Naturaleza = '" + _DespEdit.p_Naturaleza + "' WHERE DespachoId = '" + _DespEdit.p_DespachoId + "'");
+            return EjecutarComando("UPDATE tblDespacho SET Fecha = '" + _DespEdit.p_Fecha.ToString("dd-MM-yyyy") + "', Id_Camion = " + _DespEdit.p_Id_Camion + ", Placa = '" + _DespEdit.p_Placa + "', Chofer = '" + _DespEdit.p_Chofer + "', CI = '" + _DespEdit.p_CI + "', Obs = '" + _DespEdit.p_Obs + "', SucursalId = " + _DespEdit.p_SucursalId + ", SucDestino = '" + _DespEdit.p_SucDestino + "', Naturaleza = '" + _DespEdit.p_Naturaleza + "' WHERE DespachoId = '" + _DespEdit.p_DespachoId + "'");
             //despDet.DespachoId, despDet.ItemId, despDet.Cantidad, despDet.SolPiezasSueltas, despDet.CantConfirmada, despDet.Unidad, despDet.Status, despDet.SucursalId
         }
         //Entrega
@@ -187,7 +228,7 @@ namespace CAD
         }
         public DataSet TraerDespachoTraspaso(string _despachoId)
         {
-            string cadena = "SELECT DespachoId, SucursalId, SucDestino FROM tblDespacho WHERE DespachoId = '" + _despachoId + "' AND STATUS IN('INPROCESS') order by DespachoId";
+            string cadena = "SELECT DespachoId, SucursalId, SucDestino FROM tblDespacho WHERE DespachoId = '" + _despachoId + "' AND STATUS IN('INPROCESS', 'LISTAS') order by DespachoId";
             return this.EjecutarConsulta(cadena);
         }
         public DataSet TraerListaChoferes()
@@ -357,7 +398,7 @@ namespace CAD
         //Sucursal
         public DataSet TraerSucursalesDespacho()
         {
-            string cadena = "select SucursalID, Nombre from empleados.dbo.tblSucursal";
+            string cadena = "select SucursalID, Nombre from empleados.dbo.tblSucursal WHERE Nombre NOT LIKE '%TRN%';";
             return this.EjecutarConsulta(cadena);
         }
         //Lista Cronograma
@@ -396,6 +437,56 @@ namespace CAD
         {
             string cadena = "select * from Sys_Secuencia where Operacion = '" + Tipo + "' and sucursal=" + _idSucursal;
             return this.EjecutarConsulta(cadena);
+        }
+        //CodigoSucursalTransito
+        public DataSet TraerCodigoTransito(int _IdSucursal)
+        {
+            string cadena = "select SucIDTransito from empleados.dbo.tblSucursal where SucursalID = " + _IdSucursal;
+            return this.EjecutarConsulta(cadena);
+        }
+        //TraerNumeroTraspaso
+        public DataSet TraerTraspaso(string _idDespacho)
+        {
+            string cadena = "select NumTraspaso from tblDespacho where DespachoId = '" + _idDespacho + "'";
+            return this.EjecutarConsulta(cadena);
+        }
+        //Reporte Despacho Autorizado
+        public DataSet TraerDespachosAut(string _idDespacho)
+        {
+            string cadena = "SELECT tbldespacho.despachoid, Convert(date,tbldespacho.Fecha) as Fecha, tbldespacho.nroorden,tbldespacho.numtraspaso, tbldespacho.placa,tblcatchofer.nombre +'('+ tblcatchofer.ci +')' as chofer, DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END,    tblDespproductos.ProductoId, tblitem.ItemId + ' (' + tblitem.itemfid + ')' as itemid, tblitem.Descripcion, tblDespproductos.cantidad,tblpaquetes.peso, tblpaquetes.peso,tblpaquetes.CeldaId,tbldespacho.tipo, tbldespacho.obs,tbldespacho.cargador FROM(((tbldespacho inner join tblDespproductos on tblDespacho.DespachoId = tblDespProductos.DespachoId) inner join tblitem on tblDespProductos.ItemId = tblItem.ItemId) inner join tblpaquetes on tblDespProductos.ProductoId = tblPaquetes.PaqueteId) left join tblcatChofer on tbldespacho.ci = tblcatchofer.ci where tbldespacho.despachoid = '" + _idDespacho + "'";
+            return this.EjecutarConsulta(cadena);
+        }
+        //Reporte Orden de Carga
+        public DataSet TraerOrdenCarga(string _idDespacho)
+        {
+            string cadena = "select C.AlmacenId,C.Nave,D.DespachoId,Convert(date,D.Fecha) as fecha,D.NroOrden,D.numtraspaso,D.Placa,CAM.Marca,Ch.Nombre [Chofer], DESTINO = Case D.Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = D.SUCDestino) Else D.Destino END,    D.Login,D.Cargador,'STAND' as tipo,I.itemid,I.descripcion,DP.celdaid,DP.paquetes,DP.paquetes* DP.piezas as piezas,'' as paqueteid from((((TBLDESPACHO D inner join tbldespprogcelda DP on d.despachoid = dp.despachoid) inner join tblitem I on i.itemid = dp.itemid) LEFT join tblceldas C on C.CeldaId = DP.celdaid) Left join tblCatCamion Cam on Cam.Placa = D.Placa) Left Join tblCatChofer CH on Ch.Ci = D.Ci where D.despachoid = '" + _idDespacho + "' " +
+                "Union " +
+                "select C.AlmacenId,C.Nave,D.DespachoId,Convert(date, D.Fecha) as fecha,D.NroOrden,D.numtraspaso,D.Placa,CAM.Marca,CH.Nombre[Chofer], DESTINO = Case D.Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = D.SUCDestino) Else D.Destino END, D.Login,D.Cargador,'SOB' as tipo, I.itemid,I.descripcion,DP.celdaid,1,DP.piezas,DP.paqueteid from((((TBLDESPACHO D inner join tbldespprogsob DP on d.despachoid = dp.despachoid) inner join tblitem I on i.itemid = dp.itemid) left join tblceldas C on C.CeldaId = DP.celdaid) Left join tblCatCamion Cam on Cam.Placa = D.Placa) Left Join tblCatChofer CH on Ch.Ci = D.Ci where D.despachoid = '" + _idDespacho + "'";
+            return this.EjecutarConsulta(cadena);
+        }
+        //Reporte Orden de Entrega
+        public DataSet TraerOrdenEntrega(string _idDespacho, int _idSucursal)
+        {
+            string cadena = "select a.despachoid, b.Fecha_salida, b.Chofer, b.Placa, Destino = Case Naturaleza When 'Traspaso' Then(Select NOMBRE from empleados.dbo.tblSucursal Where SucursalID = a.SUCDestino) Else a.Destino END, d.ProductoId as PaqueteId, e.ItemId + ' (' + e.ItemFId + ')' as Item, e.Descripcion, d.Cantidad, f.Peso, f.CeldaId, b.Estado, b.obs FROM(((tblDespacho a INNER JOIN tblDespProductos d ON a.DespachoId = d.DespachoId) INNER JOIN tblItem e ON d.ItemId = e.ItemId) INNER JOIN tblPaquetes f ON d.ProductoId = f.PaqueteId) LEFT JOIN tblOrdenEntrega b ON a.DespachoId = b.DespachoId Where a.DespachoId = '" + _idDespacho + "' AND f.SucursalId = " + _idSucursal;
+            return this.EjecutarConsulta(cadena);
+        }
+        //Reporte despacho cabecera
+        public DataSet TraerCabeceraDespacho(string _idDespacho)
+        {
+            string cadena = "SELECT tbldespacho.despachoid, Convert(date,tbldespacho.Fecha) as Fecha, tbldespacho.nroorden,tbldespacho.numtraspaso, tbldespacho.placa,tblcatchofer.nombre +'('+ tblcatchofer.ci +')' as chofer, DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.Obs FROM(((tbldespacho inner join tblDespproductos on tblDespacho.DespachoId = tblDespProductos.DespachoId))) left join tblcatChofer on tbldespacho.ci = tblcatchofer.ci where tbldespacho.despachoid = '" + _idDespacho + "'";
+            return this.EjecutarConsulta(cadena);
+        }
+        //Reporte Despacho Detalle por Lote
+        public DataSet TraerDetallePorLote(string _idDespacho)
+        {
+            string cadena = "select a.sLote, b.CeldaId, c.Cantidad, b.Piezas, b.Peso, c.DespachoId from tblAnotacionDet a INNER JOIN tblPaquetes b on a.CodigoBarra = b.PaqueteId INNER JOIN tblDespProductos c ON b.PaqueteId = c.ProductoId WHERE c.DespachoId = '" + _idDespacho + "'";
+            return this.EjecutarConsulta(cadena);
+        }
+        //TraerListaSucursales
+        public DataSet TraerSucursalLista()
+        {
+            string consulta = "select SucursalID, Nombre from tblSucursal where EsTransito = 0";
+            return this.EjecutarConsulta(consulta);
         }
     }
 }

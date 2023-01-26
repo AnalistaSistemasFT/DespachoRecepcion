@@ -11,6 +11,7 @@ using DevExpress.XtraEditors;
 using CRN.Entidades;
 using CRN.Componentes;
 using DevExpress.XtraGrid.Views.Base;
+using WFConsumo.frmGRH.Imprimir;
 
 namespace WFConsumo.frmGRH.DespachoTransito
 {
@@ -226,6 +227,60 @@ namespace WFConsumo.frmGRH.DespachoTransito
             {
                 get { return Peso; }
                 set { Peso = value; }
+            }
+        }
+
+        private void btnImprimirLocaliza_Click(object sender, EventArgs e)
+        {
+            if (gridControl1.CanSelect)
+            {
+                ColumnView view = gridControl1.MainView as ColumnView;
+                int[] row = view.GetSelectedRows();
+                if (row.Length > 0)
+                {
+                    view.FocusedRowHandle = row[0];
+                }
+                try
+                {
+                    IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
+                    if (IdDespacho != "0")
+                    {
+                        string TipoReporte = "ORDENENTREGA";
+                        IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
+                        //var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
+                        //myForm.Show();
+                    }
+                }
+                catch (Exception err)
+                {
+                    XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                    Console.WriteLine("################## = " + err.ToString());
+                }
+            }
+        }
+
+        private void btnImprimir_Click(object sender, EventArgs e)
+        {
+            if (gridControl1.CanSelect)
+            {
+                ColumnView view = gridControl1.MainView as ColumnView;
+                int[] row = view.GetSelectedRows();
+                if (row.Length > 0)
+                {
+                    view.FocusedRowHandle = row[0];
+                }
+                try
+                {
+                    string TipoReporte = "AUTORIZADOS";
+                    IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
+                    //var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
+                    //myForm.Show();
+                }
+                catch (Exception err)
+                {
+                    XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                    Console.WriteLine("################## = " + err.ToString());
+                }
             }
         }
     }

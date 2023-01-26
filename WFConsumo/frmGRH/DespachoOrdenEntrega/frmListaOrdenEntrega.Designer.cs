@@ -68,15 +68,16 @@
             this.Destino = new DevExpress.XtraGrid.Columns.GridColumn();
             this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnImprimirEntrega = new DevExpress.XtraEditors.SimpleButton();
+            this.btnImprimirParcial = new DevExpress.XtraEditors.SimpleButton();
             this.btnControlDespacho = new DevExpress.XtraEditors.SimpleButton();
             this.lbTitle = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.xtraTabControl2 = new DevExpress.XtraTab.XtraTabControl();
-            this.xtraTabPage3 = new DevExpress.XtraTab.XtraTabPage();
-            this.xtraTabPage4 = new DevExpress.XtraTab.XtraTabPage();
+            this.tabDespachos = new DevExpress.XtraTab.XtraTabPage();
+            this.tabEntregas = new DevExpress.XtraTab.XtraTabPage();
             this.gridControl5 = new DevExpress.XtraGrid.GridControl();
             this.gridView6 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.btnImprimirParcial = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
             this.xtraTabControl1.SuspendLayout();
             this.xtraTabPage1.SuspendLayout();
@@ -97,8 +98,8 @@
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl2)).BeginInit();
             this.xtraTabControl2.SuspendLayout();
-            this.xtraTabPage3.SuspendLayout();
-            this.xtraTabPage4.SuspendLayout();
+            this.tabDespachos.SuspendLayout();
+            this.tabEntregas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView6)).BeginInit();
             this.SuspendLayout();
@@ -108,7 +109,7 @@
             this.btnBuscar.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.btnBuscar.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnBuscar.ImageOptions.Image")));
             this.btnBuscar.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnBuscar.Location = new System.Drawing.Point(136, 8);
+            this.btnBuscar.Location = new System.Drawing.Point(176, 8);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(35, 35);
             this.btnBuscar.TabIndex = 68;
@@ -120,7 +121,7 @@
             this.btnVer.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.btnVer.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnVer.ImageOptions.Image")));
             this.btnVer.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnVer.Location = new System.Drawing.Point(54, 8);
+            this.btnVer.Location = new System.Drawing.Point(94, 8);
             this.btnVer.Name = "btnVer";
             this.btnVer.Size = new System.Drawing.Size(35, 35);
             this.btnVer.TabIndex = 67;
@@ -480,6 +481,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(45)))), ((int)(((byte)(60)))));
+            this.panel1.Controls.Add(this.btnImprimirEntrega);
             this.panel1.Controls.Add(this.btnImprimirParcial);
             this.panel1.Controls.Add(this.btnControlDespacho);
             this.panel1.Controls.Add(this.lbTitle);
@@ -493,12 +495,44 @@
             this.panel1.Size = new System.Drawing.Size(1188, 50);
             this.panel1.TabIndex = 79;
             // 
+            // btnImprimirEntrega
+            // 
+            this.btnImprimirEntrega.AppearancePressed.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.btnImprimirEntrega.AppearancePressed.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.btnImprimirEntrega.AppearancePressed.Options.UseBackColor = true;
+            this.btnImprimirEntrega.AppearancePressed.Options.UseForeColor = true;
+            this.btnImprimirEntrega.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.btnImprimirEntrega.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnImprimirEntrega.ImageOptions.Image")));
+            this.btnImprimirEntrega.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.btnImprimirEntrega.Location = new System.Drawing.Point(53, 8);
+            this.btnImprimirEntrega.Name = "btnImprimirEntrega";
+            this.btnImprimirEntrega.Size = new System.Drawing.Size(35, 35);
+            this.btnImprimirEntrega.TabIndex = 88;
+            this.btnImprimirEntrega.ToolTip = "Imprimir Orden de entrega";
+            this.btnImprimirEntrega.Click += new System.EventHandler(this.btnImprimirEntrega_Click);
+            // 
+            // btnImprimirParcial
+            // 
+            this.btnImprimirParcial.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.btnImprimirParcial.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
+            this.btnImprimirParcial.Appearance.Options.UseBackColor = true;
+            this.btnImprimirParcial.Appearance.Options.UseForeColor = true;
+            this.btnImprimirParcial.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.btnImprimirParcial.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnImprimirParcial.ImageOptions.Image")));
+            this.btnImprimirParcial.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.btnImprimirParcial.Location = new System.Drawing.Point(135, 8);
+            this.btnImprimirParcial.Name = "btnImprimirParcial";
+            this.btnImprimirParcial.Size = new System.Drawing.Size(35, 35);
+            this.btnImprimirParcial.TabIndex = 87;
+            this.btnImprimirParcial.ToolTip = "Imprimir Orden parcial";
+            this.btnImprimirParcial.Click += new System.EventHandler(this.btnImprimirParcial_Click);
+            // 
             // btnControlDespacho
             // 
             this.btnControlDespacho.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.btnControlDespacho.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnControlDespacho.ImageOptions.Image")));
             this.btnControlDespacho.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnControlDespacho.Location = new System.Drawing.Point(177, 8);
+            this.btnControlDespacho.Location = new System.Drawing.Point(217, 8);
             this.btnControlDespacho.Name = "btnControlDespacho";
             this.btnControlDespacho.Size = new System.Drawing.Size(35, 35);
             this.btnControlDespacho.TabIndex = 86;
@@ -541,27 +575,28 @@
             this.xtraTabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.xtraTabControl2.Location = new System.Drawing.Point(0, 0);
             this.xtraTabControl2.Name = "xtraTabControl2";
-            this.xtraTabControl2.SelectedTabPage = this.xtraTabPage3;
+            this.xtraTabControl2.SelectedTabPage = this.tabDespachos;
             this.xtraTabControl2.Size = new System.Drawing.Size(1188, 250);
             this.xtraTabControl2.TabIndex = 75;
             this.xtraTabControl2.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
-            this.xtraTabPage3,
-            this.xtraTabPage4});
+            this.tabDespachos,
+            this.tabEntregas});
             this.xtraTabControl2.Transition.TransitionType = pushTransition1;
+            this.xtraTabControl2.SelectedPageChanged += new DevExpress.XtraTab.TabPageChangedEventHandler(this.xtraTabControl2_SelectedPageChanged);
             // 
-            // xtraTabPage3
+            // tabDespachos
             // 
-            this.xtraTabPage3.Controls.Add(this.gridControl1);
-            this.xtraTabPage3.Name = "xtraTabPage3";
-            this.xtraTabPage3.Size = new System.Drawing.Size(1182, 222);
-            this.xtraTabPage3.Text = "Despachos";
+            this.tabDespachos.Controls.Add(this.gridControl1);
+            this.tabDespachos.Name = "tabDespachos";
+            this.tabDespachos.Size = new System.Drawing.Size(1182, 222);
+            this.tabDespachos.Text = "Despachos";
             // 
-            // xtraTabPage4
+            // tabEntregas
             // 
-            this.xtraTabPage4.Controls.Add(this.gridControl5);
-            this.xtraTabPage4.Name = "xtraTabPage4";
-            this.xtraTabPage4.Size = new System.Drawing.Size(1182, 222);
-            this.xtraTabPage4.Text = "Entregas";
+            this.tabEntregas.Controls.Add(this.gridControl5);
+            this.tabEntregas.Name = "tabEntregas";
+            this.tabEntregas.Size = new System.Drawing.Size(1182, 222);
+            this.tabEntregas.Text = "Entregas";
             // 
             // gridControl5
             // 
@@ -582,22 +617,7 @@
             this.gridView6.OptionsBehavior.ReadOnly = true;
             this.gridView6.OptionsSelection.EnableAppearanceFocusedCell = false;
             this.gridView6.OptionsView.ShowGroupPanel = false;
-            // 
-            // btnImprimirParcial
-            // 
-            this.btnImprimirParcial.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            this.btnImprimirParcial.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(31)))), ((int)(((byte)(53)))));
-            this.btnImprimirParcial.Appearance.Options.UseBackColor = true;
-            this.btnImprimirParcial.Appearance.Options.UseForeColor = true;
-            this.btnImprimirParcial.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnImprimirParcial.Enabled = false;
-            this.btnImprimirParcial.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton2.ImageOptions.Image")));
-            this.btnImprimirParcial.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnImprimirParcial.Location = new System.Drawing.Point(95, 8);
-            this.btnImprimirParcial.Name = "btnImprimirParcial";
-            this.btnImprimirParcial.Size = new System.Drawing.Size(35, 35);
-            this.btnImprimirParcial.TabIndex = 87;
-            this.btnImprimirParcial.ToolTip = "Imprimir Orden parcial";
+            this.gridView6.RowCellClick += new DevExpress.XtraGrid.Views.Grid.RowCellClickEventHandler(this.gridView6_RowCellClick);
             // 
             // frmListaOrdenEntrega
             // 
@@ -633,8 +653,8 @@
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl2)).EndInit();
             this.xtraTabControl2.ResumeLayout(false);
-            this.xtraTabPage3.ResumeLayout(false);
-            this.xtraTabPage4.ResumeLayout(false);
+            this.tabDespachos.ResumeLayout(false);
+            this.tabEntregas.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView6)).EndInit();
             this.ResumeLayout(false);
@@ -676,8 +696,8 @@
         private DevExpress.XtraGrid.GridControl gridControl4;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView5;
         private DevExpress.XtraTab.XtraTabControl xtraTabControl2;
-        private DevExpress.XtraTab.XtraTabPage xtraTabPage3;
-        private DevExpress.XtraTab.XtraTabPage xtraTabPage4;
+        private DevExpress.XtraTab.XtraTabPage tabDespachos;
+        private DevExpress.XtraTab.XtraTabPage tabEntregas;
         private DevExpress.XtraGrid.GridControl gridControl5;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView6;
         private DevExpress.XtraGrid.Columns.GridColumn eCodigo;
@@ -690,5 +710,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn ePesoTotal;
         private DevExpress.XtraGrid.Columns.GridColumn ePendiente;
         private DevExpress.XtraEditors.SimpleButton btnImprimirParcial;
+        private DevExpress.XtraEditors.SimpleButton btnImprimirEntrega;
     }
 }

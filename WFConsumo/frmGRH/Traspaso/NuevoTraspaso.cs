@@ -86,7 +86,7 @@ namespace WFConsumo.frmGRH.Traspaso
                     txtTipoDodId.Text = items[0].ToString();
                     txtTipoDodNom.Text = items[1].ToString();
                 }
-                DataSet dataCorr = C_Traspaso.TraerCorrelativo(_idSucursalInf);
+                DataSet dataCorr = C_Traspaso.TraerCorrelativo(txtTipoDodId.Text.Trim());
                 foreach (DataRow items in dataCorr.Tables[0].Rows)
                 {
                     txtTipoDocId.Text = (Convert.ToInt32(items[0])).ToString();

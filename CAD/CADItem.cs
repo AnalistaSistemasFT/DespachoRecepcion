@@ -46,6 +46,9 @@ namespace CAD
             cmdInsert.Parameters["@Piramide"].Value = oItem.Piramide;
             cmdInsert.Parameters["@UnidadesXCelda"].Value = oItem.UnidadesXCelda;
             cmdInsert.Parameters["@UnidadCalculo"].Value = oItem.UnidadCalculo;
+            cmdInsert.Parameters["@Id_DimSeguimiento"].Value = oItem.Id_DimSeguimiento;
+            cmdInsert.Parameters["@Id_TipoGalvanizado"].Value = oItem.Id_TipoGalvanizado;
+            cmdInsert.Parameters["@Caducidad"].Value = oItem.Caducidad;
 
             EjecutarComando(cmdInsert);
         }
@@ -169,10 +172,10 @@ namespace CAD
 
         public DataSet BuscarItems(string _codigoPr, int _idSucursal)
         {
-            string consulta = "SELECT a.ItemId as Codigo, c.ItemFId as ItemFerro, a.Piezas, SUM(a.Piezas) as Stock,a.Peso, SUM(a.Peso) as PesoTotal  " +
-                "FROM tblPaquetes a INNER JOIN tblSucItem b ON a.ItemId = b.ItemId " +
+            string consulta = "SELECT a.ItemId as Codigo, c.ItemFId as ItemFerro, a.Piezas, SUM(a.Piezas) as Stock,c.PesoPaq as Peso, SUM(a.Peso) as PesoTotal  " +
+                "FROM tblPaquetes a INNER JOIN tblSucItem b ON a.ItemId = b.ItemId AND a.SucursalId = b.SucursalId " +
                 "INNER JOIN tblItem c ON a.ItemId = c.Itemid where a.Status = 'ACTIVO' " +
-                "AND b.SucursalId = " + _idSucursal + " AND a.ItemId = '" + _codigoPr + "' group by a.ItemId, c.ItemFId, a.Piezas, a.Peso";
+                "AND b.SucursalId = " + _idSucursal + " AND a.ItemId = '" + _codigoPr + "' group by a.ItemId, c.ItemFId, a.Piezas, c.PesoPaq";
             return this.EjecutarConsulta(consulta);
         }
         public DataSet TraerProductosConItemFid(int _idSucursal)
@@ -182,10 +185,11 @@ namespace CAD
                 "AND b.SucursalId = " + _idSucursal + " group by a.ItemId, c.ItemFId, a.Piezas, c.PesoPaq, c.Descripcion");
             return this.EjecutarConsulta(consulta);
         }
-
-
-
-
+        public DataSet TraerTodoInfo()
+        {
+            string consulta = "SELECT a.DespachoId, a.PaqueteId, a.ItemId ,a.ItemFId, a.Cantidad, a.Peso, b.CeldaId FROM tblOrdenEntregaDetalle a INNER JOIN tblPaquetes b ON a.PaqueteId = b.PaqueteId where a.DespachoId = '5D22000004'";
+            return this.EjecutarConsulta(consulta);
+        }
         //public DataSet TraerTodoItems(int sucursal)
         //{
         //    string consulta = "Select * from tblItem where TIPOORDEN='PRODUCCION' AND status='" + estado + "' and SucursalID=" + sucursal;
@@ -219,6 +223,15 @@ namespace CAD
                 return 1;
             else
                 return 0;
+
+        }
+        public DataSet TraerItemF(string Item)
+        {
+            string sError = string.Empty;
+            string sInsert = @"select * from tblItem  where ItemFid = '{0}'";
+            sInsert = string.Format(sInsert, Item);
+            DataSet dts = EjecutarConsulta(sInsert);
+            return dts;
 
         }
     }

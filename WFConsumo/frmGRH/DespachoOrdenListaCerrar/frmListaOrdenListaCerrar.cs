@@ -36,6 +36,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
         CMovDespacho C_MovDespacho;
         CPaquetes C_Paquetes;
         CLogError C_LogError;
+        int _idDestino = 0;
 
         public frmListaOrdenListaCerrar(Usuario user, int sucursalId)
         {
@@ -49,6 +50,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
             C_Paquetes = new CPaquetes();
             C_LogError = new CLogError();
             TraerData();
+            TraerDestino();
         }
         private void TraerData()
         {
@@ -63,7 +65,23 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
                 XtraMessageBox.Show("Problemas con la conexion", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
             }
-        }       
+        }
+        public void TraerDestino()
+        {
+            try
+            {
+                DataSet dataDest = C_Despacho.TraerDestinoId(_idDespacho);
+                foreach (DataRow item in dataDest.Tables[0].Rows)
+                {
+                    _idDestino = Convert.ToInt32(item[0]);
+                }
+            }
+            catch (Exception err)
+            {
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
+            }
+        }
         private void gridView4_RowCellClick(object sender, DevExpress.XtraGrid.Views.Grid.RowCellClickEventArgs e)
         {
             try
@@ -340,17 +358,17 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
                             dr["Cantidad"] = Convert.ToInt32(item[9]);
                             dtsDetalle.Rows.Add(dr);
                         }
-                        a = C_MovDespacho.CerrarDespacho(dtsDetalle, detPaqRoto, _idSucursal, DespachoId);
-                        if (a > 0)
-                        {
-                            TraerData();
-                            XtraMessageBox.Show("Orden cerrada", "Cerrar despacho");
-                        }
-                        else
-                        {
-                            XtraMessageBox.Show("Problemas con la conexion", "Error");
-                            Console.WriteLine("####################### = A = 0");
-                        }
+                        //a = C_MovDespacho.CerrarDespacho(dtsDetalle, detPaqRoto, _idSucursal, DespachoId, _idDestino);
+                        //if (a > 0)
+                        //{
+                        //    TraerData();
+                        //    XtraMessageBox.Show("Orden cerrada", "Cerrar despacho");
+                        //}
+                        //else
+                        //{
+                        //    XtraMessageBox.Show("Problemas con la conexion", "Error");
+                        //    Console.WriteLine("####################### = A = 0");
+                        //}
                     }
                     else
                     {
@@ -390,10 +408,15 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
                 }
                 try
                 {
-                    string TipoReporte = "AUTORIZADOS";
                     IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
-                    var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
-                    myForm.Show();
+                    DataSet _despachosAut = C_Despacho.TraerDespachosAut(IdDespacho);
+                    DespachosAutorizados _despAut = new DespachosAutorizados();
+                    _despAut.SetDataSource(_despachosAut.Tables[0]);
+                    frmReportViewer viwer = new frmReportViewer(_despAut);
+                    viwer.Width = 1000;
+                    viwer.Height = 800;
+                    viwer.StartPosition = FormStartPosition.CenterScreen;
+                    viwer.ShowDialog();
                 }
                 catch (Exception err)
                 {
@@ -417,10 +440,15 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
                     IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
                     if (IdDespacho != "0")
                     {
-                        string TipoReporte = "ORDENCARGA";
                         IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
-                        var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
-                        myForm.Show();
+                        DataSet _despOrdenCarga = C_Despacho.TraerOrdenCarga(IdDespacho);
+                        OrdenCargaParcial _ordCarga = new OrdenCargaParcial();
+                        _ordCarga.SetDataSource(_despOrdenCarga.Tables[0]);
+                        frmReportViewer viwer = new frmReportViewer(_ordCarga);
+                        viwer.Width = 1000;
+                        viwer.Height = 800;
+                        viwer.StartPosition = FormStartPosition.CenterScreen;
+                        viwer.ShowDialog();
                     }
                 }
                 catch (Exception err)
@@ -718,6 +746,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
                     IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
                     string Placa = view.GetRowCellDisplayText(row[0], view.Columns[3]);
                     string Chofer = view.GetRowCellDisplayText(row[0], view.Columns[5]);
+                    string _Naturaleza = view.GetRowCellDisplayText(row[0], view.Columns[6]);
                     if (IdDespacho != "0")
                     {
                         if (_listEntrega.Count > 0)
@@ -727,7 +756,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
                             ////form20.Owner = this;
                             //form20.Show(this);
 
-                            CrearEntregaC f2 = new CrearEntregaC(IdDespacho, _idSucursal, Placa, Chofer, _listEntrega, _pesoTotal, _login, envio);
+                            CrearEntregaC f2 = new CrearEntregaC(IdDespacho, _idSucursal, Placa, Chofer, _listEntrega, _pesoTotal, _login, envio, _Naturaleza);
                             f2.FormClosed += F2_FormClosed;
                             f2.Show();
 
@@ -798,6 +827,52 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
                 {
                     XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                     Console.WriteLine("################## = " + err.ToString());
+                }
+            }
+        }
+        private void btnNuevoTrasp_Click(object sender, EventArgs e)
+        {
+            if (gridControl1.CanSelect)
+            {
+                ColumnView view = gridControl1.MainView as ColumnView;
+                int[] row = view.GetSelectedRows();
+                if (row.Length > 0)
+                {
+                    view.FocusedRowHandle = row[0];
+                }
+                try
+                {
+                    IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
+                    string _Trasp = view.GetRowCellDisplayText(row[0], view.Columns[8]);
+                    int _tieneTrasp = 0;
+                    if (IdDespacho != "0")
+                    {
+                        if (_Trasp == "0000" || _Trasp == string.Empty || _Trasp == " ")
+                        {
+                            _tieneTrasp = 0;
+                            _Trasp = "0000";
+                        }
+                        else
+                        {
+                            _tieneTrasp = 1;
+                            _Trasp = view.GetRowCellDisplayText(row[0], view.Columns[8]);
+                        }
+                        try
+                        {
+                            var myForm = new AgregarTraspaso(IdDespacho, _idSucursal, _tieneTrasp, _Trasp);
+                            myForm.Show();
+                        }
+                        catch (Exception err)
+                        {
+                            XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                            Console.WriteLine("########################### = " + err.ToString());
+                        }
+                    }
+                }
+                catch (Exception err)
+                {
+                    XtraMessageBox.Show("Seleccione un despacho de la lista e intentelo de nuevo");
+                    Console.WriteLine("################ = " + err.ToString());
                 }
             }
         }

@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CADAlmacen.cs" />
     <Compile Include="CADCamion.cs" />
     <Compile Include="CADCatalogoProducto.cs" />
     <Compile Include="CADCatTablaDetalle.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="CADEntregaMecanizado.cs" />
     <Compile Include="CADInformix.cs" />
     <Compile Include="CADItem.cs" />
+    <Compile Include="CADLocalizacion.cs" />
     <Compile Include="CADLogError.cs" />
     <Compile Include="CADMateriaPrima.cs" />
     <Compile Include="CADModFechaFMec.cs" />

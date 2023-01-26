@@ -129,8 +129,8 @@ namespace WFConsumo.Recepcion
                 txtPesoBal.Text = dtsPacking.Tables[0].Rows[0]["Peso"].ToString();
                 txtPiezas.Text = dtsPacking.Tables[0].Rows[0]["Piezas"].ToString();
                 cbCelda.SelectedValue = dtsPacking.Tables[0].Rows[0]["CeldaId"].ToString();
-                DataSet dtsFabricante = oFabricante.SelectFabricantePorNombre(dtsPacking.Tables[0].Rows[0]["Fabricante"].ToString());
-                cbFabricante.SelectedValue = dtsFabricante.Tables[0].Rows[0]["ProveedorId"].ToString();
+                //DataSet dtsFabricante = oFabricante.SelectFabricantePorNombre(dtsPacking.Tables[0].Rows[0]["Fabricante"].ToString());
+                //cbFabricante.SelectedValue = dtsFabricante.Tables[0].Rows[0]["ProveedorId"].ToString();
                 //txtObs.Text = dtsPacking.Tables[0].Rows[0]["CeldaId"].ToString();
                 CAD.CADItem oItem = new CAD.CADItem();
                 DataSet dtsItemP = oItem.BuscarItemFerro(dtsPacking.Tables[0].Rows[0]["ItemId"].ToString());
@@ -233,6 +233,11 @@ namespace WFConsumo.Recepcion
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

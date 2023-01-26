@@ -27,7 +27,7 @@ namespace CAD
         {
             DbCommand cmdInsert = Adapter.InsertCommand;
             cmdInsert.Parameters["@RecepcionId"].Value = oRecepcionProducto.RecepcionId;
-            cmdInsert.Parameters["@ProductoId"].Value = NuevoNumero(oRecepcionProducto.Fecha, oRecepcionProducto.SucursalId);
+            cmdInsert.Parameters["@ProductoId"].Value = oRecepcionProducto.ProductoId;//NuevoNumero(oRecepcionProducto.Fecha, oRecepcionProducto.SucursalId);
             cmdInsert.Parameters["@Fabricante"].Value = oRecepcionProducto.Fabricante;
             cmdInsert.Parameters["@ItemId"].Value = oRecepcionProducto.ItemId;
             cmdInsert.Parameters["@Piezas"].Value = oRecepcionProducto.Piezas;
@@ -37,7 +37,7 @@ namespace CAD
             cmdInsert.Parameters["@AlmacenId"].Value = oRecepcionProducto.AlmacenId;
             cmdInsert.Parameters["@CeldaId"].Value = oRecepcionProducto.CeldaId;
             cmdInsert.Parameters["@Fecha"].Value = oRecepcionProducto.Fecha;
-            cmdInsert.Parameters["@Correlativo"].Value = UltimoNumero(oRecepcionProducto.Fecha.Year, oRecepcionProducto.SucursalId) + 1;
+            cmdInsert.Parameters["@Correlativo"].Value = oRecepcionProducto.Correlativo;//UltimoNumero(oRecepcionProducto.Fecha.Year, oRecepcionProducto.SucursalId) + 1;
             cmdInsert.Parameters["@Login"].Value = oRecepcionProducto.Login;
             cmdInsert.Parameters["@Status"].Value = oRecepcionProducto.Status;
             cmdInsert.Parameters["@CodPackList"].Value = oRecepcionProducto.CodPackList;
@@ -45,6 +45,7 @@ namespace CAD
             cmdInsert.Parameters["@PesoBrutoProveedor"].Value = oRecepcionProducto.PesoBrutoProveedor;
             cmdInsert.Parameters["@EsDeCliente"].Value = oRecepcionProducto.EsDeCliente;
             cmdInsert.Parameters["@Id_TipoObservacion"].Value = oRecepcionProducto.Id_TipoObservacion;
+            cmdInsert.Parameters["@FechaVenc"].Value = oRecepcionProducto.FechaVenc;
             EjecutarComando(cmdInsert);
         }
 

@@ -32,7 +32,6 @@
             this.txtAnchoPaq = new System.Windows.Forms.NumericUpDown();
             this.txtPesoPaq = new System.Windows.Forms.NumericUpDown();
             this.txtNumPieza = new System.Windows.Forms.NumericUpDown();
-            this.txtCapacidadKg = new System.Windows.Forms.NumericUpDown();
             this.label17 = new System.Windows.Forms.Label();
             this.txtCaducidad = new System.Windows.Forms.TextBox();
             this.cbcalidad = new System.Windows.Forms.ComboBox();
@@ -57,7 +56,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.cbum = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnAceptar = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label20 = new System.Windows.Forms.Label();
@@ -74,21 +73,26 @@
             this.label14 = new System.Windows.Forms.Label();
             this.cbumf = new System.Windows.Forms.ComboBox();
             this.txtitemf = new System.Windows.Forms.TextBox();
+            this.txtespesor = new System.Windows.Forms.NumericUpDown();
+            this.label21 = new System.Windows.Forms.Label();
+            this.txtCapacidadKg = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtAnchoPaq)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPesoPaq)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNumPieza)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCapacidadKg)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.Ferrotodo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtespesor)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.txtCapacidadKg);
+            this.panel1.Controls.Add(this.label21);
+            this.panel1.Controls.Add(this.txtespesor);
             this.panel1.Controls.Add(this.txtAnchoPaq);
             this.panel1.Controls.Add(this.txtPesoPaq);
             this.panel1.Controls.Add(this.txtNumPieza);
-            this.panel1.Controls.Add(this.txtCapacidadKg);
             this.panel1.Controls.Add(this.label17);
             this.panel1.Controls.Add(this.txtCaducidad);
             this.panel1.Controls.Add(this.cbcalidad);
@@ -113,7 +117,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(5, 9);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(599, 224);
+            this.panel1.Size = new System.Drawing.Size(599, 246);
             this.panel1.TabIndex = 0;
             // 
             // txtAnchoPaq
@@ -136,13 +140,6 @@
             this.txtNumPieza.Name = "txtNumPieza";
             this.txtNumPieza.Size = new System.Drawing.Size(120, 20);
             this.txtNumPieza.TabIndex = 29;
-            // 
-            // txtCapacidadKg
-            // 
-            this.txtCapacidadKg.Location = new System.Drawing.Point(126, 71);
-            this.txtCapacidadKg.Name = "txtCapacidadKg";
-            this.txtCapacidadKg.Size = new System.Drawing.Size(120, 20);
-            this.txtCapacidadKg.TabIndex = 28;
             // 
             // label17
             // 
@@ -367,19 +364,19 @@
             this.cbum.Size = new System.Drawing.Size(147, 23);
             this.cbum.TabIndex = 6;
             // 
-            // button1
+            // btnAceptar
             // 
-            this.button1.Location = new System.Drawing.Point(222, 413);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(55, 21);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Aceptar";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnAceptar.Location = new System.Drawing.Point(222, 435);
+            this.btnAceptar.Name = "btnAceptar";
+            this.btnAceptar.Size = new System.Drawing.Size(55, 21);
+            this.btnAceptar.TabIndex = 3;
+            this.btnAceptar.Text = "Aceptar";
+            this.btnAceptar.UseVisualStyleBackColor = true;
+            this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(283, 413);
+            this.button2.Location = new System.Drawing.Point(283, 435);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(55, 21);
             this.button2.TabIndex = 4;
@@ -398,7 +395,7 @@
             this.groupBox1.Controls.Add(this.cbum);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(6, 239);
+            this.groupBox1.Location = new System.Drawing.Point(6, 261);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(596, 84);
             this.groupBox1.TabIndex = 5;
@@ -479,7 +476,7 @@
             this.Ferrotodo.Controls.Add(this.cbumf);
             this.Ferrotodo.Controls.Add(this.txtitemf);
             this.Ferrotodo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Ferrotodo.Location = new System.Drawing.Point(8, 329);
+            this.Ferrotodo.Location = new System.Drawing.Point(8, 351);
             this.Ferrotodo.Name = "Ferrotodo";
             this.Ferrotodo.Size = new System.Drawing.Size(596, 78);
             this.Ferrotodo.TabIndex = 6;
@@ -541,15 +538,40 @@
             this.txtitemf.TabIndex = 29;
             this.txtitemf.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtitemf_KeyPress);
             // 
+            // txtespesor
+            // 
+            this.txtespesor.Location = new System.Drawing.Point(126, 213);
+            this.txtespesor.Name = "txtespesor";
+            this.txtespesor.Size = new System.Drawing.Size(167, 20);
+            this.txtespesor.TabIndex = 32;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(50, 218);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(63, 15);
+            this.label21.TabIndex = 33;
+            this.label21.Text = "Espesor:";
+            // 
+            // txtCapacidadKg
+            // 
+            this.txtCapacidadKg.Location = new System.Drawing.Point(126, 70);
+            this.txtCapacidadKg.MaxLength = 3;
+            this.txtCapacidadKg.Name = "txtCapacidadKg";
+            this.txtCapacidadKg.Size = new System.Drawing.Size(120, 20);
+            this.txtCapacidadKg.TabIndex = 34;
+            // 
             // frmABMItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(614, 449);
+            this.ClientSize = new System.Drawing.Size(614, 466);
             this.Controls.Add(this.Ferrotodo);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnAceptar);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -561,11 +583,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtAnchoPaq)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPesoPaq)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNumPieza)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtCapacidadKg)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.Ferrotodo.ResumeLayout(false);
             this.Ferrotodo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtespesor)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -581,7 +603,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtitem;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnAceptar;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ComboBox cbcalidad;
         private System.Windows.Forms.ComboBox cbtipogalva;
@@ -617,6 +639,8 @@
         private System.Windows.Forms.NumericUpDown txtAnchoPaq;
         private System.Windows.Forms.NumericUpDown txtPesoPaq;
         private System.Windows.Forms.NumericUpDown txtNumPieza;
-        private System.Windows.Forms.NumericUpDown txtCapacidadKg;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.NumericUpDown txtespesor;
+        private System.Windows.Forms.TextBox txtCapacidadKg;
     }
 }

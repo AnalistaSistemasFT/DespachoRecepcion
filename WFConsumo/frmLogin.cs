@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Reflection;
+using System.Deployment.Application;
 
 namespace WFConsumo
 {
@@ -23,6 +25,27 @@ namespace WFConsumo
         {
             InitializeComponent();
             user = new CUsuario();
+            TraerVersion();
+        }
+        public void TraerVersion()
+        {
+            try
+            {
+                if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
+                {
+                    Version ver = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion;
+                    txtVersion.Text = string.Format("Versión: {0}.{1}.{2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision, Assembly.GetEntryAssembly().GetName().Name);
+                }
+                else
+                {
+                    var ver = Assembly.GetExecutingAssembly().GetName().Version;
+                    txtVersion.Text = string.Format("Version: {0}.{1}.{2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision, Assembly.GetEntryAssembly().GetName().Name);
+                }
+            }
+            catch(Exception err)
+            {
+                Console.WriteLine("################### = " + err.ToString());
+            }
         }
         [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
         private extern static void ReleaseCapture();
@@ -141,7 +164,7 @@ namespace WFConsumo
         }
 
         private void buttonX3_Click(object sender, EventArgs e)
-        {
+        { 
             //this.txtpas.pas
             if (!ver)
             {

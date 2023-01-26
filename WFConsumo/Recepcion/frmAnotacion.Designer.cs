@@ -34,6 +34,8 @@ namespace WFConsumo.Recepcion
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.txtpropietario = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnChofer = new System.Windows.Forms.Button();
             this.btnPlaca = new System.Windows.Forms.Button();
             this.cbcelda = new System.Windows.Forms.ComboBox();
@@ -62,7 +64,9 @@ namespace WFConsumo.Recepcion
             this.label1 = new System.Windows.Forms.Label();
             this.griddetalle = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnArchivo = new System.Windows.Forms.Button();
+            this.cbHojas = new System.Windows.Forms.ComboBox();
+            this.label13 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -139,6 +143,10 @@ namespace WFConsumo.Recepcion
             // splitContainer2.Panel1
             // 
             this.splitContainer2.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.splitContainer2.Panel1.Controls.Add(this.label13);
+            this.splitContainer2.Panel1.Controls.Add(this.cbHojas);
+            this.splitContainer2.Panel1.Controls.Add(this.btnArchivo);
+            this.splitContainer2.Panel1.Controls.Add(this.txtpropietario);
             this.splitContainer2.Panel1.Controls.Add(this.button1);
             this.splitContainer2.Panel1.Controls.Add(this.btnChofer);
             this.splitContainer2.Panel1.Controls.Add(this.btnPlaca);
@@ -175,6 +183,23 @@ namespace WFConsumo.Recepcion
             this.splitContainer2.SplitterDistance = 212;
             this.splitContainer2.TabIndex = 0;
             // 
+            // txtpropietario
+            // 
+            this.txtpropietario.Location = new System.Drawing.Point(419, 49);
+            this.txtpropietario.Name = "txtpropietario";
+            this.txtpropietario.Size = new System.Drawing.Size(217, 21);
+            this.txtpropietario.TabIndex = 28;
+            // 
+            // button1
+            // 
+            this.button1.BackgroundImage = global::WFConsumo.Properties.Resources.insert;
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button1.Location = new System.Drawing.Point(600, 173);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(31, 23);
+            this.button1.TabIndex = 27;
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // btnChofer
             // 
             this.btnChofer.BackgroundImage = global::WFConsumo.Properties.Resources.insert;
@@ -208,20 +233,20 @@ namespace WFConsumo.Recepcion
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Open Sans Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.Location = new System.Drawing.Point(401, 176);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(62, 20);
+            this.label12.Size = new System.Drawing.Size(63, 18);
             this.label12.TabIndex = 23;
             this.label12.Text = "*Celda:";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Open Sans Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(10, 176);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(102, 20);
+            this.label11.Size = new System.Drawing.Size(104, 18);
             this.label11.TabIndex = 22;
             this.label11.Text = "* Fabricante:";
             // 
@@ -245,11 +270,11 @@ namespace WFConsumo.Recepcion
             // 
             this.cbprocedencia.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbprocedencia.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.cbprocedencia.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbprocedencia.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbprocedencia.FormattingEnabled = true;
             this.cbprocedencia.Location = new System.Drawing.Point(419, 47);
             this.cbprocedencia.Name = "cbprocedencia";
-            this.cbprocedencia.Size = new System.Drawing.Size(178, 25);
+            this.cbprocedencia.Size = new System.Drawing.Size(178, 23);
             this.cbprocedencia.TabIndex = 19;
             // 
             // cbchofer
@@ -264,10 +289,10 @@ namespace WFConsumo.Recepcion
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Open Sans Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(53, 72);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(40, 20);
+            this.label9.Size = new System.Drawing.Size(41, 18);
             this.label9.TabIndex = 17;
             this.label9.Text = "* CI:";
             // 
@@ -295,6 +320,7 @@ namespace WFConsumo.Recepcion
             this.cbxcliente.Size = new System.Drawing.Size(15, 14);
             this.cbxcliente.TabIndex = 14;
             this.cbxcliente.UseVisualStyleBackColor = true;
+            this.cbxcliente.CheckedChanged += new System.EventHandler(this.cbxcliente_CheckedChanged);
             // 
             // dtpfecha
             // 
@@ -331,90 +357,90 @@ namespace WFConsumo.Recepcion
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Open Sans Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(6, 152);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(111, 20);
+            this.label10.Size = new System.Drawing.Size(115, 18);
             this.label10.TabIndex = 9;
             this.label10.Text = "*Observacion:";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Open Sans Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(326, 99);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(81, 20);
+            this.label8.Size = new System.Drawing.Size(83, 18);
             this.label8.TabIndex = 7;
             this.label8.Text = "* Camion:";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Open Sans Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(329, 71);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(74, 20);
+            this.label7.Size = new System.Drawing.Size(76, 18);
             this.label7.TabIndex = 6;
             this.label7.Text = "* Chofer:";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Open Sans Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(301, 47);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(113, 20);
+            this.label6.Size = new System.Drawing.Size(119, 18);
             this.label6.TabIndex = 5;
             this.label6.Text = "* Procedencia:";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Open Sans Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(331, 22);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(68, 20);
+            this.label5.Size = new System.Drawing.Size(71, 18);
             this.label5.TabIndex = 4;
             this.label5.Text = "* Fecha:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Open Sans Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(15, 125);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(103, 20);
+            this.label4.Size = new System.Drawing.Size(103, 18);
             this.label4.TabIndex = 3;
             this.label4.Text = "* Manifiesto:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Open Sans Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(40, 97);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 20);
+            this.label3.Size = new System.Drawing.Size(55, 18);
             this.label3.TabIndex = 2;
             this.label3.Text = "Placa:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Open Sans Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(1, 51);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(118, 20);
+            this.label2.Size = new System.Drawing.Size(125, 18);
             this.label2.TabIndex = 1;
             this.label2.Text = "* Es de Cliente:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Open Sans Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(15, 25);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(99, 20);
+            this.label1.Size = new System.Drawing.Size(100, 18);
             this.label1.TabIndex = 0;
             this.label1.Text = "* Anotacion:";
             // 
@@ -435,16 +461,35 @@ namespace WFConsumo.Recepcion
             this.gridView1.GridControl = this.griddetalle;
             this.gridView1.Name = "gridView1";
             this.gridView1.OptionsSelection.MultiSelect = true;
+            this.gridView1.OptionsView.ShowFooter = true;
             // 
-            // button1
+            // btnArchivo
             // 
-            this.button1.BackgroundImage = global::WFConsumo.Properties.Resources.insert;
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button1.Location = new System.Drawing.Point(600, 173);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(31, 23);
-            this.button1.TabIndex = 27;
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnArchivo.Location = new System.Drawing.Point(732, 178);
+            this.btnArchivo.Name = "btnArchivo";
+            this.btnArchivo.Size = new System.Drawing.Size(109, 23);
+            this.btnArchivo.TabIndex = 29;
+            this.btnArchivo.Text = "Seleccionar Archivo";
+            this.btnArchivo.UseVisualStyleBackColor = true;
+            this.btnArchivo.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // cbHojas
+            // 
+            this.cbHojas.FormattingEnabled = true;
+            this.cbHojas.Location = new System.Drawing.Point(939, 178);
+            this.cbHojas.Name = "cbHojas";
+            this.cbHojas.Size = new System.Drawing.Size(121, 21);
+            this.cbHojas.TabIndex = 30;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(860, 181);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(73, 18);
+            this.label13.TabIndex = 31;
+            this.label13.Text = "*Hojas$:";
             // 
             // frmAnotacion
             // 
@@ -509,5 +554,9 @@ namespace WFConsumo.Recepcion
         private System.Windows.Forms.Button btnChofer;
         private System.Windows.Forms.Button btnPlaca;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox txtpropietario;
+        private System.Windows.Forms.Button btnArchivo;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ComboBox cbHojas;
     }
 }

@@ -48,7 +48,7 @@ namespace WFConsumo.frmGRH.DespachoVentaCerrada
         {
             try
             {
-                DataSet dataLista = C_Despacho.TraerDespachoCerrado(_idSucursal);
+                DataSet dataLista = C_Despacho.TraerDespachoCerradoVenta(_idSucursal);
                 dataT = dataLista.Tables[0];
                 this.gridControl1.DataSource = dataT;
             }
@@ -71,8 +71,8 @@ namespace WFConsumo.frmGRH.DespachoVentaCerrada
                 {
                     string TipoReporte = "AUTORIZADOS";
                     IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
-                    var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
-                    myForm.Show();
+                    //var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
+                    //myForm.Show();
                 }
                 catch (Exception err)
                 {
@@ -98,8 +98,8 @@ namespace WFConsumo.frmGRH.DespachoVentaCerrada
                     {
                         string TipoReporte = "ORDENCARGA";
                         IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
-                        var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
-                        myForm.Show();
+                        //var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
+                        //myForm.Show();
                     }
                 }
                 catch (Exception err)

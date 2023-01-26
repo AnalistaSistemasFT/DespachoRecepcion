@@ -16,6 +16,7 @@ using DevExpress.XtraGrid.Views.BandedGrid;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using WFConsumo.frmGRH.DespachoOrdenEntrega;
+using WFConsumo.frmGRH.Imprimir;
 
 namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
 { 
@@ -32,6 +33,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
         CPaquetes C_Paquete;
         CDespProductos C_DespProducto;
         CMovDespacho C_MovDespacho;
+        CInformix C_Informix;
         DataTable dataDet = new DataTable();
         List<string> _choferNom = new List<string>();
         List<int> _idCam = new List<int>();
@@ -41,8 +43,17 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
         public List<ItemEntrega> _listCheckPend = new List<ItemEntrega>();
         string _envio = string.Empty;
         frmListaOrdenListaCerrar _frmParent;
+        string Naturaleza = string.Empty;
+        int _ordenVenta = 0;
+        int _nroOrden = 0;
+        int _titDoc = 0;
+        int _tinDoc = 0;
+        decimal _CorrEntreg = 0;
+        decimal _tipoDocEntreg = 0;
+        string _sctidevo = string.Empty;
+        string _horActual = string.Empty;
 
-        public CrearEntregaC(string IdDespacho, int _idSucursal, string Placa, string Chofer, List<ItemEntrega> itemEntregas, decimal _pesoTotal, string _login, string envio)
+        public CrearEntregaC(string IdDespacho, int _idSucursal, string Placa, string Chofer, List<ItemEntrega> itemEntregas, decimal _pesoTotal, string _login, string envio, string _Naturaleza)
         {
             InitializeComponent();
             _idDespacho = IdDespacho;
@@ -56,6 +67,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
             C_Paquete = new CPaquetes();
             C_DespProducto = new CDespProductos();
             C_MovDespacho = new CMovDespacho();
+            C_Informix = new CInformix();
             //TraerData();
             TraerDestino();
             TraerDataChofer();
@@ -67,6 +79,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
             _Login = _login;
             //CerrarDespacho();
             _envio = envio;
+            Naturaleza = _Naturaleza;
         }
 
         public class ProductosEnvio
@@ -125,6 +138,58 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
                 Console.WriteLine("####################### = " + err.ToString());
             }
         }
+        public void TraerDataInformix()
+        {
+            try
+            {
+                //traer correlativo
+                DataSet _listCorr = C_Informix.TraerCorrelativoCierre(_idSuc);
+                foreach(DataRow item in _listCorr.Tables[0].Rows)
+                {
+                    _CorrEntreg = Convert.ToDecimal(item[0]);
+                }
+                //traer tipo documento de entrega
+                decimal _tipoFact = 0;
+                DataSet traerTipofactu = C_Informix.TraerTipoFactu(_idSuc);
+                foreach(DataRow item in traerTipofactu.Tables[0].Rows)
+                {
+                    _tipoFact = Convert.ToDecimal(item[0]);
+                }
+                _tipoDocEntreg = 0;
+                if(_tipoFact > 0)
+                {
+                    DataSet traerDocEnt = C_Informix.TraerTipoDocEntrega(_tipoFact);
+                    foreach (DataRow item in traerDocEnt.Tables[0].Rows)
+                    {
+                        _tipoDocEntreg = Convert.ToInt32(item[0]);
+                    }
+                }
+                //traer OV-Traspaso
+                DataSet traerOVTrasp = C_Despacho.TraerTraspaso(_idDespacho);
+                foreach(DataRow item in traerOVTrasp.Tables[0].Rows)
+                {
+                    _ordenVenta = Convert.ToInt32(item[0]);
+                }
+                //traer sctipdoc
+                DataSet traerTipDoc = C_Informix.TraerScTipoDoc(_idSuc);
+                foreach(DataRow item in traerTipDoc.Tables[0].Rows)
+                {
+                    _nroOrden = Convert.ToInt32(item[0]);
+                }
+                //generar SCTIDEVO
+                string _ov = _ordenVenta.ToString("D5");
+                string _nOrd = _nroOrden.ToString("D6");
+                _sctidevo = _ov + _nOrd;
+                //traer contado/credito
+
+                //traer fecha/hora
+                _horActual = DateTime.Now.ToString("HH:mm:ss");
+            }
+            catch (Exception err)
+            { 
+                Console.WriteLine("####################### = " + err.ToString());
+            }
+        }
         public void CerrarDespacho()
         {
             try
@@ -133,6 +198,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
                 DialogResult dialogResult = XtraMessageBox.Show("¿Cerrar despacho?", "Salir", MessageBoxButtons.YesNo);
                 if (dialogResult == System.Windows.Forms.DialogResult.Yes)
                 {
+                    TraerDataInformix();
                     int a = 0;
                     //dtsDetalle
                     DataTable dtsDetalle = new DataTable();
@@ -174,6 +240,35 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
                     DataRow dr = null;
                     DataRow drpaRt = null;
                     PaquetesRotos _paqRoto = new PaquetesRotos();
+                    ////////////////////////////////////////
+                    //scentrega
+                    scentreg_inf _scent = new scentreg_inf();
+                    _scent.p_sctitdoc = _tipoDocEntreg; //TipoDocumento del documento de entrega (98900 contado - 98901 credito)
+                    _scent.p_sctindoc = _CorrEntreg; //Correlativo
+                    _scent.p_sctictra = 10003; //tipo de transaccion documento valor fijo / traer de _sctidevo - sctffopa
+                    _scent.p_sctifdoc = DateTime.Now; //fecha documento trae de orden de venta
+                    _scent.p_sctifreg = DateTime.Now; //fecha actual
+                    _scent.p_scticsuc = _idSuc; //Sucursal de salida
+                    _scent.p_sctidevo = _sctidevo; //tipodoc(OV 5digitos)+nrodoc(6digitos)
+                    _scent.p_schraent = _horActual; //Hora entrega
+                    _scent.p_sctipdoc = _nroOrden; //sccodfin de tabcon (9003 ej)
+                    _scent.p_scnrodoc = _ordenVenta; //NumeroDocumento (ORDEN DE VENTA-NUMERO TRASPASO)
+
+                    DataTable dtsSCdetent = new DataTable();
+                    dtsSCdetent.Columns.Add("scmvtdoc"); //TipoDocumento
+                    dtsSCdetent.Columns.Add("scmvndoc"); //NumeroDocumento (ORDEN DE VENTA)
+                    dtsSCdetent.Columns.Add("scmvnart"); //ItemFerro
+                    dtsSCdetent.Columns.Add("scmvctra"); //tipo de transaccion documento valor fijo / 13001 - CONTADO - 1 / 13002 - CREDITO - 2
+                    dtsSCdetent.Columns.Add("scmvfdoc"); //fecha documento trae de orden de venta
+                    dtsSCdetent.Columns.Add("scmvfreg"); //fecha actual
+                    dtsSCdetent.Columns.Add("scmvcsuc"); //Sucursal de salida
+                    dtsSCdetent.Columns.Add("scmvcorr"); //Correlativo - No colocar en el insert
+                    dtsSCdetent.Columns.Add("scmvcmov"); //7002
+                    dtsSCdetent.Columns.Add("scmvcant"); //Cantidad
+
+                    DataRow drEnt = null;
+                    DataRow drDetEnt = null;
+                    ////////////////////////////////////////
                     DataSet detalleCerrar = C_Despacho.TraerDetalleCerrarDespacho(_idDespacho);
                     if (detalleCerrar.Tables[0].Rows.Count > 0)
                     {
@@ -227,12 +322,25 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
                             dr["Metros"] = item[5];
                             dr["Calidad"] = item[6];
                             dr["CeldaId"] = item[7];
-                            dr["CentroTrabajo"] = item[8];
+                            dr["CentroTrabajo"] = "NN";
                             dr["NuevoEstado"] = _status;
-                            dr["Cantidad"] = Convert.ToInt32(item[9]);
+                            dr["Cantidad"] = Convert.ToInt32(item[8]);
                             dtsDetalle.Rows.Add(dr);
+
+                            drDetEnt = dtsSCdetent.NewRow();
+                            drDetEnt["scmvtdoc"] = _tipoDocEntreg;
+                            drDetEnt["scmvndoc"] = Convert.ToDecimal(_ordenVenta);
+                            drDetEnt["scmvnart"] = Convert.ToDecimal(item[9]);
+                            drDetEnt["scmvctra"] = 13001;
+                            drDetEnt["scmvfdoc"] = DateTime.Now;
+                            drDetEnt["scmvfreg"] = DateTime.Now;
+                            drDetEnt["scmvcsuc"] = _idSuc;
+                            drDetEnt["scmvcorr"] = 0;
+                            drDetEnt["scmvcmov"] = 7002;
+                            drDetEnt["scmvcant"] = Convert.ToDecimal(item[8]);
+                            dtsSCdetent.Rows.Add(drDetEnt);
                         }
-                        a = C_MovDespacho.CerrarDespacho(dtsDetalle, detPaqRoto, _idSuc, _idDespacho);
+                        a = C_MovDespacho.CerrarDespacho(dtsDetalle, detPaqRoto, _idSuc, _idDespacho, _idDestino, _scent, dtsSCdetent);
                         if (a > 0)
                         {
                             TraerData();
@@ -244,11 +352,40 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
                             XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                             Console.WriteLine("###########################: A = 0");
                         }
+                        //if (Naturaleza.ToUpper() == "VENTA")
+                        //{
+                        //    a = C_MovDespacho.CerrarDespachoVenta(dtsDetalle, detPaqRoto, _idSuc, _idDespacho, dtsSCdetent);
+                        //    if (a > 0)
+                        //    {
+                        //        TraerData();
+                        //        XtraMessageBox.Show("Orden cerrada", "Cerrar despacho");
+                        //        this.Close();
+                        //    }
+                        //    else
+                        //    {
+                        //        XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                        //        Console.WriteLine("###########################: A = 0");
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    a = C_MovDespacho.CerrarDespacho(dtsDetalle, detPaqRoto, _idSuc, _idDespacho);
+                        //    if (a > 0)
+                        //    {
+                        //        TraerData();
+                        //        XtraMessageBox.Show("Orden cerrada", "Cerrar despacho");
+                        //        this.Close();
+                        //    }
+                        //    else
+                        //    {
+                        //        XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                        //        Console.WriteLine("###########################: A = 0");
+                        //    }
+                        //} 
                     }
                     else
                     {
                         //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-
                     }
                 }
                 else
@@ -282,11 +419,17 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
                         p_Retirar = 0,
                         p_NombreDisplay = item.p_NombreDisplay
                     });
+                    
                 }
                 DataSet dataPend = C_Paquete.BuscarPaqueteEntregaParcialPendiente(_idDespacho);
+                foreach(DataRow itm in dataPend.Tables[0].Rows)
+                {
+                    Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ = " + itm[0].ToString());
+                }
                 foreach (DataRow itemE in dataPend.Tables[0].Rows)
                 {
-                    int _nuevoPend = Convert.ToInt32(itemE[2]);
+                    
+                    int _nuevoPend = Convert.ToInt32(itemE[2] is DBNull ? 0 : itemE[2]);
                     _listEntrega.Find(p => p.p_PaqueteId == itemE[0].ToString() && p.p_ItemId == itemE[1].ToString()).p_Pendiente = (_listEntrega.Find(p => p.p_PaqueteId == itemE[0].ToString() && p.p_ItemId == itemE[1].ToString()).p_Pendiente - _nuevoPend);
                 }
                 gridControl1.DataSource = _listEntrega;
@@ -527,6 +670,35 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
                                             }
                                             ////////////////////////////////////////
                                             XtraMessageBox.Show("Orden insertada", "Guardar");
+                                            //////////IMPRIMIR/////////////
+                                            XtraMessageBox.AllowCustomLookAndFeel = true;
+                                            DialogResult dialogResult = XtraMessageBox.Show("¿Imprimir orden de carga?", "Salir", MessageBoxButtons.YesNo);
+                                            if (dialogResult == System.Windows.Forms.DialogResult.Yes)
+                                            {
+                                                try
+                                                {
+                                                    if (_idDespacho != "0")
+                                                    {
+                                                        DataSet _despOrdenEntrega = C_Despacho.TraerOrdenEntrega(_idDespacho, _idSuc);
+                                                        OrdendeEntrega _ordEnt = new OrdendeEntrega();
+                                                        _ordEnt.SetDataSource(_despOrdenEntrega.Tables[0]);
+                                                        frmReportViewer viwer = new frmReportViewer(_ordEnt);
+                                                        viwer.Width = 1000;
+                                                        viwer.Height = 800;
+                                                        viwer.StartPosition = FormStartPosition.CenterScreen;
+                                                        viwer.ShowDialog();
+                                                    }
+                                                }
+                                                catch (Exception err)
+                                                {
+                                                    XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                                                    Console.WriteLine("################## = " + err.ToString());
+                                                }
+                                            }
+                                            else
+                                            {
+
+                                            } 
                                             try
                                             {
                                                 VerificarPendientes(_idDespacho);
@@ -634,6 +806,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
                 }
                 if (total_pend == 0 || total_pend < 0)
                 {
+                    checkEntrTodo.Enabled = false;
                     CerrarDespacho();
                 }
             }
@@ -663,7 +836,6 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
         {
             if (checkEntrTodo.Checked == true)
             {
-                gridView1.SelectAll();
                 txtKgSegNota.Text = pesoTotal.ToString();
                 foreach(var item in _listEntrega)
                 {
@@ -672,6 +844,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenListaCerrar
                 gridControl1.DataSource = null;
                 gridControl1.DataSource = _listEntrega;
                 this.gridControl1.Refresh();
+                gridView1.SelectAll();
             }
             else if (checkEntrTodo.Checked == false)
             {

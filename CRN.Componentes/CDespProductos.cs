@@ -42,6 +42,10 @@ namespace CRN.Componentes
         {
             return cadDespProductos.DetMovDatos(_idDespacho, _itemId);
         }
+        public DataSet DetMovDatosAjuste(string _itemId)
+        {
+            return cadDespProductos.DetMovDatosAjuste(_itemId);
+        }
         public int ModificarCantidad(string _idDespacho, string _idPaquete, int _cantRetirada, decimal _pesoNuevo)
         {
             return cadDespProductos.ModificarCantidad(_idDespacho, _idPaquete, _cantRetirada, _pesoNuevo);
@@ -107,6 +111,10 @@ namespace CRN.Componentes
         public DataSet TraerSumaEnviados(string _idDespacho)
         {
             return cadDespProductos.TraerSumaEnviados(_idDespacho);
+        }
+        public int QuitarPaqueteLecturacion(string _idDespacho, string _PaqueteId)
+        {
+            return cadDespProductos.QuitarPaqueteLecturacion(_idDespacho, _PaqueteId);
         }
     }
 }

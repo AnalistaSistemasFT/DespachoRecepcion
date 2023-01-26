@@ -51,6 +51,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
             txtCant.KeyDown += EnterKey;
             txtCant.KeyUp += EnterKey; 
         }
+
         public void TraerData()
         {
             try

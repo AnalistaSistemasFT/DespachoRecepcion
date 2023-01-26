@@ -48,23 +48,13 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
         }
         private void TraerData()
         {
-            DataSet dataLista = C_Despacho.TraerDespachoAbierto(_idSucursal);
+            DataSet dataLista = C_Despacho.TraerDespachoAbiertoVenta(_idSucursal);
             dataT = dataLista.Tables[0];
             this.gridControl1.DataSource = dataT;
             //foreach(var item in dataLista.Tables[0].Rows)
             //{
             //    Program._listaDespachoAbierto.Add(item);
             //}
-            comBoxBuscarPor.Properties.Items.Add("Nro Despacho");
-            comBoxBuscarPor.Properties.Items.Add("Fecha");
-            comBoxBuscarPor.Properties.Items.Add("Nro Orden");
-            comBoxBuscarPor.Properties.Items.Add("Placa");
-            comBoxBuscarPor.Properties.Items.Add("Chofer");
-            comBoxBuscarPor.Properties.Items.Add("Naturaleza");
-            comBoxBuscarPor.Properties.Items.Add("Destino");
-            comBoxBuscarPor.Properties.Items.Add("Nro Traspaso");
-            checkInicio.Checked = true;
-            checkCompleta.Checked = false;
         }
         public void gridView1_RowCellClick(Object sender, EventArgs e)
         {
@@ -74,7 +64,6 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
                 int[] row = view.GetSelectedRows();
                 view.FocusedRowHandle = row[0];
                 _idDespacho = (view.GetRowCellDisplayText(row[0], view.Columns[0])).ToString();
-                labelControl2.Text = _idDespacho;
 
                 DataSet detalleLista = C_Despacho.TraerDetalleDespacho(_idDespacho);
                 _lstProdDet.Clear();
@@ -129,7 +118,10 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
             //var myForm = new frmNuevoDespachoMercaderia(Sucursal, _usuario);
             //myForm.Show();
             //this.Enabled = false;
-            CrearDespachoVenta form20 = new CrearDespachoVenta(Sucursal, _usuario);
+            int TipoV = 0;
+            int tipoDoc = 0;
+            int nroDoc = 0;
+            CrearDespachoVenta form20 = new CrearDespachoVenta(Sucursal, _usuario, TipoV, tipoDoc, nroDoc);
             form20.Owner = this;
             form20.Show();
         }
@@ -249,8 +241,8 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
                 {
                     string TipoReporte = "AUTORIZADOS";
                     IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
-                    var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
-                    myForm.Show();
+                    //var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
+                    //myForm.Show();
                 }
                 catch (Exception err)
                 {
@@ -276,8 +268,8 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
                     {
                         string TipoReporte = "ORDENCARGA";
                         IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
-                        var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
-                        myForm.Show();
+                        //var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
+                        //myForm.Show();
                     }
                 }
                 catch (Exception err)
@@ -400,21 +392,7 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
         {
             try
             {
-                if (checkInicio.Checked)
-                {
-                    checkInicio.Checked = true;
-                    checkCompleta.Checked = false;
-                }
-                else if (checkCompleta.Checked)
-                {
-                    checkInicio.Checked = false;
-                    checkCompleta.Checked = true;
-                }
-                else
-                {
-                    checkInicio.Checked = false;
-                    checkCompleta.Checked = false;
-                }
+                
             }
             catch (Exception err)
             {
@@ -426,21 +404,7 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
         {
             try
             {
-                if (checkCompleta.Checked)
-                {
-                    checkCompleta.Checked = true;
-                    checkInicio.Checked = false;
-                }
-                else if (checkInicio.Checked)
-                {
-                    checkCompleta.Checked = false;
-                    checkInicio.Checked = true;
-                }
-                else
-                {
-                    checkCompleta.Checked = false;
-                    checkInicio.Checked = false;
-                }
+                
             }
             catch (Exception err)
             {
@@ -452,24 +416,7 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
         {
             try
             {
-                int data = comBoxBuscarPor.SelectedIndex;
-                if (data != 0)
-                {
-                    _tipoBusqueda = comBoxBuscarPor.SelectedItem.ToString();
-                    if (_tipoBusqueda == "Fecha")
-                    {
-                        txtBusqueda.Visible = false;
-                        txtBusqueda.Text = string.Empty;
-                        txtBusqueda.ReadOnly = true;
-                        datePick.Visible = true;
-                    }
-                    else
-                    {
-                        txtBusqueda.Visible = true;
-                        txtBusqueda.ReadOnly = false;
-                        datePick.Visible = false;
-                    }
-                }
+                
             }
             catch (Exception err)
             {
@@ -495,57 +442,7 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
         //btnBuscarDespacho
         private void simpleButton1_Click(object sender, EventArgs e)
         {
-            if (checkInicio.Checked)
-            {
-                string _nombreSuc = txtBusqueda.Text;
-                int _criterioB = 0;
-                //gridControl1.DataSource = gridView1.Where(x => x.Nombre.ToLower().Contains(_nombreSuc.ToLower()));
-                switch(_tipoBusqueda)
-                {
-                    case "Nro Despacho":
-                        _criterioB = 0;
-                        break; 
-                    case "Fecha":
-                        _criterioB = 1;
-                        break;
-                    case "Nro Orden":
-                        _criterioB = 2;
-                        break;
-                    case "Placa":
-                        _criterioB = 3;
-                        break;
-                    case "Chofer":
-                        _criterioB = 4;
-                        break;
-                    case "Naturaleza":
-                        _criterioB = 5;
-                        break;
-                    case "Destino":
-                        _criterioB = 6;
-                        break;
-                    case "Nro Traspaso":
-                        _criterioB = 7;
-                        break;
-                    default:
-                        _criterioB = 0;
-                        break;
-                }
-                
-                for (int i = 0; i < gridView1.DataRowCount; i++)
-                {
-                    if (txtBusqueda.Text == gridView1.GetDataRow(_criterioB).ToString())
-                    {
-                        XtraMessageBox.Show(gridView1.GetDataRow(_criterioB).ToString());
-                    }
-                }
-
-                this.gridControl1.RefreshDataSource();
-                this.gridControl1.Refresh();
-            }
-            else if (checkCompleta.Checked)
-            {
-
-            }
+            
         }
         //btnCronograma
         private void simpleButton2_Click(object sender, EventArgs e)

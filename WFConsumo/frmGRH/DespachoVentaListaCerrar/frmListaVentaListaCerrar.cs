@@ -14,6 +14,7 @@ using System.Data.Common;
 using CRN.Entidades;
 using WFConsumo.frmGRH.Imprimir;
 using DevExpress.Utils.Extensions;
+using WFConsumo.frmGRH.DespachoOrdenListaCerrar;
 
 namespace WFConsumo.frmGRH.DespachoVentaListaCerrar
 {
@@ -24,6 +25,7 @@ namespace WFConsumo.frmGRH.DespachoVentaListaCerrar
         private string IdDespacho = "0";
         private decimal _pesoTotal = 0;
         private DateTime _Fecha = DateTime.Now;
+        private string _login = string.Empty;
         CDespacho C_Despacho;
         DataTable dataT = new DataTable();
         DataTable dataDet = new DataTable();
@@ -39,6 +41,7 @@ namespace WFConsumo.frmGRH.DespachoVentaListaCerrar
         {
             InitializeComponent();
             _idSucursal = sucursalId;
+            _login = user.Login;
             C_Despacho = new CDespacho();
             C_Traspaso = new CTraspaso();
             C_Sucursal = new CSucursal();
@@ -50,7 +53,7 @@ namespace WFConsumo.frmGRH.DespachoVentaListaCerrar
         {
             try
             {
-                DataSet dataLista = C_Despacho.TraerDespachoPorCerrar(_idSucursal);
+                DataSet dataLista = C_Despacho.TraerDespachoPorCerrarVenta(_idSucursal);
                 dataT = dataLista.Tables[0];
                 this.gridControl1.DataSource = dataT;
             }
@@ -300,22 +303,21 @@ namespace WFConsumo.frmGRH.DespachoVentaListaCerrar
                             dr["Cantidad"] = Convert.ToInt32(item[9]);
                             dtsDetalle.Rows.Add(dr);
                         }
-                        a = C_MovDespacho.CerrarDespacho(dtsDetalle, detPaqRoto, _idSucursal, DespachoId);
-                        if (a > 0)
-                        {
-                            TraerData();
-                            XtraMessageBox.Show("Orden cerrada", "Cerrar despacho");
-                        }
-                        else
-                        {
-                            //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
-                            //Console.WriteLine("###########################: A = 0");
-                        }
+                        //a = C_MovDespacho.CerrarDespacho(dtsDetalle, detPaqRoto, _idSucursal, DespachoId, 0);
+                        //if (a > 0)
+                        //{
+                        //    TraerData();
+                        //    XtraMessageBox.Show("Orden cerrada", "Cerrar despacho");
+                        //}
+                        //else
+                        //{
+                        //    //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                        //    //Console.WriteLine("###########################: A = 0");
+                        //}
                     }
                     else
                     {
                         //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                        
                     } 
                 }
                 else
@@ -352,8 +354,8 @@ namespace WFConsumo.frmGRH.DespachoVentaListaCerrar
                 {
                     string TipoReporte = "AUTORIZADOS";
                     IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
-                    var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
-                    myForm.Show();
+                    //var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
+                    //myForm.Show();
                 }
                 catch (Exception err)
                 {
@@ -379,8 +381,8 @@ namespace WFConsumo.frmGRH.DespachoVentaListaCerrar
                     {
                         string TipoReporte = "ORDENCARGA";
                         IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
-                        var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
-                        myForm.Show();
+                        //var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
+                        //myForm.Show();
                     }
                 }
                 catch (Exception err)
@@ -678,12 +680,15 @@ namespace WFConsumo.frmGRH.DespachoVentaListaCerrar
                     IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
                     string Placa = view.GetRowCellDisplayText(row[0], view.Columns[3]);
                     string Chofer = view.GetRowCellDisplayText(row[0], view.Columns[5]);
+                    string _Naturaleza = view.GetRowCellDisplayText(row[0], view.Columns[6]);
                     if (IdDespacho != "0")
                     {
                         if (_listEntrega.Count > 0)
                         {
-                            //var myForm = new CrearEntregaC(IdDespacho, _idSucursal, Placa, Chofer, _listEntrega, _pesoTotal);
-                            //myForm.Show();
+                            string envio = "Listas";
+                            CrearEntregaC f2 = new CrearEntregaC(IdDespacho, _idSucursal, Placa, Chofer, _listEntrega, _pesoTotal, _login, envio, _Naturaleza);
+                            f2.FormClosed += F2_FormClosed;
+                            f2.Show();
                         }
                         else
                         {
@@ -697,6 +702,13 @@ namespace WFConsumo.frmGRH.DespachoVentaListaCerrar
                     Console.WriteLine("######################### = " + err.ToString());
                 }
             }
+        }
+        private void F2_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.gridControl1.Refresh();
+            this.gridControl1.RefreshDataSource();
+            this.gridView1.RefreshData();
+            TraerData();
         }
         private void btnCerrarEntregar_Click(object sender, EventArgs e)
         {
@@ -725,6 +737,53 @@ namespace WFConsumo.frmGRH.DespachoVentaListaCerrar
                 {
                     //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                     Console.WriteLine("################## = " + err.ToString());
+                }
+            }
+        }
+
+        private void btnNuevoTrasp_Click(object sender, EventArgs e)
+        {
+            if (gridControl1.CanSelect)
+            {
+                ColumnView view = gridControl1.MainView as ColumnView;
+                int[] row = view.GetSelectedRows();
+                if (row.Length > 0)
+                {
+                    view.FocusedRowHandle = row[0];
+                }
+                try
+                {
+                    IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
+                    string _Trasp = view.GetRowCellDisplayText(row[0], view.Columns[8]);
+                    int _tieneTrasp = 0;
+                    if (IdDespacho != "0")
+                    {
+                        if (_Trasp == "0000" || _Trasp == string.Empty)
+                        {
+                            _tieneTrasp = 0;
+                            _Trasp = "0000";
+                        }
+                        else
+                        {
+                            _tieneTrasp = 1;
+                            _Trasp = view.GetRowCellDisplayText(row[0], view.Columns[8]);
+                        }
+                        try
+                        {
+                            var myForm = new AgregarTraspaso(IdDespacho, _idSucursal, _tieneTrasp, _Trasp);
+                            myForm.Show();
+                        }
+                        catch (Exception err)
+                        {
+                            XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                            Console.WriteLine("########################### = " + err.ToString());
+                        }
+                    }
+                }
+                catch (Exception err)
+                {
+                    XtraMessageBox.Show("Seleccione un despacho de la lista e intentelo de nuevo");
+                    Console.WriteLine("################ = " + err.ToString());
                 }
             }
         }

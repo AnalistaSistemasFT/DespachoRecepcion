@@ -1,7 +1,9 @@
-﻿namespace WFConsumo {
-    
-    
-    public partial class Imagenes {
+﻿namespace WFConsumo
+{
+
+
+    public partial class Imagenes
+    {
         partial class DataTable1DataTable
         {
         }

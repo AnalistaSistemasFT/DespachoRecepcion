@@ -58,6 +58,7 @@
             this.Cantidad = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Costo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.txtSucRecibeId = new DevExpress.XtraEditors.TextEdit();
+            this.btnImprimir = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.txtFechaReg.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFechaReg.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtFechaDoc.Properties.CalendarTimeProperties)).BeginInit();
@@ -78,6 +79,11 @@
             // 
             // btcCancelar
             // 
+            this.btcCancelar.Appearance.BackColor = System.Drawing.Color.Black;
+            this.btcCancelar.Appearance.ForeColor = System.Drawing.Color.White;
+            this.btcCancelar.Appearance.Options.UseBackColor = true;
+            this.btcCancelar.Appearance.Options.UseForeColor = true;
+            this.btcCancelar.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
             this.btcCancelar.Location = new System.Drawing.Point(550, 441);
             this.btcCancelar.Name = "btcCancelar";
             this.btcCancelar.Size = new System.Drawing.Size(100, 29);
@@ -87,6 +93,11 @@
             // 
             // simpleButton1
             // 
+            this.simpleButton1.Appearance.BackColor = System.Drawing.Color.Black;
+            this.simpleButton1.Appearance.ForeColor = System.Drawing.Color.White;
+            this.simpleButton1.Appearance.Options.UseBackColor = true;
+            this.simpleButton1.Appearance.Options.UseForeColor = true;
+            this.simpleButton1.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
             this.simpleButton1.Location = new System.Drawing.Point(444, 441);
             this.simpleButton1.Name = "simpleButton1";
             this.simpleButton1.Size = new System.Drawing.Size(100, 29);
@@ -229,6 +240,8 @@
             // 
             this.txtTipoDocId.Location = new System.Drawing.Point(108, 44);
             this.txtTipoDocId.Name = "txtTipoDocId";
+            this.txtTipoDocId.Properties.Mask.EditMask = "f0";
+            this.txtTipoDocId.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Numeric;
             this.txtTipoDocId.Properties.ReadOnly = true;
             this.txtTipoDocId.Size = new System.Drawing.Size(140, 20);
             this.txtTipoDocId.TabIndex = 32;
@@ -312,8 +325,6 @@
             this.Codigo.Caption = "Codigo";
             this.Codigo.FieldName = "p_Articulo";
             this.Codigo.Name = "Codigo";
-            this.Codigo.Visible = true;
-            this.Codigo.VisibleIndex = 0;
             this.Codigo.Width = 106;
             // 
             // Descripcion
@@ -322,7 +333,7 @@
             this.Descripcion.FieldName = "p_Descripcion";
             this.Descripcion.Name = "Descripcion";
             this.Descripcion.Visible = true;
-            this.Descripcion.VisibleIndex = 1;
+            this.Descripcion.VisibleIndex = 0;
             this.Descripcion.Width = 533;
             // 
             // Cantidad
@@ -331,7 +342,7 @@
             this.Cantidad.FieldName = "p_Cantidad";
             this.Cantidad.Name = "Cantidad";
             this.Cantidad.Visible = true;
-            this.Cantidad.VisibleIndex = 2;
+            this.Cantidad.VisibleIndex = 1;
             this.Cantidad.Width = 122;
             // 
             // Costo
@@ -340,7 +351,7 @@
             this.Costo.FieldName = "p_Costo";
             this.Costo.Name = "Costo";
             this.Costo.Visible = true;
-            this.Costo.VisibleIndex = 3;
+            this.Costo.VisibleIndex = 2;
             this.Costo.Width = 166;
             // 
             // txtSucRecibeId
@@ -351,11 +362,28 @@
             this.txtSucRecibeId.Size = new System.Drawing.Size(140, 20);
             this.txtSucRecibeId.TabIndex = 53;
             // 
+            // btnImprimir
+            // 
+            this.btnImprimir.AppearanceHovered.BackColor = System.Drawing.Color.Black;
+            this.btnImprimir.AppearanceHovered.BorderColor = System.Drawing.Color.White;
+            this.btnImprimir.AppearanceHovered.ForeColor = System.Drawing.Color.White;
+            this.btnImprimir.AppearanceHovered.Options.UseBackColor = true;
+            this.btnImprimir.AppearanceHovered.Options.UseBorderColor = true;
+            this.btnImprimir.AppearanceHovered.Options.UseForeColor = true;
+            this.btnImprimir.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
+            this.btnImprimir.Location = new System.Drawing.Point(12, 436);
+            this.btnImprimir.Name = "btnImprimir";
+            this.btnImprimir.Size = new System.Drawing.Size(110, 30);
+            this.btnImprimir.TabIndex = 54;
+            this.btnImprimir.Text = "Imprimir";
+            this.btnImprimir.Click += new System.EventHandler(this.btnImprimir_Click);
+            // 
             // AgregarTraspaso
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(659, 478);
+            this.Controls.Add(this.btnImprimir);
             this.Controls.Add(this.txtSucRecibeId);
             this.Controls.Add(this.btcCancelar);
             this.Controls.Add(this.simpleButton1);
@@ -436,5 +464,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn Cantidad;
         private DevExpress.XtraGrid.Columns.GridColumn Costo;
         private DevExpress.XtraEditors.TextEdit txtSucRecibeId;
+        private DevExpress.XtraEditors.SimpleButton btnImprimir;
     }
 }

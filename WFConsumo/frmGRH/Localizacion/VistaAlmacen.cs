@@ -13,6 +13,7 @@ using DevExpress.Utils;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using DevExpress.XtraGrid;
+using CRN.Entidades;
 
 namespace WFConsumo.frmGRH.Localizacion
 {
@@ -21,22 +22,395 @@ namespace WFConsumo.frmGRH.Localizacion
         CCeldas C_Celdas;
         public List<CeldaAlm> _celdas = new List<CeldaAlm>();
         public List<CeldaConsulta> _celdaData = new List<CeldaConsulta>();
+        public List<String> _centrosTrabajo = new List<string>();
+        public List<string> _oficinas = new List<string>();
+        public List<string> _carriles = new List<string>();
+        public List<EstanteConsulta> _estantesData = new List<EstanteConsulta>();
         int _IdSucursal = 0;
+        string _NombreAlmacen = string.Empty;
+        int _AreasAlmacen = 0;
+        int _NavesAlmacen = 0;
+        int _IdAlmacen = 0;
+        // tipoCelda 0 = Piso, 1 = Rack
+        int _tipoCelda = 0;
 
-        public VistaAlmacen()
+        public VistaAlmacen(int sucursalId)
         {
             InitializeComponent();
             C_Celdas = new CCeldas();
-            //////////////////////////
-            _IdSucursal = 12081;
-            //////////////////////////
+            _IdSucursal = sucursalId;
+            DatosAlmacen();
             CrearCeldas();
-            TraerData();
+            TraerData(); 
+        }
+
+        public void CreatePopupEditor()
+        {
+            RichTextBox rtb = new RichTextBox();
+            rtb.Dock = DockStyle.Fill;
+            PopupContainerControl popupControl = new PopupContainerControl();
+            popupControl.Controls.Add(rtb);
+
+            PopupContainerEdit editor = new PopupContainerEdit();
+            editor.Location = new Point(100, 30);
+            editor.Width = 350;
+            editor.Properties.PopupControl = popupControl;
+            Controls.Add(editor);
+
+            editor.Closed += (s, a) => {
+                (s as PopupContainerEdit).EditValue = rtb.Text;
+            };
+
+            editor.CustomDisplayText += (s, x) => {
+                if (x.Value != null)
+                    x.DisplayText = x.Value.ToString().TrimStart(' ', '\r', '\n');
+            };
+        }
+        private void bandedGridView1_DoubleClick(object sender, EventArgs e)
+        {
+            GridView view = (GridView)sender;
+            Point pt = view.GridControl.PointToClient(Control.MousePosition);
+            DoRowDoubleClick(view, pt);
+        }
+        private void DoRowDoubleClick(GridView view, Point pt)
+        {
+            GridHitInfo info = view.CalcHitInfo(pt);
+            if (info.InRow || info.InRowCell)
+            {
+                string colCaption = info.Column == null ? "N/A" : info.Column.GetCaption();
+                object val = view.GetRowCellValue(info.RowHandle, info.Column);
+                int _Rck = 0;
+                DataSet listRack = C_Celdas.TraerTipoRack(val.ToString());
+                foreach (DataRow itm in listRack.Tables[0].Rows)
+                {
+                    _Rck = Convert.ToInt16(itm[0] is DBNull ? 0 : itm[0]);
+                }
+                if (val != null)
+                {
+                    int valX = pt.X + 20;
+                    int valY = pt.Y + 50;
+                    if (_Rck == 0)
+                    {
+                        popupTitulo2.Text = val.ToString();
+                        GetEstantes(colCaption);
+                        Rectangle rect = Screen.GetWorkingArea(this);
+                        popupContainerControl2.Location = new Point(rect.Width / 2 - popupContainerControl2.Width / 2, rect.Height / 2 - popupContainerControl2.Height / 2);
+                        popupContainerControl2.Show();
+                        popupContainerControl1.Hide();
+                    }
+                    else
+                    {
+                        popupTitulo.Text = val.ToString();
+                        GetEstantes(colCaption);
+                        Rectangle rect = Screen.GetWorkingArea(this);
+                        popupContainerControl1.Location = new Point(rect.Width / 2 - popupContainerControl1.Width / 2, rect.Height / 2 - popupContainerControl1.Height / 2);
+                        popupContainerControl1.Show();
+                        popupContainerControl2.Hide();
+                    } 
+                } 
+            } 
+        }
+        public void GetEstantes(string colCaption)
+        {
+            string _CeldaId = colCaption;
+            int _Fila = 1;
+            try
+            {
+                DataSet dataEstante = C_Celdas.TraerEstantesCelda(_IdSucursal, _CeldaId, _Fila);
+                foreach(DataRow item in dataEstante.Tables[0].Rows)
+                {
+                    _estantesData.Add(new EstanteConsulta
+                    {
+                        p_CodigoEstante = item[0].ToString(),
+                        p_Unidades = Convert.ToInt32(item[1]),
+                        p_Kgs = Convert.ToDecimal(item[2]),
+                        p_Max_Kgs = Convert.ToDecimal(item[3])
+                    });
+                }
+                //
+                foreach(var item in _estantesData)
+                {
+                    if(btnP1A1.Text.Trim() == item.p_CodigoEstante.Trim())
+                    {
+                        if(item.p_Unidades == 0)
+                        {
+                            btnP1A1.Appearance.BackColor = Color.Green;
+                            btnP1A1.ForeColor = Color.White;
+                        }
+                        else if(item.p_Kgs >= item.p_Max_Kgs)
+                        {
+                            btnP1A1.Appearance.BackColor = Color.Red;
+                            btnP1A1.ForeColor = Color.White;
+                        }
+                        else
+                        {
+                            btnP1A1.Appearance.BackColor = Color.Yellow;
+                            btnP1A1.ForeColor = Color.White;
+                        }
+                    }
+                    else if(btnP2A1.Text.Trim() == item.p_CodigoEstante.Trim())
+                    {
+                        if (item.p_Unidades == 0)
+                        {
+                            btnP2A1.Appearance.BackColor = Color.Green;
+                            btnP2A1.ForeColor = Color.White;
+                        }
+                        else if (item.p_Kgs >= item.p_Max_Kgs)
+                        {
+                            btnP2A1.Appearance.BackColor = Color.Red;
+                            btnP2A1.ForeColor = Color.White;
+                        }
+                        else
+                        {
+                            btnP2A1.Appearance.BackColor = Color.Yellow;
+                            btnP2A1.ForeColor = Color.White;
+                        }
+                    }
+                    else if (btnP3A1.Text.Trim() == item.p_CodigoEstante.Trim())
+                    {
+                        if (item.p_Unidades == 0)
+                        {
+                            btnP3A1.Appearance.BackColor = Color.Green;
+                            btnP3A1.ForeColor = Color.White;
+                        }
+                        else if (item.p_Kgs >= item.p_Max_Kgs)
+                        {
+                            btnP3A1.Appearance.BackColor = Color.Red;
+                            btnP3A1.ForeColor = Color.White;
+                        }
+                        else
+                        {
+                            btnP3A1.Appearance.BackColor = Color.Yellow;
+                            btnP3A1.ForeColor = Color.White;
+                        }
+                    }
+                    else if (btnP4A1.Text.Trim() == item.p_CodigoEstante.Trim())
+                    {
+                        if (item.p_Unidades == 0)
+                        {
+                            btnP4A1.Appearance.BackColor = Color.Green;
+                            btnP4A1.ForeColor = Color.White;
+                        }
+                        else if (item.p_Kgs >= item.p_Max_Kgs)
+                        {
+                            btnP4A1.Appearance.BackColor = Color.Red;
+                            btnP4A1.ForeColor = Color.White;
+                        }
+                        else
+                        {
+                            btnP4A1.Appearance.BackColor = Color.Yellow;
+                            btnP4A1.ForeColor = Color.White;
+                        }
+                    }
+                    else if (btnP5A1.Text.Trim() == item.p_CodigoEstante.Trim())
+                    {
+                        if (item.p_Unidades == 0)
+                        {
+                            btnP5A1.Appearance.BackColor = Color.Green;
+                            btnP5A1.ForeColor = Color.White;
+                        }
+                        else if (item.p_Kgs >= item.p_Max_Kgs)
+                        {
+                            btnP5A1.Appearance.BackColor = Color.Red;
+                            btnP5A1.ForeColor = Color.White;
+                        }
+                        else
+                        {
+                            btnP5A1.Appearance.BackColor = Color.Yellow;
+                            btnP5A1.ForeColor = Color.White;
+                        }
+                    }
+                    else if (btnP1B1.Text.Trim() == item.p_CodigoEstante.Trim())
+                    {
+                        if (item.p_Unidades == 0)
+                        {
+                            btnP1B1.Appearance.BackColor = Color.Green;
+                            btnP1B1.ForeColor = Color.White;
+                        }
+                        else if (item.p_Kgs >= item.p_Max_Kgs)
+                        {
+                            btnP1B1.Appearance.BackColor = Color.Red;
+                            btnP1B1.ForeColor = Color.White;
+                        }
+                        else
+                        {
+                            btnP1B1.Appearance.BackColor = Color.Yellow;
+                            btnP1B1.ForeColor = Color.White;
+                        }
+                    }
+                    else if (btnP2B1.Text.Trim() == item.p_CodigoEstante.Trim())
+                    {
+                        if (item.p_Unidades == 0)
+                        {
+                            btnP2B1.Appearance.BackColor = Color.Green;
+                            btnP2B1.ForeColor = Color.White;
+                        }
+                        else if (item.p_Kgs >= item.p_Max_Kgs)
+                        {
+                            btnP2B1.Appearance.BackColor = Color.Red;
+                            btnP2B1.ForeColor = Color.White;
+                        }
+                        else
+                        {
+                            btnP2B1.Appearance.BackColor = Color.Yellow;
+                            btnP2B1.ForeColor = Color.White;
+                        }
+                    }
+                    else if (btnP3B1.Text.Trim() == item.p_CodigoEstante.Trim())
+                    {
+                        if (item.p_Unidades == 0)
+                        {
+                            btnP3B1.Appearance.BackColor = Color.Green;
+                            btnP3B1.ForeColor = Color.White;
+                        }
+                        else if (item.p_Kgs >= item.p_Max_Kgs)
+                        {
+                            btnP3B1.Appearance.BackColor = Color.Red;
+                            btnP3B1.ForeColor = Color.White;
+                        }
+                        else
+                        {
+                            btnP3B1.Appearance.BackColor = Color.Yellow;
+                            btnP3B1.ForeColor = Color.White;
+                        }
+                    }
+                    else if (btnP4B1.Text.Trim() == item.p_CodigoEstante.Trim())
+                    {
+                        if (item.p_Unidades == 0)
+                        {
+                            btnP4B1.Appearance.BackColor = Color.Green;
+                            btnP4B1.ForeColor = Color.White;
+                        }
+                        else if (item.p_Kgs >= item.p_Max_Kgs)
+                        {
+                            btnP4B1.Appearance.BackColor = Color.Red;
+                            btnP4B1.ForeColor = Color.White;
+                        }
+                        else
+                        {
+                            btnP4B1.Appearance.BackColor = Color.Yellow;
+                            btnP4B1.ForeColor = Color.White;
+                        }
+                    }
+                    else if (btnP5B1.Text.Trim() == item.p_CodigoEstante.Trim())
+                    {
+                        if (item.p_Unidades == 0)
+                        {
+                            btnP5B1.Appearance.BackColor = Color.Green;
+                            btnP5B1.ForeColor = Color.White;
+                        }
+                        else if (item.p_Kgs >= item.p_Max_Kgs)
+                        {
+                            btnP5B1.Appearance.BackColor = Color.Red;
+                            btnP5B1.ForeColor = Color.White;
+                        }
+                        else
+                        {
+                            btnP5B1.Appearance.BackColor = Color.Yellow;
+                            btnP5B1.ForeColor = Color.White;
+                        }
+                    }
+                    else if (btnP1C1.Text.Trim() == item.p_CodigoEstante.Trim())
+                    {
+                        if (item.p_Unidades == 0)
+                        {
+                            btnP1C1.Appearance.BackColor = Color.Green;
+                            btnP1C1.ForeColor = Color.White;
+                        }
+                        else if (item.p_Kgs >= item.p_Max_Kgs)
+                        {
+                            btnP1C1.Appearance.BackColor = Color.Red;
+                            btnP1C1.ForeColor = Color.White;
+                        }
+                        else
+                        {
+                            btnP1C1.Appearance.BackColor = Color.Yellow;
+                            btnP1C1.ForeColor = Color.White;
+                        }
+                    }
+                    else if (btnP2C1.Text.Trim() == item.p_CodigoEstante.Trim())
+                    {
+                        if (item.p_Unidades == 0)
+                        {
+                            btnP2C1.Appearance.BackColor = Color.Green;
+                            btnP2C1.ForeColor = Color.White;
+                        }
+                        else if (item.p_Kgs >= item.p_Max_Kgs)
+                        {
+                            btnP2C1.Appearance.BackColor = Color.Red;
+                            btnP2C1.ForeColor = Color.White;
+                        }
+                        else
+                        {
+                            btnP2C1.Appearance.BackColor = Color.Yellow;
+                            btnP2C1.ForeColor = Color.White;
+                        }
+                    }
+                    else if (btnP3C1.Text.Trim() == item.p_CodigoEstante.Trim())
+                    {
+                        if (item.p_Unidades == 0)
+                        {
+                            btnP3C1.Appearance.BackColor = Color.Green;
+                            btnP3C1.ForeColor = Color.White;
+                        }
+                        else if (item.p_Kgs >= item.p_Max_Kgs)
+                        {
+                            btnP3C1.Appearance.BackColor = Color.Red;
+                            btnP3C1.ForeColor = Color.White;
+                        }
+                        else
+                        {
+                            btnP3C1.Appearance.BackColor = Color.Yellow;
+                            btnP3C1.ForeColor = Color.White;
+                        }
+                    }
+                    else if (btnP4C1.Text.Trim() == item.p_CodigoEstante.Trim())
+                    {
+                        if (item.p_Unidades == 0)
+                        {
+                            btnP4C1.Appearance.BackColor = Color.Green;
+                            btnP4C1.ForeColor = Color.White;
+                        }
+                        else if (item.p_Kgs >= item.p_Max_Kgs)
+                        {
+                            btnP4C1.Appearance.BackColor = Color.Red;
+                            btnP4C1.ForeColor = Color.White;
+                        }
+                        else
+                        {
+                            btnP4C1.Appearance.BackColor = Color.Yellow;
+                            btnP4C1.ForeColor = Color.White;
+                        }
+                    }
+                    else if (btnP5C1.Text.Trim() == item.p_CodigoEstante.Trim())
+                    {
+                        if (item.p_Unidades == 0)
+                        {
+                            btnP5C1.Appearance.BackColor = Color.Green;
+                            btnP5C1.ForeColor = Color.White;
+                        }
+                        else if (item.p_Kgs >= item.p_Max_Kgs)
+                        {
+                            btnP5C1.Appearance.BackColor = Color.Red;
+                            btnP5C1.ForeColor = Color.White;
+                        }
+                        else
+                        {
+                            btnP5C1.Appearance.BackColor = Color.Yellow;
+                            btnP5C1.ForeColor = Color.White;
+                        }
+                    }
+                }
+            }
+            catch(Exception err)
+            {
+                Console.WriteLine("######################## = " + err.ToString());
+            }
         }
         public void CrearCeldas()
         {
-            int NumSuc = 3;
-            for (int i = 1; i < 23; i++)
+            int NumSuc = _IdAlmacen;
+            for (int i = 1; i <= _AreasAlmacen; i++)
             {
                 //S1
                 _celdas.Add(new CeldaAlm
@@ -237,305 +611,253 @@ namespace WFConsumo.frmGRH.Localizacion
                         p_Columna = item[3].ToString(),
                         p_CeldaId = item[4].ToString(),
                         p_ItemId = item[5].ToString(),
-                        p_Unidades = item[6].ToString(),
-                        p_UnidadesXCelda = item[7].ToString()
+                        p_Unidades = Convert.ToInt32(item[6]),
+                        p_UnidadesXCelda = Convert.ToInt32(item[7]),
+                        p_Status = Convert.ToInt32(item[8].ToString())
                     });
                 }
                 //for (int i = 0; i < 66; i++)
                 foreach (var item in _celdaData)
                 {
-                    //_celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N1A = item.p_CeldaId;
                     _Nave = item.p_Nave;
                     switch (_Nave)
                     {
                         case 1:
                             if (item.p_Columna == "A")
                             {
-                                //_celdas.Select(c => { c.p_N1A = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N1A = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N1A = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "B")
                             {
-                                //_celdas.Select(c => { c.p_N1B = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N1B = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N1B = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "C")
                             {
-                                //_celdas.Select(c => { c.p_N1C = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N1C = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N1C = item.p_CeldaId;
                             }
                             break;
                         case 2:
                             if (item.p_Columna == "A")
                             {
-                                //_celdas.Select(c => { c.p_N2A = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N2A = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N2A = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "B")
                             {
-                                //_celdas.Select(c => { c.p_N2B = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N2B = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N2B = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "C")
                             {
-                                //_celdas.Select(c => { c.p_N2C = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N2C = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N2C = item.p_CeldaId;
                             }
                             break;
                         case 3:
                             if (item.p_Columna == "A")
                             {
-                                //_celdas.Select(c => { c.p_N3A = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N3A = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N3A = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "B")
                             {
-                                //_celdas.Select(c => { c.p_N3B = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N3B = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N3B = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "C")
                             {
-                                //_celdas.Select(c => { c.p_N3C = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N3C = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N3C = item.p_CeldaId;
                             }
                             break;
                         case 4:
                             if (item.p_Columna == "A")
                             {
-                                //_celdas.Select(c => { c.p_N4A = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N4A = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N4A = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "B")
                             {
-                                //_celdas.Select(c => { c.p_N4B = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N4B = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N4B = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "C")
                             {
-                                //_celdas.Select(c => { c.p_N4C = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N4C = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N4C = item.p_CeldaId;
                             }
                             break;
                         case 5:
                             if (item.p_Columna == "A")
                             {
-                                //_celdas.Select(c => { c.p_N5A = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N5A = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N5A = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "B")
                             {
-                                //_celdas.Select(c => { c.p_N5B = item.p_CeldaId; return c; }).ToList();
-                                Console.WriteLine("%%%%%%%%%%%%%%%%%%%%%%%%%% = " + item.p_CeldaId);
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N5B = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N5B = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "C")
                             {
-                                //_celdas.Select(c => { c.p_N5C = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N5C = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N5C = item.p_CeldaId;
                             }
                             break;
                         case 6:
                             if (item.p_Columna == "A")
                             {
-                                //_celdas.Select(c => { c.p_N6A = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N6A = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N6A = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "B")
                             {
-                                //_celdas.Select(c => { c.p_N6B = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N6B = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N6B = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "C")
                             {
-                                //_celdas.Select(c => { c.p_N6C = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N6C = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N6C = item.p_CeldaId;
                             }
                             break;
                         case 7:
                             if (item.p_Columna == "A")
                             {
-                                //_celdas.Select(c => { c.p_N7A = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N7A = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N7A = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "B")
                             {
-                                //_celdas.Select(c => { c.p_N7B = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N7B = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N7B = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "C")
                             {
-                                //_celdas.Select(c => { c.p_N7C = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N7C = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N7C = item.p_CeldaId;
                             }
                             break;
                         case 8:
                             if (item.p_Columna == "A")
                             {
-                                //_celdas.Select(c => { c.p_N8A = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N8A = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N8A = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "B")
                             {
-                                //_celdas.Select(c => { c.p_N8B = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N8B = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N8B = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "C")
                             {
-                                //_celdas.Select(c => { c.p_N8C = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N8C = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N8C = item.p_CeldaId;
                             }
                             break;
                         case 9:
                             if (item.p_Columna == "A")
                             {
-                                //_celdas.Select(c => { c.p_N9A = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N9A = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N9A = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "B")
                             {
-                                //_celdas.Select(c => { c.p_N9B = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N9B = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N9B = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "C")
                             {
-                                //_celdas.Select(c => { c.p_N9C = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N9C = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N9C = item.p_CeldaId;
                             }
                             break;
                         case 10:
                             if (item.p_Columna == "A")
                             {
-                                //_celdas.Select(c => { c.p_N10A = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N10A = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N10A = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "B")
                             {
-                                //_celdas.Select(c => { c.p_N10B = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N10B = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N10B = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "C")
                             {
-                                //_celdas.Select(c => { c.p_N10C = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N10C = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N10C = item.p_CeldaId;
                             }
                             break;
                         case 11:
                             if (item.p_Columna == "A")
                             {
-                                //_celdas.Select(c => { c.p_N11A = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N11A = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N11A = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "B")
                             {
-                                //_celdas.Select(c => { c.p_N11B = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N11B = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N11B = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "C")
                             {
-                                //_celdas.Select(c => { c.p_N11C = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N11C = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N11C = item.p_CeldaId;
                             }
                             break;
                         case 12:
                             if (item.p_Columna == "A")
                             {
-                                //_celdas.Select(c => { c.p_N12A = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N12A = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N12A = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "B")
                             {
-                                //_celdas.Select(c => { c.p_N12B = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N12B = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N12B = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "C")
                             {
-                                //_celdas.Select(c => { c.p_N12C = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N12C = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N12C = item.p_CeldaId;
                             }
                             break;
                         case 13:
                             if (item.p_Columna == "A")
                             {
-                                //_celdas.Select(c => { c.p_N13A = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N13A = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N13A = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "B")
                             {
-                                //_celdas.Select(c => { c.p_N13B = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N13B = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N13B = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "C")
                             {
-                                //_celdas.Select(c => { c.p_N13C = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N13C = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N13C = item.p_CeldaId;
                             }
                             break;
                         case 14:
                             if (item.p_Columna == "A")
                             {
-                                //_celdas.Select(c => { c.p_N14A = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N14A = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N14A = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "B")
                             {
-                                //_celdas.Select(c => { c.p_N14B = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N14B = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N14B = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "C")
                             {
-                                //_celdas.Select(c => { c.p_N14C = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N14C = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N14C = item.p_CeldaId;
                             }
                             break;
                         case 15:
                             if (item.p_Columna == "A")
                             {
-                                //_celdas.Select(c => { c.p_N15A = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N15A = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N15A = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "B")
                             {
-                                //_celdas.Select(c => { c.p_N15B = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N15B = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N15B = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "C")
                             {
-                                //_celdas.Select(c => { c.p_N15C = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N15C = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N15C = item.p_CeldaId;
                             }
                             break;
                         case 16:
                             if (item.p_Columna == "A")
                             {
-                                //_celdas.Select(c => { c.p_N16A = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N16A = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N16A = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "B")
                             {
-                                //_celdas.Select(c => { c.p_N16B = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N16B = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N16B = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "C")
                             {
-                                //_celdas.Select(c => { c.p_N16C = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N16C = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N16C = item.p_CeldaId;
                             }
                             break;
                         case 17:
                             if (item.p_Columna == "A")
                             {
-                                //_celdas.Select(c => { c.p_N17A = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N17A = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N17A = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "B")
                             {
-                                //_celdas.Select(c => { c.p_N17B = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N17B = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N17B = item.p_CeldaId;
                             }
                             else if (item.p_Columna == "C")
                             {
-                                //_celdas.Select(c => { c.p_N17C = item.p_CeldaId; return c; }).ToList();
-                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N17C = item.p_ItemId;
+                                _celdas.Find(p => p.p_Area == item.p_Area && p.p_Segmento == item.p_Segmento).p_N17C = item.p_CeldaId;
                             }
                             break;
                         default:
@@ -543,14 +865,134 @@ namespace WFConsumo.frmGRH.Localizacion
                             break;
                     }
                 }
-                //Console.WriteLine("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& = " + _celdas.);
                 gridControl1.DataSource = _celdas;
-                //filtrar en el switch por la nave y luego por columna 
+                //traer centros trabajo
+                DataSet centLista = C_Celdas.VistaAlmacenesMaquinas(_IdSucursal);
+                foreach (DataRow item in centLista.Tables[0].Rows)
+                {
+                    _centrosTrabajo.Add(item[0].ToString());
+                }
+                //traer oficinas
+                DataSet oficLista = C_Celdas.VistaAlmacenesOficinas(_IdSucursal);
+                foreach(DataRow item in oficLista.Tables[0].Rows)
+                {
+                    _oficinas.Add(item[0].ToString());
+                }
+                //traer carriles
+                DataSet carriLista = C_Celdas.VistaAlmacenesCarriles(_IdSucursal);
+                foreach(DataRow item in carriLista.Tables[0].Rows)
+                {
+                    _carriles.Add(item[0].ToString());
+                }
             }
-
             catch (Exception err)
             {
                 Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ = " + err.ToString());
+            }
+        }
+        public void DatosAlmacen()
+        {
+            try
+            {
+                DataSet ListAlm = C_Celdas.DatosAlmacen(_IdSucursal);
+                foreach (DataRow item in ListAlm.Tables[0].Rows)
+                {
+                    if (_IdSucursal == Convert.ToInt32(item[1]))
+                    {
+                        _IdAlmacen = Convert.ToInt32(item[0]);
+                        _NombreAlmacen = item[2].ToString();
+                        _AreasAlmacen = Convert.ToInt32(item[3]);
+                        _NavesAlmacen = Convert.ToInt32(item[4]);
+                    }
+                }
+                labelTitulo.Text = _NombreAlmacen;
+
+                if(_IdSucursal == 12081)
+                {
+                    BandNave1.Visible = false;
+                    BandNave2.Visible = false;
+                    BandNave3.Visible = false;
+                    BandNave4.Visible = false;
+                    BandNave5.Visible = false;
+                    //BandNave11.Visible = false;
+                    //BandNave12.Visible = false;
+                    //BandNave13.Visible = false;
+                    BandNave14.Visible = false;
+                    BandNave15.Visible = false;
+                    BandNave16.Visible = false;
+                    BandNave17.Visible = false;
+                }
+                else if(_IdSucursal == 12080)
+                {
+                    BandNave1.Visible = false;
+                    BandNave2.Visible = false;
+                    BandNave3.Visible = false;
+                    BandNave4.Visible = false;
+                    BandNave5.Visible = false;
+                    BandNave6.Visible = false;
+                    BandNave7.Visible = false;
+                    BandNave8.Visible = false;
+                    BandNave9.Visible = false;
+                    BandNave10.Visible = false;
+                    BandNave14.Visible = false;
+                    BandNave15.Visible = false;
+                    BandNave16.Visible = false;
+                    BandNave17.Visible = false;
+                }
+                else if(_IdSucursal == 12071)
+                {
+                    BandNave8.Visible = false;
+                    BandNave9.Visible = false;
+                    BandNave10.Visible = false;
+                    BandNave11.Visible = false;
+                    BandNave12.Visible = false;
+                    BandNave13.Visible = false;
+                    BandNave14.Visible = false;
+                    BandNave15.Visible = false;
+                    BandNave16.Visible = false;
+                    BandNave17.Visible = false;
+                }
+                else if(_IdSucursal == 12012 || _IdSucursal == 12004 || _IdSucursal == 12007 || _IdSucursal == 12008)
+                {
+                    BandNave3.Visible = false;
+                    BandNave4.Visible = false;
+                    BandNave5.Visible = false;
+                    BandNave6.Visible = false;
+                    BandNave7.Visible = false;
+                    BandNave8.Visible = false;
+                    BandNave9.Visible = false;
+                    BandNave10.Visible = false;
+                    BandNave11.Visible = false;
+                    BandNave12.Visible = false;
+                    BandNave13.Visible = false;
+                    BandNave14.Visible = false;
+                    BandNave15.Visible = false;
+                    BandNave16.Visible = false;
+                    BandNave17.Visible = false;
+                }
+                else if(_IdSucursal == 12086 || _IdSucursal == 12097)
+                {
+                    BandNave2.Visible = false;
+                    BandNave3.Visible = false;
+                    BandNave4.Visible = false;
+                    BandNave5.Visible = false;
+                    BandNave6.Visible = false;
+                    BandNave7.Visible = false;
+                    BandNave8.Visible = false;
+                    BandNave9.Visible = false;
+                    BandNave10.Visible = false;
+                    BandNave11.Visible = false;
+                    BandNave12.Visible = false;
+                    BandNave13.Visible = false;
+                    BandNave14.Visible = false;
+                    BandNave15.Visible = false;
+                    BandNave16.Visible = false;
+                    BandNave17.Visible = false;
+                }
+            }
+            catch(Exception err)
+            {
+                Console.WriteLine("########################### = " + err.ToString());
             }
         }
         private void bandedGridView1_RowCellStyle(object sender, RowCellStyleEventArgs e)
@@ -564,814 +1006,2782 @@ namespace WFConsumo.frmGRH.Localizacion
                 int cont = 0;
                 string _colCont = "A";
                 string _rowName = string.Empty;
-                //    //////////////////////////////////////////////
-                //    //Hace el loop por las 17 naves, 
+
+                //Hace el loop por las 17 naves, 
                 for (int i = 0; i < 17; i++)
                 {
                     try
                     {
-                        //_Col = "A";
-                        //if (_Col == "A")
-                        //{
-                        //    string _nomb = "p_N" + (i + 1) + "A";
-                        //    int _CellA = (view.GetRowCellValue(cont, _nomb) is DBNull ? "0" : view.GetRowCellValue(cont, _nomb)).ToString().Length;
-                        //    if (e.Column.FieldName == _nomb || e.RowHandle == cont)
-                        //    {
-                        //        if (_CellA > 6)
-                        //        {
-                        //            e.Appearance.BackColor = Color.Blue;
-                        //            e.Appearance.ForeColor = Color.White;
-                        //        }
-                        //        else
-                        //        {
-                        //            e.Appearance.BackColor = Color.ForestGreen;
-                        //            e.Appearance.ForeColor = Color.White;
-                        //        }
-                        //    }
-                        //    else
-                        //    {
-                        //        //
-                        //    }
-                        //}
-                        //else if (_Col == "B")
-                        //{
-                        //    string _nomb = "p_N" + (i + 1) + "B";
-                        //    string _CellB = (view.GetRowCellValue(cont, _nomb) is DBNull ? "0" : view.GetRowCellValue(cont, _nomb)).ToString();
-                        //    if (e.Column.FieldName == _nomb || e.RowHandle == cont)
-                        //    {
-                        //        if (_CellB.ToLower().Contains(':'))
-                        //        {
-                        //            e.Appearance.BackColor = Color.Blue;
-                        //            e.Appearance.ForeColor = Color.White;
-                        //        }
-                        //        else
-                        //        {
-                        //            e.Appearance.BackColor = Color.ForestGreen;
-                        //            e.Appearance.ForeColor = Color.White;
-                        //        }
-                        //    }
-                        //    else
-                        //    {
-                        //        //
-                        //    }
-                        //}
-                        //else if (_Col == "C")
-                        //{
-                        //    string _nomb = "p_N" + (i + 1) + "C";
-                        //    string _CellC = (view.GetRowCellValue(cont, _nomb) is DBNull ? "0" : view.GetRowCellValue(cont, _nomb)).ToString();
-                        //    if (e.Column.FieldName == _nomb || e.RowHandle == cont)
-                        //    {
-                        //        if (_CellC.ToLower().Contains(':'))
-                        //        {
-                        //            e.Appearance.BackColor = Color.Blue;
-                        //            e.Appearance.ForeColor = Color.White;
-                        //        }
-                        //        else
-                        //        {
-                        //            e.Appearance.BackColor = Color.ForestGreen;
-                        //            e.Appearance.ForeColor = Color.White;
-                        //        }
-                        //    }
-                        //    else
-                        //    {
-                        //        //
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //    e.Appearance.BackColor = Color.White;
-                        //}
-
                         //Convert.ToDecimal(drDatos["total"] is DBNull ? 0 : drDatos["total"])
                         //1
-                        int _1A = view.GetRowCellValue(e.RowHandle, "p_N1A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N1A").ToString().Length;
+                        string _1A = (view.GetRowCellValue(e.RowHandle, "p_N1A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N1A")).ToString();
                         if(e.Column.FieldName == "p_N1A")
                         {
-                            if(_1A > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if(_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if(_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _1A)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _1B = view.GetRowCellValue(e.RowHandle, "p_N1B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N1B").ToString().Length;
+                        string _1B = (view.GetRowCellValue(e.RowHandle, "p_N1B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N1B")).ToString();
                         if (e.Column.FieldName == "p_N1B")
                         {
-                            if (_1B > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _1B)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _1C = view.GetRowCellValue(e.RowHandle, "p_N1C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N1C").ToString().Length;
+                        string _1C = (view.GetRowCellValue(e.RowHandle, "p_N1C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N1C")).ToString();
                         if (e.Column.FieldName == "p_N1C")
                         {
-                            if (_1C > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _1C)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
                         //2
-                        int _2A = view.GetRowCellValue(e.RowHandle, "p_N2A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N2A").ToString().Length;
+                        string _2A = (view.GetRowCellValue(e.RowHandle, "p_N2A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N2A")).ToString();
                         if (e.Column.FieldName == "p_N2A")
                         {
-                            if (_2A > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _2A)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _2B = view.GetRowCellValue(e.RowHandle, "p_N2B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N2B").ToString().Length;
+                        string _2B = (view.GetRowCellValue(e.RowHandle, "p_N2B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N2B")).ToString();
                         if (e.Column.FieldName == "p_N2B")
                         {
-                            if (_2B > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _2B)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _2C = view.GetRowCellValue(e.RowHandle, "p_N2C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N2C").ToString().Length;
+                        string _2C = (view.GetRowCellValue(e.RowHandle, "p_N2C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N2C")).ToString();
                         if (e.Column.FieldName == "p_N2C")
                         {
-                            if (_2C > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _2C)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
                         //3
-                        int _3A = view.GetRowCellValue(e.RowHandle, "p_N3A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N3A").ToString().Length;
+                        string _3A = (view.GetRowCellValue(e.RowHandle, "p_N3A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N3A")).ToString();
                         if (e.Column.FieldName == "p_N3A")
                         {
-                            if (_3A > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _3A)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _3B = view.GetRowCellValue(e.RowHandle, "p_N3B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N3B").ToString().Length;
+                        string _3B = (view.GetRowCellValue(e.RowHandle, "p_N3B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N3B")).ToString();
                         if (e.Column.FieldName == "p_N3B")
                         {
-                            if (_3B > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _3B)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _3C = view.GetRowCellValue(e.RowHandle, "p_N3C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N3C").ToString().Length;
+                        string _3C = (view.GetRowCellValue(e.RowHandle, "p_N3C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N3C")).ToString();
                         if (e.Column.FieldName == "p_N3C")
                         {
-                            if (_3C > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _3C)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
                         //4
-                        int _4A = view.GetRowCellValue(e.RowHandle, "p_N4A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N4A").ToString().Length;
+                        string _4A = (view.GetRowCellValue(e.RowHandle, "p_N4A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N4A")).ToString();
                         if (e.Column.FieldName == "p_N4A")
                         {
-                            if (_4A > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _4A)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _4B = view.GetRowCellValue(e.RowHandle, "p_N4B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N4B").ToString().Length;
+                        string _4B = (view.GetRowCellValue(e.RowHandle, "p_N4B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N4B")).ToString();
                         if (e.Column.FieldName == "p_N4B")
                         {
-                            if (_4B > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _4B)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _4C = view.GetRowCellValue(e.RowHandle, "p_N4C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N4C").ToString().Length;
+                        string _4C = (view.GetRowCellValue(e.RowHandle, "p_N4C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N4C")).ToString();
                         if (e.Column.FieldName == "p_N4C")
                         {
-                            if (_4C > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _4C)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
                         //5
-                        int _5A = view.GetRowCellValue(e.RowHandle, "p_N5A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N5A").ToString().Length;
+                        string _5A = (view.GetRowCellValue(e.RowHandle, "p_N5A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N5A")).ToString();
                         if (e.Column.FieldName == "p_N5A")
                         {
-                            if (_5A > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _5A)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _5B = view.GetRowCellValue(e.RowHandle, "p_N5B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N5B").ToString().Length;
+                        string _5B = (view.GetRowCellValue(e.RowHandle, "p_N5B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N5B")).ToString();
                         if (e.Column.FieldName == "p_N5B")
                         {
-                            if (_5B > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _5B)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _5C = view.GetRowCellValue(e.RowHandle, "p_N5C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N5C").ToString().Length;
+                        string _5C = (view.GetRowCellValue(e.RowHandle, "p_N5C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N5C")).ToString();
                         if (e.Column.FieldName == "p_N5C")
                         {
-                            if (_5C > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _5C)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
                         //6
-                        int _6A = view.GetRowCellValue(e.RowHandle, "p_N6A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N6A").ToString().Length;
+                        //int _6A = view.GetRowCellValue(e.RowHandle, "p_N6A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N6A").ToString().Length;
+                        string _6A2 = (view.GetRowCellValue(e.RowHandle, "p_N6A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N6A")).ToString();
                         if (e.Column.FieldName == "p_N6A")
                         {
-                            if (_6A > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach(var itm in _celdaData)
+                                {
+                                    if(itm.p_CeldaId == _6A2)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    } 
+                                }
+                                if(_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if(_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if(_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White; 
+                                }
                             }
                         }
-                        int _6B = view.GetRowCellValue(e.RowHandle, "p_N6B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N6B").ToString().Length;
+                        //int _6B = view.GetRowCellValue(e.RowHandle, "p_N6B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N6B").ToString().Length;
+                        string _6B = (view.GetRowCellValue(e.RowHandle, "p_N6B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N6B")).ToString();
                         if (e.Column.FieldName == "p_N6B")
                         {
-                            if (_6B > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _6B)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _6C = view.GetRowCellValue(e.RowHandle, "p_N6C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N6C").ToString().Length;
+                        string _6C = (view.GetRowCellValue(e.RowHandle, "p_N6C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N6C")).ToString();
                         if (e.Column.FieldName == "p_N6C")
                         {
-                            if (_6C > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _6C)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
                         //7
-                        int _7A = view.GetRowCellValue(e.RowHandle, "p_N7A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N7A").ToString().Length;
+                        string _7A = (view.GetRowCellValue(e.RowHandle, "p_N7A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N7A")).ToString();
                         if (e.Column.FieldName == "p_N7A")
                         {
-                            if (_7A > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _7A)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _7B = view.GetRowCellValue(e.RowHandle, "p_N7B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N7B").ToString().Length;
+                        string _7B = (view.GetRowCellValue(e.RowHandle, "p_N7B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N7B")).ToString();
                         if (e.Column.FieldName == "p_N7B")
                         {
-                            if (_7B > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _7B)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _7C = view.GetRowCellValue(e.RowHandle, "p_N7C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N7C").ToString().Length;
+                        string _7C = (view.GetRowCellValue(e.RowHandle, "p_N7C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N7C")).ToString();
                         if (e.Column.FieldName == "p_N7C")
                         {
-                            if (_7C > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _7C)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
                         //8
-                        int _8A = view.GetRowCellValue(e.RowHandle, "p_N8A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N8A").ToString().Length;
+                        string _8A = (view.GetRowCellValue(e.RowHandle, "p_N8A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N8A")).ToString();
                         if (e.Column.FieldName == "p_N8A")
                         {
-                            if (_8A > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _8A)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _8B = view.GetRowCellValue(e.RowHandle, "p_N8B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N8B").ToString().Length;
+                        string _8B = (view.GetRowCellValue(e.RowHandle, "p_N8B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N8B")).ToString();
                         if (e.Column.FieldName == "p_N8B")
                         {
-                            if (_8B > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _8B)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _8C = view.GetRowCellValue(e.RowHandle, "p_N8C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N8C").ToString().Length;
+                        string _8C = (view.GetRowCellValue(e.RowHandle, "p_N8C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N8C")).ToString();
                         if (e.Column.FieldName == "p_N8C")
                         {
-                            if (_8C > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _8C)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
                         //9
-                        int _9A = view.GetRowCellValue(e.RowHandle, "p_N9A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N9A").ToString().Length;
+                        string _9A = (view.GetRowCellValue(e.RowHandle, "p_N9A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N9A")).ToString();
                         if (e.Column.FieldName == "p_N9A")
                         {
-                            if (_9A > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _9A)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _9B = view.GetRowCellValue(e.RowHandle, "p_N9B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N9B").ToString().Length;
+                        string _9B = (view.GetRowCellValue(e.RowHandle, "p_N9B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N9B")).ToString();
                         if (e.Column.FieldName == "p_N9B")
                         {
-                            if (_9B > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _9B)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _9C = view.GetRowCellValue(e.RowHandle, "p_N9C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N9C").ToString().Length;
+                        string _9C = (view.GetRowCellValue(e.RowHandle, "p_N9C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N9C")).ToString();
                         if (e.Column.FieldName == "p_N9C")
                         {
-                            if (_9C > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _9C)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
                         //10
-                        int _10A = view.GetRowCellValue(e.RowHandle, "p_N10A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N10A").ToString().Length;
+                        string _10A = (view.GetRowCellValue(e.RowHandle, "p_N10A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N10A")).ToString();
                         if (e.Column.FieldName == "p_N10A")
                         {
-                            if (_10A > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _10A)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _10B = view.GetRowCellValue(e.RowHandle, "p_N10B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N10B").ToString().Length;
+                        string _10B = (view.GetRowCellValue(e.RowHandle, "p_N10B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N10B")).ToString();
                         if (e.Column.FieldName == "p_N10B")
                         {
-                            if (_6B > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _10B)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _10C = view.GetRowCellValue(e.RowHandle, "p_N10C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N10C").ToString().Length;
+                        string _10C = (view.GetRowCellValue(e.RowHandle, "p_N10C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N10C")).ToString();
                         if (e.Column.FieldName == "p_N10C")
                         {
-                            if (_10C > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _10C)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
                         //11
-                        int _11A = view.GetRowCellValue(e.RowHandle, "p_N11A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N11A").ToString().Length;
+                        string _11A = (view.GetRowCellValue(e.RowHandle, "p_N11A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N11A")).ToString();
                         if (e.Column.FieldName == "p_N11A")
                         {
-                            if (_11A > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _11A)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _11B = view.GetRowCellValue(e.RowHandle, "p_N11B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N11B").ToString().Length;
+                        string _11B = (view.GetRowCellValue(e.RowHandle, "p_N11B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N11B")).ToString();
                         if (e.Column.FieldName == "p_N11B")
                         {
-                            if (_11B > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _11B)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _11C = view.GetRowCellValue(e.RowHandle, "p_N11C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N11C").ToString().Length;
+                        string _11C = (view.GetRowCellValue(e.RowHandle, "p_N11C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N11C")).ToString();
                         if (e.Column.FieldName == "p_N11C")
                         {
-                            if (_11C > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _11C)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
                         //12
-                        int _12A = view.GetRowCellValue(e.RowHandle, "p_N12A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N12A").ToString().Length;
+                        string _12A = (view.GetRowCellValue(e.RowHandle, "p_N12A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N12A")).ToString();
                         if (e.Column.FieldName == "p_N12A")
                         {
-                            if (_12A > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _12A)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _12B = view.GetRowCellValue(e.RowHandle, "p_N12B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N12B").ToString().Length;
+                        string _12B = (view.GetRowCellValue(e.RowHandle, "p_N12B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N12B")).ToString();
                         if (e.Column.FieldName == "p_N12B")
                         {
-                            if (_12B > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _12B)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _12C = view.GetRowCellValue(e.RowHandle, "p_N12C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N12C").ToString().Length;
+                        string _12C = (view.GetRowCellValue(e.RowHandle, "p_N12C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N12C")).ToString();
                         if (e.Column.FieldName == "p_N12C")
                         {
-                            if (_12C > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _6C)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
                         //13
-                        int _13A = view.GetRowCellValue(e.RowHandle, "p_N13A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N13A").ToString().Length;
+                        string _13A = (view.GetRowCellValue(e.RowHandle, "p_N13A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N13A")).ToString();
                         if (e.Column.FieldName == "p_N13A")
                         {
-                            if (_13A > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _13A)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _13B = view.GetRowCellValue(e.RowHandle, "p_N13B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N13B").ToString().Length;
+                        string _13B = (view.GetRowCellValue(e.RowHandle, "p_N13B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N13B")).ToString();
                         if (e.Column.FieldName == "p_N13B")
                         {
-                            if (_13B > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _13B)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _13C = view.GetRowCellValue(e.RowHandle, "p_N13C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N13C").ToString().Length;
+                        string _13C = (view.GetRowCellValue(e.RowHandle, "p_N13C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N13C")).ToString();
                         if (e.Column.FieldName == "p_N13C")
                         {
-                            if (_13C > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _13C)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
                         //14
-                        int _14A = view.GetRowCellValue(e.RowHandle, "p_N14A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N14A").ToString().Length;
+                        string _14A = (view.GetRowCellValue(e.RowHandle, "p_N14A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N14A")).ToString();
                         if (e.Column.FieldName == "p_N14A")
                         {
-                            if (_14A > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _14A)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _14B = view.GetRowCellValue(e.RowHandle, "p_N14B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N14B").ToString().Length;
+                        string _14B = (view.GetRowCellValue(e.RowHandle, "p_N14B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N14B")).ToString();
                         if (e.Column.FieldName == "p_N14B")
                         {
-                            if (_14B > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _14B)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _14C = view.GetRowCellValue(e.RowHandle, "p_N14C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N14C").ToString().Length;
+                        string _14C = (view.GetRowCellValue(e.RowHandle, "p_N14C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N14C")).ToString();
                         if (e.Column.FieldName == "p_N14C")
                         {
-                            if (_14C > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _14C)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
                         //15
-                        int _15A = view.GetRowCellValue(e.RowHandle, "p_N15A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N15A").ToString().Length;
+                        string _15A = (view.GetRowCellValue(e.RowHandle, "p_N15A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N15A")).ToString();
                         if (e.Column.FieldName == "p_N15A")
                         {
-                            if (_15A > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _15A)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _15B = view.GetRowCellValue(e.RowHandle, "p_N15B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N15B").ToString().Length;
+                        string _15B = (view.GetRowCellValue(e.RowHandle, "p_N15B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N15B")).ToString();
                         if (e.Column.FieldName == "p_N15B")
                         {
-                            if (_15B > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _15B)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _15C = view.GetRowCellValue(e.RowHandle, "p_N15C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N15C").ToString().Length;
+                        string _15C = (view.GetRowCellValue(e.RowHandle, "p_N15C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N15C")).ToString();
                         if (e.Column.FieldName == "p_N15C")
                         {
-                            if (_15C > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _6C)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
                         //16
-                        int _16A = view.GetRowCellValue(e.RowHandle, "p_N16A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N16A").ToString().Length;
+                        string _16A = (view.GetRowCellValue(e.RowHandle, "p_N16A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N16A")).ToString();
                         if (e.Column.FieldName == "p_N16A")
                         {
-                            if (_16A > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _16A)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _16B = view.GetRowCellValue(e.RowHandle, "p_N16B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N16B").ToString().Length;
+                        string _16B = (view.GetRowCellValue(e.RowHandle, "p_N16B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N16B")).ToString();
                         if (e.Column.FieldName == "p_N16B")
                         {
-                            if (_16B > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _16B)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _16C = view.GetRowCellValue(e.RowHandle, "p_N16C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N16C").ToString().Length;
+                        string _16C = (view.GetRowCellValue(e.RowHandle, "p_N16C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N16C")).ToString();
                         if (e.Column.FieldName == "p_N16C")
                         {
-                            if (_16C > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _16C)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
                         //17
-                        int _17A = view.GetRowCellValue(e.RowHandle, "p_N17A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N17A").ToString().Length;
+                        string _17A = (view.GetRowCellValue(e.RowHandle, "p_N17A") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N17A")).ToString();
                         if (e.Column.FieldName == "p_N17A")
                         {
-                            if (_17A > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _17A)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _17B = view.GetRowCellValue(e.RowHandle, "p_N17B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N17B").ToString().Length;
+                        string _17B = (view.GetRowCellValue(e.RowHandle, "p_N17B") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N17B")).ToString();
                         if (e.Column.FieldName == "p_N17B")
                         {
-                            if (_17B > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _17B)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
-                        int _17C = view.GetRowCellValue(e.RowHandle, "p_N17C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N17C").ToString().Length;
+                        string _17C = (view.GetRowCellValue(e.RowHandle, "p_N17C") is DBNull ? 0 : view.GetRowCellValue(e.RowHandle, "p_N17C")).ToString();
                         if (e.Column.FieldName == "p_N17C")
                         {
-                            if (_17C > 7)
+                            if (_centrosTrabajo.Contains(e.CellValue.ToString()))
                             {
-                                e.Appearance.BackColor = Color.Blue;
+                                e.Appearance.BackColor = Color.Black;
+                                e.Appearance.ForeColor = Color.Black;
+                            }
+                            else if (_oficinas.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.Gray;
+                                e.Appearance.ForeColor = Color.Gray;
+                            }
+                            else if (_carriles.Contains(e.CellValue.ToString()))
+                            {
+                                e.Appearance.BackColor = Color.White;
                                 e.Appearance.ForeColor = Color.White;
                             }
                             else
                             {
-                                e.Appearance.BackColor = Color.White;
-                                e.Appearance.ForeColor = Color.Blue;
+
+                                int _cnt = 0;
+                                int _cntxCeld = 0;
+                                foreach (var itm in _celdaData)
+                                {
+                                    if (itm.p_CeldaId == _17C)
+                                    {
+                                        _cnt = itm.p_Unidades;
+                                        _cntxCeld = itm.p_UnidadesXCelda;
+                                    }
+                                }
+                                //Console.WriteLine("$$$$$$$$$$$$$$$ = CNT = " + _cnt + "   ///////////// CNTxCELDA = " + _cntxCeld);
+                                if (_cnt <= 0)
+                                {
+                                    e.Appearance.BackColor = Color.Green;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt < _cntxCeld && _cnt > 0)
+                                {
+                                    e.Appearance.BackColor = Color.Yellow;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else if (_cnt >= _cntxCeld)
+                                {
+                                    e.Appearance.BackColor = Color.Red;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    e.Appearance.BackColor = Color.White;
+                                    e.Appearance.ForeColor = Color.White;
+                                }
                             }
                         }
                         //////////////////////////////////////////////////////////////////////
@@ -1764,8 +4174,9 @@ namespace WFConsumo.frmGRH.Localizacion
             private string Columna;
             private string CeldaId;
             private string ItemId;
-            private string Unidades;
-            private string UnidadesXCelda;
+            private int Unidades;
+            private int UnidadesXCelda;
+            private int Status;
 
             public int p_Area
             {
@@ -1797,16 +4208,203 @@ namespace WFConsumo.frmGRH.Localizacion
                 get { return ItemId; }
                 set { ItemId = value; }
             }
-            public string p_Unidades
+            public int p_Unidades
             {
                 get { return Unidades; }
                 set { Unidades = value; }
             }
-            public string p_UnidadesXCelda
+            public int p_UnidadesXCelda
             {
                 get { return UnidadesXCelda; }
                 set { UnidadesXCelda = value; }
             }
+            public int p_Status
+            {
+                get { return Status; }
+                set { Status = value; }
+            }
+        }
+        public class EstanteConsulta
+        {
+            private string CodigoEstante;
+            //private string CeldaId;
+            private int Unidades;
+            private decimal Kgs;
+            private decimal Max_Kgs;
+
+            public string p_CodigoEstante
+            {
+                get { return CodigoEstante; }
+                set { CodigoEstante = value; }
+            }
+            //public string p_CeldaId
+            //{
+            //    get { return CeldaId; }
+            //    set { CeldaId = value; }
+            //}
+            public int p_Unidades
+            {
+                get { return Unidades; }
+                set { Unidades = value; }
+            }
+            public decimal p_Kgs
+            {
+                get { return Kgs; }
+                set { Kgs = value; }
+            }
+            public decimal p_Max_Kgs
+            {
+                get { return Max_Kgs; }
+                set { Max_Kgs = value; }
+            }
+        }
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string CeldaEdit = string.Empty;
+                //CeldaEdit = "INSERT INTO tblCeldas (SucursalId, CeldaId, AlmacenId, Area, Segmento, Fila, Nave, Columna, ItemId, Unidades, Kgs, Status, Proceso, PreAsignado, CeldaTemp) VALUES(12081, 'AL3:6A-12S3', 3, 12, 'S3', 0, 6, 'A', 'Maquina', 0, 0, 2, 'Llenado', 1, '')";
+                CeldaEdit = "SELECT * FROM tblDevolucion";
+                int a = C_Celdas.EditData(CeldaEdit);
+                if (a > 0)
+                {
+                    XtraMessageBox.Show("EditData OK");
+                }
+                else
+                {
+                    XtraMessageBox.Show("Error EditData");
+                }
+            }
+            catch (Exception err)
+            {
+                Console.WriteLine("######################### = " + err.ToString());
+            }
+        }
+        private void simpleButton18_Click(object sender, EventArgs e)
+        {
+            string _estante = btnP1A1.Text;
+            _tipoCelda = 0;
+            var myForm = new VerCelda(popupTitulo.Text, _IdSucursal, _tipoCelda, _estante);
+            myForm.Show();
+        }
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            popupContainerControl1.Hide();
+        }
+        private void btnCerrarRack_Click(object sender, EventArgs e)
+        {
+            popupContainerControl2.Hide();
+        }
+        private void btnA1_Click(object sender, EventArgs e)
+        {
+            string _estante = btnP1A1.Text;
+            _tipoCelda = 1;
+            var myForm = new VerCelda(popupTitulo.Text, _IdSucursal, _tipoCelda, _estante);
+            myForm.Show();
+        }
+        private void btnP2A1_Click(object sender, EventArgs e)
+        {
+            string _estante = btnP2A1.Text;
+            _tipoCelda = 1;
+            var myForm = new VerCelda(popupTitulo.Text, _IdSucursal, _tipoCelda, _estante);
+            myForm.Show();
+        }
+        private void btnP3A1_Click(object sender, EventArgs e)
+        {
+            string _estante = btnP3A1.Text;
+            _tipoCelda = 1;
+            var myForm = new VerCelda(popupTitulo.Text, _IdSucursal, _tipoCelda, _estante);
+            myForm.Show();
+        }
+        private void btnP4A1_Click(object sender, EventArgs e)
+        {
+            string _estante = btnP4A1.Text;
+            _tipoCelda = 1;
+            var myForm = new VerCelda(popupTitulo.Text, _IdSucursal, _tipoCelda, _estante);
+            myForm.Show();
+        }
+        private void btnP5A1_Click(object sender, EventArgs e)
+        {
+            string _estante = btnP5A1.Text;
+            _tipoCelda = 1;
+            var myForm = new VerCelda(popupTitulo.Text, _IdSucursal, _tipoCelda, _estante);
+            myForm.Show();
+        }
+        private void btnP1B1_Click(object sender, EventArgs e)
+        {
+            string _estante = btnP1B1.Text;
+            _tipoCelda = 1;
+            var myForm = new VerCelda(popupTitulo.Text, _IdSucursal, _tipoCelda, _estante);
+            myForm.Show();
+        }
+        private void btnP2B1_Click(object sender, EventArgs e)
+        {
+            string _estante = btnP2B1.Text;
+            _tipoCelda = 1;
+            var myForm = new VerCelda(popupTitulo.Text, _IdSucursal, _tipoCelda, _estante);
+            myForm.Show();
+        }
+        private void btnP3B1_Click(object sender, EventArgs e)
+        {
+            string _estante = btnP3B1.Text;
+            _tipoCelda = 1;
+            var myForm = new VerCelda(popupTitulo.Text, _IdSucursal, _tipoCelda, _estante);
+            myForm.Show();
+        }
+        private void btnP4B1_Click(object sender, EventArgs e)
+        {
+            string _estante = btnP4B1.Text;
+            _tipoCelda = 1;
+            var myForm = new VerCelda(popupTitulo.Text, _IdSucursal, _tipoCelda, _estante);
+            myForm.Show();
+        }
+        private void btnP5B1_Click(object sender, EventArgs e)
+        {
+            string _estante = btnP5B1.Text;
+            _tipoCelda = 1;
+            var myForm = new VerCelda(popupTitulo.Text, _IdSucursal, _tipoCelda, _estante);
+            myForm.Show();
+        }
+        private void btnP1C1_Click(object sender, EventArgs e)
+        {
+            string _estante = btnP1C1.Text;
+            _tipoCelda = 1;
+            var myForm = new VerCelda(popupTitulo.Text, _IdSucursal, _tipoCelda, _estante);
+            myForm.Show();
+        }
+        private void btnP2C1_Click(object sender, EventArgs e)
+        {
+            string _estante = btnP2C1.Text;
+            _tipoCelda = 1;
+            var myForm = new VerCelda(popupTitulo.Text, _IdSucursal, _tipoCelda, _estante);
+            myForm.Show();
+        }
+        private void btnP3C1_Click(object sender, EventArgs e)
+        {
+            string _estante = btnP3C1.Text;
+            _tipoCelda = 1;
+            var myForm = new VerCelda(popupTitulo.Text, _IdSucursal, _tipoCelda, _estante);
+            myForm.Show();
+        }
+        private void btnP4C1_Click(object sender, EventArgs e)
+        {
+            string _estante = btnP4C1.Text;
+            _tipoCelda = 1;
+            var myForm = new VerCelda(popupTitulo.Text, _IdSucursal, _tipoCelda, _estante);
+            myForm.Show();
+        }
+        private void btnP5C1_Click(object sender, EventArgs e)
+        {
+            string _estante = btnP5C1.Text;
+            _tipoCelda = 1;
+            var myForm = new VerCelda(popupTitulo.Text, _IdSucursal, _tipoCelda, _estante);
+            myForm.Show();
+        } 
+        private void btnActualizarCeldas_Click(object sender, EventArgs e)
+        {
+            DatosAlmacen();
+            CrearCeldas();
+            TraerData();
         }
     }
 }

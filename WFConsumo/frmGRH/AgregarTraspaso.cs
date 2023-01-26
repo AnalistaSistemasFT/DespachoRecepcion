@@ -13,6 +13,7 @@ using CRN.Entidades;
 using WFConsumo.frmGRH.DespachoOrdenEnProceso;
 using WFConsumo.frmGRH.Traspaso;
 using CAD;
+using WFConsumo.Reportes;
 
 namespace WFConsumo.frmGRH
 {
@@ -23,20 +24,26 @@ namespace WFConsumo.frmGRH
         int _sucOrigen;
         int _sucDestino;
         int _correlativoMovArt = 0;
+        int _sucDestinoInformix = 0;
         CDespacho C_Despacho;
         CTraspaso C_Traspaso;
         CSucursal C_Sucursal;
         List<ItemTraspaso> _listItemTrasp = new List<ItemTraspaso>();
         List<TraspasoQuery> _listQueryTrasp = new List<TraspasoQuery>();
+        int _TraspExiste = 0;
+        string _Traspaso = string.Empty;
 
-        public AgregarTraspaso(string _IdDespacho, int _sucursalId)
+        //Si no tiene traspaso va a llegar con 0, y si tiene traspaso llega con 1
+        public AgregarTraspaso(string _IdDespacho, int _sucursalId, int _tieneTrasp, string _Trasp)
         {
             InitializeComponent();
             C_Despacho = new CDespacho();
             C_Traspaso = new CTraspaso();
             C_Sucursal = new CSucursal();
             _idSucursal = _sucursalId;
-            _despachoId = _IdDespacho; 
+            _despachoId = _IdDespacho;
+            _TraspExiste = _tieneTrasp;
+            _Traspaso = _Trasp;
             //txtFechaDoctxtTransaccion.Text = "26001";
             txtFechaDoc.Text = DateTime.Now.ToString("dd/MM/yyyy");
             txtFechaReg.Text = DateTime.Now.ToString("dd/MM/yyyy");
@@ -64,7 +71,7 @@ namespace WFConsumo.frmGRH
                     tipoDodId = items[0].ToString();
                     tipoDodNom = items[1].ToString();
                 }
-                DataSet dataCorr = C_Traspaso.TraerCorrelativo(_sucDestino);
+                DataSet dataCorr = C_Traspaso.TraerCorrelativo(tipoDodId);
                 foreach (DataRow items in dataCorr.Tables[0].Rows)
                 {
                     tipoDocId = items[0].ToString();
@@ -80,9 +87,14 @@ namespace WFConsumo.frmGRH
                 {
                     _nSucDest = item[0].ToString();
                 }
+                DataSet dataSucTransito = C_Despacho.TraerCodigoTransito(_sucDestino);
+                foreach(DataRow item in dataSucTransito.Tables[0].Rows)
+                {
+                    _sucDestinoInformix = Convert.ToInt32(item[0]);
+                }
                 string _tipoDodId = tipoDodId;
                 string _tipoDod = tipoDodNom;
-                string _NroDocId = tipoDocId;
+                double _NroDocId = double.Parse(tipoDocId);
                 int _sucEntregaId = _sucOrigen;
                 string _sucEntregaN = _nSucOrig;
                 int _sucRecibeId = _sucDestino;
@@ -90,7 +102,7 @@ namespace WFConsumo.frmGRH
 
                 txtTipoDodId.Text = _tipoDodId;
                 txtTipoDodNom.Text = _tipoDod;
-                txtTipoDocId.Text = _NroDocId;
+                txtTipoDocId.Text = _NroDocId.ToString();
                 txtSucEntregaId.Text = _sucEntregaId.ToString();
                 txtSucEntregaNom.Text = _sucEntregaN;
                 txtSucRecibeId.Text = _sucRecibeId.ToString();
@@ -136,6 +148,15 @@ namespace WFConsumo.frmGRH
                     }
                 }
                 gridControl1.DataSource = _listItemTrasp;
+                //Validar si ya tiene traspaso
+                if(_TraspExiste == 1)
+                {
+                    btnAgregarProducto.Visible = false;
+                    btnAgregarProducto.Enabled = false;
+                    simpleButton1.Visible = false;
+                    simpleButton1.Enabled = false;
+                    txtTipoDocId.Text = _Traspaso;
+                }
             }
             catch (Exception err)
             {
@@ -194,7 +215,6 @@ namespace WFConsumo.frmGRH
         //btnAceptar
         private void simpleButton1_Click(object sender, EventArgs e)
         {
-            
             string sError = string.Empty;
             try
             {
@@ -205,7 +225,7 @@ namespace WFConsumo.frmGRH
                 _traspInf.p_scttfdoc = Convert.ToDateTime(txtFechaDoc.DateTime);
                 _traspInf.p_scttfreg = Convert.ToDateTime(txtFechaReg.DateTime);
                 _traspInf.p_scttsuce = Convert.ToDecimal(txtSucEntregaId.Text);
-                _traspInf.p_scttsucr = _sucDestino;
+                _traspInf.p_scttsucr = _sucDestinoInformix;
                 _traspInf.p_scttdesc = txtDesc.Text.ToUpperInvariant();
 
                 DataTable dt = new DataTable();
@@ -281,7 +301,9 @@ namespace WFConsumo.frmGRH
                     dt.Rows.Add(dr);
                 }
                 _correlativoMovArt = 0;
-                if (C_Traspaso.InsertarTraspaso(_traspInf, dt, _sucOrigen) > 0)
+                C_Traspaso = new CTraspaso();
+                int _Guardar = C_Traspaso.InsertarTraspasoDespacho(_traspInf, dt, "dd", _despachoId);
+                if (_Guardar > 0)
                 {
                     int contA = _listQueryTrasp.Count();
                     int contB = _listItemTrasp.Count();
@@ -308,17 +330,25 @@ namespace WFConsumo.frmGRH
                                 }
                                 catch(Exception err)
                                 {
-                                    XtraMessageBox.Show("Problemas con la conexion al servidor");
+                                    XtraMessageBox.Show("Problemas con la conexion", "Ok");
                                     Console.WriteLine("##################### = " + err.ToString());
                                 }
                             }
                         }
                     }
                     XtraMessageBox.Show("El traspaso ha sido guardado", "Guardar");
+                    ImprimirTraspaso();
+                    this.Close();
+                }
+                else if (_Guardar == -1)
+                {
+                    XtraMessageBox.Show("Stock insuficiente en sucursal origen", "Error ");
+                    this.Close();
                 }
                 else
                 {
                     XtraMessageBox.Show("Algo salio mal, intentalo de nuevo", "Error ");
+                    this.Close();
                 }
             }
             catch (Exception err)
@@ -326,6 +356,32 @@ namespace WFConsumo.frmGRH
                 XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Ok");
                 Console.WriteLine("####################### = " + err.ToString());
             }
+        }
+        private void ImprimirTraspaso()
+        {
+            try
+            {
+                string iTipoDoc = txtTipoDodId.Text;
+                string iNrodoc = txtTipoDocId.Text;
+                string Documento = _despachoId;
+
+                CTraspaso oTraspaso = new CTraspaso();
+                DataSet dts = oTraspaso.ConsultarTraspaso(Convert.ToInt32(iTipoDoc), Convert.ToInt32(iNrodoc));
+                rptDocTrasp oReport = new rptDocTrasp();
+                oReport.SetDataSource(dts.Tables[0]);
+                oReport.SetParameterValue("nrodocumento", Documento);
+                oReport.SetParameterValue("placa", "0");
+                frmReportViewer viwer = new frmReportViewer(oReport);
+                viwer.Width = 1000;
+                viwer.Height = 800;
+                viwer.StartPosition = FormStartPosition.CenterScreen;
+                viwer.ShowDialog();
+            }
+            catch(Exception err)
+            {
+                XtraMessageBox.Show("No se pudo generar el reporte", "Error");
+                Console.WriteLine("###################### = " + err.ToString());
+            } 
         }
         public void ProductoElegidoTrasp(string _idProducto, string _itemFerro, string _descripcion, int _cantidad, int _stock, int _PzaxPaq, int _Paqs, int _Pzas, decimal _PesoPaq, decimal _PesoPaqTot, decimal _Costo)
         {
@@ -368,6 +424,10 @@ namespace WFConsumo.frmGRH
                 XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("################## = " + err.ToString());
             }
+        }
+        private void btnImprimir_Click(object sender, EventArgs e)
+        {
+            ImprimirTraspaso();
         }
     }
 }

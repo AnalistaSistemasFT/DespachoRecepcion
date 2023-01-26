@@ -27,7 +27,6 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
 {
     public partial class CrearDespachoVenta : DevExpress.XtraEditors.XtraForm
     {
-        //asignacion manual por pruebas
         int _idSucursal = 0;
         string _Usuario = " ";
         //
@@ -62,7 +61,7 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
         int _Anticipado = 0;
         int _SucElegida = 0;
         string _SucResultNombre;
-        string _Naturaleza = "TRASPASO";
+        string _Naturaleza = "VENTA";
         int _ContFilasDataGrid = 0;
         string _programacionCheck = "PLANNED";
         string _tipoDespacho = "VENTA";
@@ -76,8 +75,11 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
         CTraspaso C_Traspaso;
         Usuario _user;
         string _destino;
+        int _tipoV = 0;
+        int tipoDoc = 0;
+        int nroDoc = 0;
 
-        public CrearDespachoVenta(int Sucursal, Usuario _usuario)
+        public CrearDespachoVenta(int Sucursal, Usuario _usuario, int TipoV, int _tipoDoc, int _nroDoc)
         {
             InitializeComponent();
             _idSucursal = Sucursal;
@@ -93,12 +95,19 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
             this.gridControl1.DataSource = Program._listaProductos;
             TraerDataSucursalAsync();
             gridView1.CellValueChanging += CantidadCambiada;
-            TraerSecuencia();
+            tipoDoc = _tipoDoc;
+            nroDoc = _nroDoc;
+            TraerSecuencia(TipoV);
             txtTipoDoc.Text = "NN";
             C_Traspaso = new CTraspaso();
+            if(TipoV == 1)
+            {
+                TraerEntregaPendiente();
+            }
         }
+
         List<CatChofer> _dataLista = new List<CatChofer>();
-        public void TraerSecuencia()
+        public void TraerSecuencia(int TipoV)
         {
             try
             {
@@ -109,6 +118,10 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
             {
                 XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("################## = " + err.ToString());
+            }
+            if(TipoV == 1)
+            {
+
             }
         }
         public void TraerDataCamion()
@@ -146,6 +159,132 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
             {
                 XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("################### = " + err.ToString());
+            }
+        }
+        public void TraerEntregaPendiente()
+        {
+            try
+            {
+                if (nroDoc < 1 && tipoDoc < 1)
+                {
+                    XtraMessageBox.Show("Error al cargar los datos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else if (nroDoc > 0 && tipoDoc > 0)
+                {
+                    _listInformix.Clear();
+                    _listItemOrden.Clear();
+                    _gbItem.Clear();
+                    this.gridControl1.DataSource = _gbItem;
+                    this.gridControl1.RefreshDataSource();
+                    this.gridControl1.Refresh();
+                    //int _nroOrden = Convert.ToInt32(txtNroOrden.Text);
+                    DataSet dataLista2 = C_NroOrden.TraerProductos(nroDoc, tipoDoc);
+                    if (dataLista2.Tables[0].Rows.Count == 0)
+                    {
+                        XtraMessageBox.Show("No existen productos en esa orden de venta", "Busqueda", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    foreach (DataRow items in dataLista2.Tables[0].Rows)
+                    {
+                        int _pndnt = Convert.ToInt32(items[3]);
+                        if(_pndnt > 0)
+                        {
+                            _listInformix.Add(new ListaNroOrdenInf
+                            {
+                                _id = items[0].ToString(),
+                                _cant = Convert.ToInt32(items[1]),
+                                _entregado = Convert.ToInt32(items[3])
+                            });
+                        } 
+                    }
+                    DataSet dataItems = C_Item.TraerProductosConItemFid(_idSucursal);
+                    foreach (DataRow item in dataItems.Tables[0].Rows)
+                    {
+                        _listItemOrden.Add(new ItemTraerOrden
+                        {
+                            p_ItemFId = item[0].ToString(),
+                            p_ItemId = item[1].ToString(),
+                            p_Descripcion = item[2].ToString(),
+                            p_Piezas = Convert.ToInt32(item[3]),
+                            p_Stock = Convert.ToInt32(item[4]),
+                            p_Peso = Convert.ToDecimal(item[5])
+                        });
+                    }
+                    var result = from _id in _listInformix join p_ItemFId in _listItemOrden on _id._id equals p_ItemFId.p_ItemFId select new { p_ItemFId.p_ItemFId, p_ItemFId.p_ItemId, p_ItemFId.p_Descripcion, p_ItemFId.p_Stock, p_ItemFId.p_Piezas, p_ItemFId.p_Peso, _id._cant };
+
+                    foreach (var items in result)
+                    {
+                        int _paqs = 0;
+                        _paqs = Convert.ToInt32(items._cant / items.p_Piezas);
+                        int _pzsSobra = 0;
+                        _pzsSobra = Convert.ToInt32(items._cant - (_paqs * Convert.ToInt32(items.p_Piezas)));
+                        decimal _pesoTot = 0;
+                        _pesoTot = Convert.ToDecimal(items.p_Peso * items._cant);
+                        if(_pzsSobra < 1)
+                        {
+
+                        }
+                        else
+                        {
+                            _gbItem.Add(new GlobalItem
+                            {
+                                ItemId = items.p_ItemId.ToString(),
+                                ItemFerro = items.p_ItemFId.ToString(),
+                                Descripcion = items.p_Descripcion.ToString(),
+                                CantidadPzs = Convert.ToInt32(items._cant),
+                                StockPzs = Convert.ToInt32(items.p_Stock),
+                                PzasPaq = Convert.ToInt32(items.p_Piezas),
+                                Paqs = _paqs,
+                                PzasSob = _pzsSobra,
+                                PesoPaq = Convert.ToDecimal(items.p_Peso),
+                                PesoPaqTotal = _pesoTot
+                            });
+                        } 
+                    }
+                    int cantInformix = dataLista2.Tables[0].Rows.Count;
+                    int cantTotal = result.Count();
+                    var no_result = _listInformix.Where(x => _gbItem.All(y => y.ItemFerro != x._id));
+
+                    if (cantInformix != cantTotal)
+                    {
+                        XtraMessageBox.Show(no_result.Count() + " productos sin registrar, ingreselos en el pryAlmacen", "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        simpleButton5.Enabled = false;
+                        foreach (var item in no_result)
+                        {
+                            if(item._cant < 1)
+                            {
+
+                            }
+                            else
+                            {
+                                _gbItem.Add(new GlobalItem
+                                {
+                                    ItemId = "-",
+                                    ItemFerro = item._id,
+                                    Descripcion = "",
+                                    CantidadPzs = Convert.ToInt32(item._cant),
+                                    StockPzs = 0,
+                                    PzasPaq = 0,
+                                    Paqs = 0,
+                                    PzasSob = 0,
+                                    PesoPaq = 0,
+                                    PesoPaqTotal = 0
+                                });
+                            } 
+                        }
+                    }
+                    this.gridControl1.DataSource = _gbItem;
+                    this.gridControl1.RefreshDataSource();
+                    this.gridControl1.Refresh();
+                }
+                else
+                {
+                    XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    this.Close();
+                }
+            }
+            catch(Exception err)
+            {
+                Console.WriteLine("#################### = " + err.ToString());
             }
         }
         public async Task TraerDataSucursalAsync()
@@ -203,7 +342,7 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
                     _nSucursal = item[0].ToString();
                 }
                 await Task.Delay(1000);
-                await TraerClientes();
+                TraerClientes();
             }
             catch (Exception err)
             {
@@ -211,16 +350,11 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
                 Console.WriteLine("################### = " + err.ToString());
             }
         }
-        public async Task TraerClientes()
+        public void TraerClientes()
         {
             try
             {
                 comBoxCliente.Text = "Buscar clientes...";
-                //DataSet dataCl = C_NroOrden.TraerClientes();
-                //foreach (DataRow Row in dataCl.Tables[0].Rows)
-                //{
-                //    comBoxCliente.Properties.Items.Add(Row[1].ToString());
-                //}
             }
             catch (Exception err)
             {
@@ -291,18 +425,25 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
                     _SucElegida = _sucursalId[_data];
                     _destino = _sucursalNombre[_data];
                     int _idSucursalDestino = _SucElegida;
-                    DataSet dataLista = C_NroOrden.TraerTipoDocumento(_idSucursalDestino);
-                    dataSucDest = dataLista.Tables[0];
-                    //gridControl1.DataSource = dataSucDest;
-                    foreach (DataRow item in dataSucDest.Rows)
+                    if(_idSucursalDestino == 12004)
                     {
-                        _SucElegida = Convert.ToInt32(item[0]);
-                        
-                        txtTipoDoc.Text = item[1].ToString() + " - " + item[2].ToString();
-                        _NroDocTraspVenta = Convert.ToInt32(item[3]);
-                        txtNroOrden.ReadOnly = false;
-                        btnBuscOrdenVenta.Enabled = true;
+                        _NroDocTraspVenta = 9003;
                     }
+                    else
+                    {
+                        DataSet dataLista = C_NroOrden.TraerTipoDocumento(_idSucursalDestino);
+                        dataSucDest = dataLista.Tables[0];
+                        //gridControl1.DataSource = dataSucDest;
+                        foreach (DataRow item in dataSucDest.Rows)
+                        {
+                            _SucElegida = Convert.ToInt32(item[0]);
+
+                            txtTipoDoc.Text = item[1].ToString() + " - " + item[2].ToString();
+                            _NroDocTraspVenta = Convert.ToInt32(item[3]);
+                            txtNroOrden.ReadOnly = false;
+                            btnBuscOrdenVenta.Enabled = true;
+                        }
+                    } 
                     TraerNommbreSucursal(_idSucursalDestino);
                 }
             }
@@ -507,10 +648,9 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
         //btnAceptar
         private void simpleButton5_Click(object sender, EventArgs e)
         {
-            txtNroOrden.Text = "0000"; 
             _ContFilasDataGrid = gridView1.RowCount;
             int actualizar = 1;
-            (this.Owner as frmListaDespachoMercaderia).ActualizarLista(actualizar);
+            //(this.Owner as frmListaDespachoMercaderia).ActualizarLista(actualizar);
             if (!string.IsNullOrWhiteSpace(textEdit1.Text) || (!string.IsNullOrEmpty(textEdit1.Text)))
             {
                 if (!string.IsNullOrWhiteSpace(comboBoxEdit1.Text) || (!string.IsNullOrEmpty(comboBoxEdit1.Text)))
@@ -540,7 +680,7 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
 
                                                 _despacho.p_DespachoId = textEdit1.Text;
                                                 _despacho.p_Fecha = DateTime.Now;
-                                                _despacho.p_NroOrden = "0000";
+                                                _despacho.p_NroOrden = txtNroOrden.Text;
                                                 _despacho.p_Id_Camion = _IdCamion;
                                                 _despacho.p_Placa = comboBoxEdit1.Text;
                                                 _despacho.p_Marca = textEdit3.Text;
@@ -620,7 +760,7 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
                                                 Despacho _despacho = new Despacho();
                                                 _despacho.p_DespachoId = textEdit1.Text;
                                                 _despacho.p_Fecha = DateTime.Now;
-                                                _despacho.p_NroOrden = "0000";
+                                                _despacho.p_NroOrden = txtNroOrden.Text;
                                                 _despacho.p_Id_Camion = _IdCamion;
                                                 _despacho.p_Placa = comboBoxEdit1.Text;
                                                 _despacho.p_Marca = textEdit3.Text;
@@ -940,7 +1080,6 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
         {
             try
             {
-                
                 if (!string.IsNullOrWhiteSpace(txtNroOrden.Text) || (!string.IsNullOrEmpty(txtNroOrden.Text)))
                 {
                     if (_NroDocTraspVenta == 0)
@@ -959,7 +1098,6 @@ namespace WFConsumo.frmGRH.DespachoVentaAbierta
                         DataSet dataLista2 = C_NroOrden.TraerProductos(_nroOrden, _NroDocTraspVenta);
                         if (dataLista2.Tables[0].Rows.Count == 0)
                         {
-                            
                             XtraMessageBox.Show("No existen productos en esa orden de venta", "Busqueda", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         } 
                         foreach (DataRow items in dataLista2.Tables[0].Rows)

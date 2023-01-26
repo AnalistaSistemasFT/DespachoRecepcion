@@ -16,7 +16,6 @@ namespace WFConsumo
 {
     public partial class frmRecepInt : Form
     {
-        
         CCentroTrabajo centrotrab;
         DataTable dataT = new DataTable();
         CRecepcion orecepcion;
@@ -34,8 +33,6 @@ namespace WFConsumo
         }
         public void CargarRecepcion(string Estado) 
         {
-            
-            
             DataSet data = orecepcion.TraerTodosRecepcion(Estado, Entidades.utilitario.iSucursal);
             dataT = data.Tables[0];
             this.gridControl1.DataSource = data.Tables[0];  
@@ -178,16 +175,13 @@ namespace WFConsumo
             }
             catch (Exception ee)
             {
-                MessageBox.Show("Hubo un error al momento de procesar el registro =>"+ee.Message,"",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("Hubo un error al momento de procesar el registro => "+ee.Message," ",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }            
         }
-       
-
         private void labelX8_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void tsNuevo_Click(object sender, EventArgs e)
         {
             try
@@ -195,19 +189,22 @@ namespace WFConsumo
                 string sError = string.Empty;
                 DataTable ds1, ds2;
                 ds1 = (DataTable)gridControl2.DataSource;
-                ds2 = (DataTable)gridControl2.DataSource;
-                int a = oAnotacion.InsertarMovimientos(out sError, ds1, ds2, Entidades.utilitario.sUsuario, Entidades.utilitario.iSucursal, Entidades.utilitario.iAlmacen, Recepcion, Documento, SucOri, SucDes);
+                ds2 = (DataTable)gridControl3.DataSource;
+                CSucursal oSuc = new CSucursal();
+                int suctransito = oSuc.TraerSucTransito(SucDes);
+                int a = oAnotacion.InsertarMovimientos(out sError, ds1, ds2, Entidades.utilitario.sUsuario, Entidades.utilitario.iSucursal, Entidades.utilitario.iAlmacen, Recepcion, Documento, SucOri, SucDes, suctransito);
                 if(a>0)
                 {
-                    CargarRecepcion("INPROCESS");
+                    CargarRecepcion("OPEN");
                     gridControl2.DataSource = null;
-                    MessageBox.Show("TRNASACCION EJECUTADA CORRECTAMENTE", "MENSAJE", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("TRANSACCION EJECUTADA CORRECTAMENTE", "MENSAJE", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
-                    MessageBox.Show("Hubo un error al momento de procesar el registro =>" + sError, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Hubo un error al momento de procesar el registro => " + sError, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
+                Console.WriteLine("############################ = " + ex.ToString());
                 throw ex;
             }
         }
@@ -227,6 +224,15 @@ namespace WFConsumo
             viwer.Height = 800;
             viwer.StartPosition = FormStartPosition.CenterScreen;
             viwer.ShowDialog();
+
+            //DataSet dtsRecepcion = oAnotacion.ReporteRecepcionDetalle1(Recepcion);
+            //rptRecepDet1 rptRecepcion = new rptRecepDet1();
+            //rptRecepcion.SetDataSource(dtsRecepcion.Tables[0]);
+            //frmReportViewer viwer = new frmReportViewer(rptRecepcion);
+            //viwer.Width = 1000;
+            //viwer.Height = 800;
+            //viwer.StartPosition = FormStartPosition.CenterScreen;
+            //viwer.ShowDialog();
 
         }
     }

@@ -25,10 +25,12 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
         private int _CantidadPaq;
         private decimal _PesoUnidad;
         CPaquetes C_Paquete;
+        CDespProductos C_DespProductos;
         DataTable dataT = new DataTable();
         List<PaqueteLecturado> _paqList = new List<PaqueteLecturado>();
         List<DespProductos> _desProdList = new List<DespProductos>();
         List<string> _listPaqLecturados = new List<string>();
+        int _LoteCheck = 0;
 
         public ListaLecturadoA(string IdDespacho, DateTime _Fecha, int Sucursal)
         {
@@ -37,20 +39,22 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
             txtDespacho.Text = IdDespacho;
             _idSucursal = Sucursal;
             C_Paquete = new CPaquetes();
+            C_DespProductos = new CDespProductos();
             txtFecha.Text = _Fecha.ToString("dd/MM/yyyy");
             _FechaDesp = _Fecha;
             _desProdList = new List<DespProductos>();
             TraerData();
             this.gridControl1.DataSource = _paqList;
             txtEtiqueta.Enabled = false;
-        } 
+        }
+
         private void TraerData()
         {
             try
             {
                 CDespProductos c_ProdDesp = new CDespProductos();
                 DataSet dataLista = c_ProdDesp.BuscarDespALecturar(_IdDespacho);
-                foreach(DataRow item in dataLista.Tables[0].Rows)
+                foreach (DataRow item in dataLista.Tables[0].Rows)
                 {
                     _paqList.Add(new PaqueteLecturado
                     {
@@ -61,10 +65,8 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                         p_Piezas = Convert.ToInt32(item[4]),
                         p_Peso = Convert.ToDecimal(item[5]),
                         p_Retirar = Convert.ToInt32(item[6])
-                    });
-                    
-                }
-
+                    }); 
+                } 
                 DataSet dataLista2 = c_ProdDesp.BuscarDespALecturarCompleto(_IdDespacho);
                 foreach (DataRow item in dataLista2.Tables[0].Rows)
                 {
@@ -106,7 +108,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
         }
         private void btnEmpezarLect_Click(object sender, EventArgs e)
         {
-            if(txtEtiqueta.Enabled == true)
+            if (txtEtiqueta.Enabled == true)
             {
                 txtEtiqueta.Focus();
                 //txtEtiqueta.Enabled = false;
@@ -115,7 +117,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                 //btnBusqPaquete.Enabled = false;
                 //txtNroOrden.Enabled = false;
             }
-            else if(txtEtiqueta.Enabled == false)
+            else if (txtEtiqueta.Enabled == false)
             {
                 txtEtiqueta.Text = string.Empty;
                 txtEtiqueta.Enabled = true;
@@ -141,15 +143,15 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                 try
                 {
                     _codigoPr = txtEtiqueta.Text;
-                    if(_codigoPr != string.Empty)
+                    if (_codigoPr != string.Empty)
                     {
-                        if(_codigoPr.Length > 5)
+                        if (_codigoPr.Length > 5)
                         {
                             Lecturar(_codigoPr);
                         }
                     }
                 }
-                catch(Exception err)
+                catch (Exception err)
                 {
                     XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                     Console.WriteLine("####################### = " + err.ToString());
@@ -164,12 +166,12 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                 string _IdPaquete = "0";
                 _IdPaquete = _codigoPr;
                 DataSet dataLista = C_Paquete.TraerPaqueteLecturadoBuscar(_idSucursal, _IdPaquete);
-                
+
                 int _piezaItem = 0;
                 decimal _pesoItem = 0;
                 foreach (DataRow item in dataLista.Tables[0].Rows)
                 {
-                    if(_codigoPr == item[3].ToString())
+                    if (_codigoPr == item[3].ToString())
                     {
                         if (!_paqList.Any(n => n.p_PaqueteId == _codigoPr))
                         {
@@ -214,7 +216,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                         CeldaId = item[2].ToString(),
                         SucursalId = _idSucursal,
                         ItemFId = item[3].ToString(),
-                        Piezas = Convert.ToInt32(item[4] is DBNull ? 0:item[4]), 
+                        Piezas = Convert.ToInt32(item[4] is DBNull ? 0 : item[4]),
                         Metros = Convert.ToDecimal(item[5] is DBNull ? 0 : item[5]),
                         Colada = item[6].ToString()
                     });
@@ -230,9 +232,9 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
         {
             try
             {
-                foreach(var item in _paqList)
+                foreach (var item in _paqList)
                 {
-                    if(item.p_PaqueteId == _IdPaquete)
+                    if (item.p_PaqueteId == _IdPaquete)
                     {
                         item.p_Piezas = _PiezasEnt;
                         item.p_Peso = _PesoEnt;
@@ -252,7 +254,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
             //guardar despproductos
             try
             {
-                if(_desProdList.Count > 0)
+                if (_desProdList.Count > 0)
                 {
                     CDespProductos c_ProdDesp = new CDespProductos();
                     int responseD = 0;
@@ -260,7 +262,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                     {
                         CDespProductos c_DespPr = new CDespProductos();
                         DataSet dataLista = c_DespPr.VerificarLlaves(item.DespachoId, item.ProductoId);
-                        if(dataLista.Tables[0].Rows.Count > 0)
+                        if (dataLista.Tables[0].Rows.Count > 0)
                         {
                             DespProductos _despProductos = new DespProductos();
                             _despProductos = item;
@@ -271,7 +273,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                             if (responseD > 0)
                             {
                                 int resReservar = C_Paquete.ReservarPaquete(_idPaquete);
-                                if (resReservar != 1)
+                                if (resReservar == 0)
                                 {
                                     //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Guardar");
                                     XtraMessageBox.Show("Problemas con la conexion", "Guardar");
@@ -287,17 +289,17 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                             if (responseD > 0)
                             {
                                 int resReservar = C_Paquete.ReservarPaquete(_idPaquete);
-                                if (resReservar != 1)
+                                if (resReservar == 0)
                                 {
                                     XtraMessageBox.Show("Problemas con la conexion", "Guardar");
                                 }
                             }
-                            if (responseD != 1)
+                            if (responseD == 0)
                             {
                                 //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Guardar");
                                 XtraMessageBox.Show("Problemas con la conexion", "Guardar");
                             }
-                        } 
+                        }
                     }
                     XtraMessageBox.Show("Se guardo correctamente", "Guardado");
                     this.Close();
@@ -307,7 +309,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                     XtraMessageBox.Show("Lista de productos vacia", "Guardar");
                 }
             }
-            catch(Exception err)
+            catch (Exception err)
             {
                 XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("############################# = " + err.ToString());
@@ -317,27 +319,37 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
         private void btnBusquedaMan_Click(object sender, EventArgs e)
         {
             int IdSucursal = _idSucursal;
-            try
+            if(_LoteCheck == 0)
             {
-                for (int i = 0; i < gridView1.DataRowCount; i++)
+                try
                 {
-                    string ValPaq = gridView1.GetRowCellValue(i, "p_PaqueteId").ToString();
-
-                    if (ValPaq != null && ValPaq != string.Empty)
+                    for (int i = 0; i < gridView1.DataRowCount; i++)
                     {
-                        _listPaqLecturados.Add(ValPaq);
+                        string ValPaq = gridView1.GetRowCellValue(i, "p_PaqueteId").ToString();
+
+                        if (ValPaq != null && ValPaq != string.Empty)
+                        {
+                            _listPaqLecturados.Add(ValPaq);
+                        }
                     }
                 }
+                catch (Exception err)
+                {
+                    XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                    Console.WriteLine("############################################# = " + err.ToString());
+                }
+
+                ListaProductosLecturadoA form2 = new ListaProductosLecturadoA(IdSucursal, _IdDespacho, _listPaqLecturados);
+                form2.Owner = this;
+                form2.ShowDialog(this);
             }
-            catch(Exception err)
+            else
             {
-                XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
-                Console.WriteLine("############################################# = " + err.ToString());
+                int frm = 0;
+                ListaPaletLecturar form2 = new ListaPaletLecturar(IdSucursal, frm);
+                form2.Owner = this;
+                form2.ShowDialog(this);
             }
-            
-            ListaProductosLecturadoA form2 = new ListaProductosLecturadoA(IdSucursal, _IdDespacho, _listPaqLecturados);
-            form2.Owner = this;
-            form2.ShowDialog(this);
         }
         public void ProductoElegido(string _idItem, string _itemFerro, string _descripcion, string _paquete, int _piezas, decimal _peso, string _unidad, int _cantidad)
         {
@@ -351,7 +363,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                     decimal _retirar = 0;
                     if (!_paqList.Any(n => n.p_PaqueteId == _paquete))
                     {
-                        if(_unidad.ToUpper() == "KG")
+                        if (_unidad.ToUpper() == "KG")
                         {
                             _paqList.Add(new PaqueteLecturado
                             {
@@ -366,7 +378,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                             });
                             _retirar = _peso;
                         }
-                        else if(_unidad.ToUpper() == "PCS")
+                        else if (_unidad.ToUpper() == "PCS")
                         {
                             _paqList.Add(new PaqueteLecturado
                             {
@@ -399,7 +411,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                         _piezaItem = _cantidad;
                         _pesoItem = _peso;
                     }
-                        
+
                     this.gridControl1.RefreshDataSource();
                     this.gridControl1.Refresh();
                     //
@@ -485,7 +497,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                     _paqList.Clear();
                     string _NroOrden = txtNroOrden.Text;
                     DataSet dataLista = C_Paquete.BuscarPaquetePorOrden(_NroOrden);
-                    foreach(DataRow item in dataLista.Tables[0].Rows)
+                    foreach (DataRow item in dataLista.Tables[0].Rows)
                     {
                         if (item[5].ToString().ToUpper() == "KG")
                         {
@@ -522,6 +534,71 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                     }
                     this.gridControl1.RefreshDataSource();
                     this.gridControl1.Refresh();
+
+                    foreach (var itm in _paqList)
+                    {
+                        DataSet dataL = C_Paquete.BuscarPaqueteLecturar(itm.p_PaqueteId);
+                        foreach (DataRow item in dataL.Tables[0].Rows)
+                        {
+                            if (itm.p_Unidad.ToUpper() == "KG")
+                            {
+                                _desProdList.Add(new DespProductos
+                                {
+                                    DespachoId = _IdDespacho,
+                                    ProductoId = item[0].ToString(),
+                                    ItemId = item[1].ToString(),
+                                    Fecha = _FechaDesp,
+                                    Status = "OPEN",
+                                    Cantidad = itm.p_Piezas,
+                                    Peso = itm.p_Retirar,
+                                    CeldaId = item[2].ToString(),
+                                    SucursalId = _idSucursal,
+                                    ItemFId = item[3].ToString(),
+                                    Piezas = Convert.ToInt32(item[4] is DBNull ? 0 : item[4]),
+                                    Metros = Convert.ToDecimal(item[5] is DBNull ? 0 : item[5]),
+                                    Colada = item[6].ToString()
+                                });
+                            }
+                            else if (itm.p_Unidad.ToUpper() == "PCS")
+                            {
+                                _desProdList.Add(new DespProductos
+                                {
+                                    DespachoId = _IdDespacho,
+                                    ProductoId = item[0].ToString(),
+                                    ItemId = item[1].ToString(),
+                                    Fecha = _FechaDesp,
+                                    Status = "OPEN",
+                                    Cantidad = itm.p_Retirar,
+                                    Peso = itm.p_Peso,
+                                    CeldaId = item[2].ToString(),
+                                    SucursalId = _idSucursal,
+                                    ItemFId = item[3].ToString(),
+                                    Piezas = Convert.ToInt32(item[4] is DBNull ? 0 : item[4]),
+                                    Metros = Convert.ToDecimal(item[5] is DBNull ? 0 : item[5]),
+                                    Colada = item[6].ToString()
+                                });
+                            }
+                            else
+                            {
+                                _desProdList.Add(new DespProductos
+                                {
+                                    DespachoId = _IdDespacho,
+                                    ProductoId = item[0].ToString(),
+                                    ItemId = item[1].ToString(),
+                                    Fecha = _FechaDesp,
+                                    Status = "OPEN",
+                                    Cantidad = itm.p_Piezas,
+                                    Peso = itm.p_Peso,
+                                    CeldaId = item[2].ToString(),
+                                    SucursalId = _idSucursal,
+                                    ItemFId = item[3].ToString(),
+                                    Piezas = Convert.ToInt32(item[4] is DBNull ? 0 : item[4]),
+                                    Metros = Convert.ToDecimal(item[5] is DBNull ? 0 : item[5]),
+                                    Colada = item[6].ToString()
+                                });
+                            }
+                        }
+                    }
                 }
                 catch (Exception err)
                 {
@@ -540,7 +617,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
             {
                 int _valData = e.RowHandle;
                 ColumnView view = gridControl1.MainView as ColumnView;
-                
+
                 string _itmId = view.GetRowCellDisplayText(_valData, view.Columns[0]);
                 string _paqtId = view.GetRowCellDisplayText(_valData, view.Columns[3]);
                 int _cantN = Convert.ToInt32(view.GetRowCellDisplayText(_valData, view.Columns[6]));
@@ -566,15 +643,38 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
             }
             try
             {
-                string _paqId = view.GetRowCellDisplayText(row[0], view.Columns[3]);
-                var itemToRemove = _desProdList.Single(r => r.ProductoId == _paqId);
+                string _itmId = view.GetRowCellDisplayText(row[0], view.Columns[0]);
+                string _paqueteId = view.GetRowCellDisplayText(row[0], view.Columns[3]);
+                var itemToRemove = _desProdList.Single(r => r.ProductoId == _paqueteId);
                 _desProdList.Remove(itemToRemove);
-                Console.WriteLine("############################# = " + _desProdList.Count());
+
+                var itemToRemove2 = _paqList.Single(r => r.p_PaqueteId == _paqueteId);
+                _paqList.Remove(itemToRemove2);
+
+                int a = C_DespProductos.QuitarPaqueteLecturacion(_IdDespacho, _paqueteId);
+                if (a == 0)
+                {
+                    //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                    //this.Close();
+                }
+                gridView1.BeginDataUpdate();
+                gridView1.EndDataUpdate();
             }
-            catch(Exception err)
+            catch (Exception err)
             {
                 XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
+            }
+        }
+        private void checkPallet_CheckedChanged(object sender, EventArgs e)
+        {
+            if(checkPallet.Checked == true)
+            {
+                _LoteCheck = 1;
+            }
+            else
+            {
+                _LoteCheck = 0;
             }
         }
     }

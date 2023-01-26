@@ -70,7 +70,7 @@ namespace CRN.Componentes
         {
             return cadPaquetes.TraerStockCodigo(_codigoPr, _idSucursal);
         }
-	public DataSet TraerCantProdPorDespacho(string _idDespacho)
+        public DataSet TraerCantProdPorDespacho(string _idDespacho)
         {
             return cadPaquetes.TraerCantProdPorDespacho(_idDespacho);
         }
@@ -78,11 +78,27 @@ namespace CRN.Componentes
         {
             return cadPaquetes.TraerProductosaLecturarValidar(_idDespacho);
         }
+        public DataSet TraerProductosLecturarPaletValidar(int _idSucursal)
+        {
+            return cadPaquetes.TraerProductosLecturarPaletValidar(_idSucursal);
+        }
+        public DataSet TraerPaquetesLecturadosPalet(int _idSucursal, string _Palet)
+        {
+            return cadPaquetes.TraerPaquetesLecturadosPalet(_idSucursal, _Palet);
+        }
         public DataSet TraerPaqueteLecturado(int _idSucursal)
         {
             return cadPaquetes.TraerPaqueteLecturado(_idSucursal);
         }
-	public DataSet TraerPaqueteLecturadoBuscar(int _idSucursal, string _idPaquete)
+        public DataSet TraerPaqLecturadoPalet(int _idSucursal, string _Codigo)
+        {
+            return cadPaquetes.TraerPaqLecturadoPalet(_idSucursal, _Codigo);
+        }
+        public DataSet TraerPaquetesPaletParaLecturar(int _idSucursal, string _Palet)
+        {
+            return cadPaquetes.TraerPaquetesPaletParaLecturar(_idSucursal, _Palet);
+        }
+        public DataSet TraerPaqueteLecturadoBuscar(int _idSucursal, string _idPaquete)
         {
             return cadPaquetes.TraerPaqueteLecturadoBuscar(_idSucursal, _idPaquete);
         }
@@ -162,6 +178,18 @@ namespace CRN.Componentes
         {
             return cadPaquetes.BuscarPaqueteCompleto(_IdPaquete);
         }
+        public DataSet BuscarPaqItemControl(int _idSucursal)
+        {
+            return cadPaquetes.BuscarPaqItemControl(_idSucursal);
+        }
+        public DataSet ImprimirPaqControlProd(string _Codigo, int _idSucursal)
+        {
+            return cadPaquetes.ImprimirPaqControlProd(_Codigo, _idSucursal);
+        }
+        public DataSet ImprimirPaqControlFerro(int _Codigo, int _idSucursal)
+        {
+            return cadPaquetes.ImprimirPaqControlFerro(_Codigo, _idSucursal);
+        }
         public int ModificarPaquetes(Paquetes oPaquetes)
         {
             //if (byte.Refer(oArchivo.p_doc))
@@ -172,14 +200,11 @@ namespace CRN.Componentes
             //    throw new ArgumentNullException("Extension");
             return cadPaquetes.ModificarPaquetes(oPaquetes);
         }
-
         public Paquetes TraerPaquete(string cod)
         {
             Paquetes oPaquetes = cadPaquetes.TraerPaquete(cod);
             return oPaquetes;
         }
-
-
         public int EliminaroPaquetes(int cod)
         {
             RecepcionDetalle oRecepcionDetalle = new RecepcionDetalle();
@@ -192,7 +217,6 @@ namespace CRN.Componentes
             int c = cadPaquetes.MarcarEliminado(cod, Valor);
             return c;
         }
-
         public bool ContieneArchivos(int idCarpeta)
         {
             string where = "Id_carpeta=" + idCarpeta;
@@ -220,10 +244,55 @@ namespace CRN.Componentes
         {
             return cadPaquetes.BuscarPaquetes(CodPaquete);
         }
-        
         public DataSet BuscarPaquetePorOrden(string _NroOrden)
         {
             return cadPaquetes.BuscarPaquetePorOrden(_NroOrden);
+        }
+        public DataSet BuscarPaqueteLocaliza(int _IdSucursal)
+        {
+            return cadPaquetes.BuscarPaqueteLocaliza(_IdSucursal);
+        }
+        public DataSet TraerNavesXAlmacen(int _IdSucursal)
+        {
+            return cadPaquetes.TraerNavesXAlmacen(_IdSucursal);
+        }
+        public DataSet PaquetesEnEstante(string _CeldaId)
+        {
+            return cadPaquetes.PaquetesEnEstante(_CeldaId);
+        }
+        public DataSet TraerPaqueteBusqueda(string _IdPaquete, int _IdSucursal)
+        {
+            return cadPaquetes.TraerPaqueteBusqueda(_IdPaquete, _IdSucursal);
+        }
+        //Reporte Detalle de Paquetes
+        public DataSet DetallePaquetes(string _idPaquete)
+        {
+            return cadPaquetes.DetallePaquetes(_idPaquete);
+        }
+        //Palet
+        public DataSet TraerPaletSucursal(int _idSucursal)
+        {
+            return cadPaquetes.TraerPaletSucursal(_idSucursal);
+        }
+        public DataSet PaletImprimir(string _Palet)
+        {
+            return cadPaquetes.PaletImprimir(_Palet);
+        }
+        public DataSet TraerDetallePalet(int _idSucursal, string _Palet)
+        {
+            return cadPaquetes.TraerDetallePalet(_idSucursal, _Palet);
+        }
+        public int ActualizarPaquete(string _Palet, string _idPaquete, int _idSucursal)
+        {
+            return cadPaquetes.ActualizarPaquete(_Palet, _idPaquete, _idSucursal);
+        }
+        public DataSet TraerItemPaquetesDisponibles(int _idSucursal)
+        {
+            return cadPaquetes.TraerItemPaquetesDisponibles(_idSucursal);
+        }
+        public DataSet TraerListaPaqsPalet(string ItemId, int _idSucursal)
+        {
+            return cadPaquetes.TraerListaPaqsPalet(ItemId, _idSucursal);
         }
     }
 }

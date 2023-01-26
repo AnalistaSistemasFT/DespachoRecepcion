@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dtsTraspaso" targetNamespace="http://tempuri.org/dtsTraspaso.xsd" xmlns:mstns="http://tempuri.org/dtsTraspaso.xsd" xmlns="http://tempuri.org/dtsTraspaso.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dtsTraspaso" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dtsTraspaso" msprop:Generator_UserDSName="dtsTraspaso">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="traspaso" msprop:Generator_TableClassName="traspasoDataTable" msprop:Generator_TableVarName="tabletraspaso" msprop:Generator_TablePropName="traspaso" msprop:Generator_RowDeletingName="traspasoRowDeleting" msprop:Generator_RowChangingName="traspasoRowChanging" msprop:Generator_RowEvHandlerName="traspasoRowChangeEventHandler" msprop:Generator_RowDeletedName="traspasoRowDeleted" msprop:Generator_UserTableName="traspaso" msprop:Generator_RowChangedName="traspasoRowChanged" msprop:Generator_RowEvArgName="traspasoRowChangeEvent" msprop:Generator_RowClassName="traspasoRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="sctttdoc" msprop:Generator_ColumnVarNameInTable="columnsctttdoc" msprop:Generator_ColumnPropNameInRow="sctttdoc" msprop:Generator_ColumnPropNameInTable="sctttdocColumn" msprop:Generator_UserColumnName="sctttdoc" type="xs:int" minOccurs="0" />
+              <xs:element name="scttndoc" msprop:Generator_ColumnVarNameInTable="columnscttndoc" msprop:Generator_ColumnPropNameInRow="scttndoc" msprop:Generator_ColumnPropNameInTable="scttndocColumn" msprop:Generator_UserColumnName="scttndoc" type="xs:int" minOccurs="0" />
+              <xs:element name="scttfdoc" msprop:Generator_ColumnVarNameInTable="columnscttfdoc" msprop:Generator_ColumnPropNameInRow="scttfdoc" msprop:Generator_ColumnPropNameInTable="scttfdocColumn" msprop:Generator_UserColumnName="scttfdoc" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="scttfreg" msprop:Generator_ColumnVarNameInTable="columnscttfreg" msprop:Generator_ColumnPropNameInRow="scttfreg" msprop:Generator_ColumnPropNameInTable="scttfregColumn" msprop:Generator_UserColumnName="scttfreg" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="scttsuce" msprop:Generator_ColumnVarNameInTable="columnscttsuce" msprop:Generator_ColumnPropNameInRow="scttsuce" msprop:Generator_ColumnPropNameInTable="scttsuceColumn" msprop:Generator_UserColumnName="scttsuce" type="xs:int" minOccurs="0" />
+              <xs:element name="sucent" msprop:Generator_ColumnVarNameInTable="columnsucent" msprop:Generator_ColumnPropNameInRow="sucent" msprop:Generator_ColumnPropNameInTable="sucentColumn" msprop:Generator_UserColumnName="sucent" type="xs:string" minOccurs="0" />
+              <xs:element name="scttsucr" msprop:Generator_ColumnVarNameInTable="columnscttsucr" msprop:Generator_ColumnPropNameInRow="scttsucr" msprop:Generator_ColumnPropNameInTable="scttsucrColumn" msprop:Generator_UserColumnName="scttsucr" type="xs:int" minOccurs="0" />
+              <xs:element name="sucrec" msprop:Generator_ColumnVarNameInTable="columnsucrec" msprop:Generator_ColumnPropNameInRow="sucrec" msprop:Generator_ColumnPropNameInTable="sucrecColumn" msprop:Generator_UserColumnName="sucrec" type="xs:string" minOccurs="0" />
+              <xs:element name="scttdesc" msprop:Generator_ColumnVarNameInTable="columnscttdesc" msprop:Generator_ColumnPropNameInRow="scttdesc" msprop:Generator_ColumnPropNameInTable="scttdescColumn" msprop:Generator_UserColumnName="scttdesc" type="xs:string" minOccurs="0" />
+              <xs:element name="scmvnart" msprop:Generator_ColumnVarNameInTable="columnscmvnart" msprop:Generator_ColumnPropNameInRow="scmvnart" msprop:Generator_ColumnPropNameInTable="scmvnartColumn" msprop:Generator_UserColumnName="scmvnart" type="xs:int" minOccurs="0" />
+              <xs:element name="scmadesc" msprop:Generator_ColumnVarNameInTable="columnscmadesc" msprop:Generator_ColumnPropNameInRow="scmadesc" msprop:Generator_ColumnPropNameInTable="scmadescColumn" msprop:Generator_UserColumnName="scmadesc" type="xs:string" minOccurs="0" />
+              <xs:element name="um" msprop:Generator_ColumnVarNameInTable="columnum" msprop:Generator_ColumnPropNameInRow="um" msprop:Generator_ColumnPropNameInTable="umColumn" msprop:Generator_UserColumnName="um" type="xs:string" minOccurs="0" />
+              <xs:element name="scmapeso" msprop:Generator_ColumnVarNameInTable="columnscmapeso" msprop:Generator_ColumnPropNameInRow="scmapeso" msprop:Generator_ColumnPropNameInTable="scmapesoColumn" msprop:Generator_UserColumnName="scmapeso" type="xs:decimal" minOccurs="0" />
+              <xs:element name="scmvcant" msprop:Generator_ColumnVarNameInTable="columnscmvcant" msprop:Generator_ColumnPropNameInRow="scmvcant" msprop:Generator_ColumnPropNameInTable="scmvcantColumn" msprop:Generator_UserColumnName="scmvcant" type="xs:decimal" minOccurs="0" />
+              <xs:element name="desctras" msprop:Generator_ColumnVarNameInTable="columndesctras" msprop:Generator_ColumnPropNameInRow="desctras" msprop:Generator_ColumnPropNameInTable="desctrasColumn" msprop:Generator_UserColumnName="desctras" type="xs:string" minOccurs="0" />
+              <xs:element name="tiptra" msprop:Generator_ColumnVarNameInTable="columntiptra" msprop:Generator_ColumnPropNameInRow="tiptra" msprop:Generator_ColumnPropNameInTable="tiptraColumn" msprop:Generator_UserColumnName="tiptra" type="xs:string" minOccurs="0" />
+              <xs:element name="scmanori" msprop:Generator_ColumnVarNameInTable="columnscmanori" msprop:Generator_ColumnPropNameInRow="scmanori" msprop:Generator_ColumnPropNameInTable="scmanoriColumn" msprop:Generator_UserColumnName="scmanori" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

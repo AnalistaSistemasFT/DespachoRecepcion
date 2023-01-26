@@ -306,7 +306,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
         {
             //Aceptar
         }
-        private void comboBoxChofer_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBoxChofer_SelectedIndexChanged_1(object sender, EventArgs e)
         {
             try
             {
@@ -709,5 +709,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                 Console.WriteLine("####################### = " + err.ToString());
             }
         }
+
+        
     }
 }

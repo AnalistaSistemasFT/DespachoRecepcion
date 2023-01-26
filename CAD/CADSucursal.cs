@@ -63,7 +63,7 @@ namespace CAD
                 "AND sccodfin = '" + _codigoSuc + "' GROUP BY sccodfin, sctcdesc";
             return this.consultar(consulta);
         }
-        public DataSet BuscarNombreSuc(int _idSucursal)
+        public DataSet BuscarNombreSuc(int _idSucursal) 
         {
             string consulta = "select sctcdesc from sctabcon where sctcgrup = 12 and sctcvalo != 0 " +
                 "AND sccodfin = '" + _idSucursal + "' GROUP BY sccodfin, sctcdesc";
@@ -95,6 +95,12 @@ namespace CAD
             oSucursal.EsTransito = Convert.ToInt32(rSucursal["EsTransito"]);
             oSucursal.Id_AX = rSucursal["Id_AX"].ToString();
             return oSucursal;
+        }
+        public DataSet TraerMovPdv(string Estado, int Sucursal)
+        {
+            string consulta = "SELECT * FROM tblmovpdv WHERE STATUS = '{0}' and sucursalid = {1} order by fecha desc";
+            consulta = string.Format(consulta, Estado, Sucursal);
+            return this.consultar(consulta);
         }
     }
 }

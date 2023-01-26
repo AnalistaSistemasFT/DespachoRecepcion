@@ -45,11 +45,12 @@
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ribbonPage2 = new DevExpress.XtraBars.Ribbon.RibbonPage();
-            this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.xtraTabbedMdiManager1 = new DevExpress.XtraTabbedMdi.XtraTabbedMdiManager(this.components);
             this.splitContainerControl1 = new DevExpress.XtraEditors.SplitContainerControl();
             this.navBarControl2 = new DevExpress.XtraNavBar.NavBarControl();
+            this.navBarGroup11 = new DevExpress.XtraNavBar.NavBarGroup();
+            this.navBarCuarentena = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarItem31 = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarGroup4 = new DevExpress.XtraNavBar.NavBarGroup();
             this.navBarItem1 = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarItem3 = new DevExpress.XtraNavBar.NavBarItem();
@@ -92,12 +93,38 @@
             this.DespachoAbierto = new DevExpress.XtraNavBar.NavBarItem();
             this.DespachoEnProceso = new DevExpress.XtraNavBar.NavBarItem();
             this.DespachoListoCerrar = new DevExpress.XtraNavBar.NavBarItem();
-            this.DespachoCerrado = new DevExpress.XtraNavBar.NavBarItem();
             this.DespachoParcial = new DevExpress.XtraNavBar.NavBarItem();
+            this.DespachoCerrado = new DevExpress.XtraNavBar.NavBarItem();
             this.Traspasos = new DevExpress.XtraNavBar.NavBarItem();
-            this.navBarGroup11 = new DevExpress.XtraNavBar.NavBarGroup();
+            this.DespachoPorAjuste = new DevExpress.XtraNavBar.NavBarItem();
+            this.DespachosPendientes = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarGroupDespachoVenta = new DevExpress.XtraNavBar.NavBarGroup();
+            this.DespachoVentaAbierto = new DevExpress.XtraNavBar.NavBarItem();
+            this.DespachoVentaEnProceso = new DevExpress.XtraNavBar.NavBarItem();
+            this.OrdenVentaListaCerrar = new DevExpress.XtraNavBar.NavBarItem();
+            this.OrdenVentaParcial = new DevExpress.XtraNavBar.NavBarItem();
+            this.OrdenVentaCerrada = new DevExpress.XtraNavBar.NavBarItem();
+            this.nvovpendientes = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarGroupAlmacen = new DevExpress.XtraNavBar.NavBarGroup();
             this.navBarItem28 = new DevExpress.XtraNavBar.NavBarItem();
             this.nvitem = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarAlmacen = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarStock = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarPalet = new DevExpress.XtraNavBar.NavBarItem();
+            this.TRANSITO = new DevExpress.XtraNavBar.NavBarGroup();
+            this.navBarDespachos = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarGroupMovimiento = new DevExpress.XtraNavBar.NavBarGroup();
+            this.navBarMovAlmacen = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarGroup12 = new DevExpress.XtraNavBar.NavBarGroup();
+            this.navBarRelocalizar = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarOrdenesProduccion = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarOrdenesAbiertas = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarOrdenesCerradas = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarVerAlmacen = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarGroup13 = new DevExpress.XtraNavBar.NavBarGroup();
+            this.navBarAddDevolucion = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarGroupInventario = new DevExpress.XtraNavBar.NavBarGroup();
+            this.navBarCambioCodigo = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarItem8 = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarControl1 = new DevExpress.XtraNavBar.NavBarControl();
             this.navBarItem6 = new DevExpress.XtraNavBar.NavBarItem();
@@ -108,6 +135,10 @@
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.navBarGroup1 = new DevExpress.XtraNavBar.NavBarGroup();
+            this.defaultLookAndFeel1 = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
+            this.txtV = new DevComponents.DotNetBar.LabelX();
+            this.navBarAdmin = new DevExpress.XtraNavBar.NavBarGroup();
+            this.DespachosPendientesGral = new DevExpress.XtraNavBar.NavBarItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabbedMdiManager1)).BeginInit();
@@ -153,8 +184,7 @@
             this.ribbon.Minimized = true;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
-            this.ribbonPage1,
-            this.ribbonPage2});
+            this.ribbonPage1});
             this.ribbon.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemComboBox1});
             this.ribbon.ShowPageHeadersInFormCaption = DevExpress.Utils.DefaultBoolean.False;
@@ -246,18 +276,6 @@
             this.ribbonPageGroup3.Name = "ribbonPageGroup3";
             this.ribbonPageGroup3.Text = "...............";
             // 
-            // ribbonPage2
-            // 
-            this.ribbonPage2.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
-            this.ribbonPageGroup4});
-            this.ribbonPage2.Name = "ribbonPage2";
-            this.ribbonPage2.Text = " ";
-            // 
-            // ribbonPageGroup4
-            // 
-            this.ribbonPageGroup4.Name = "ribbonPageGroup4";
-            this.ribbonPageGroup4.Text = " ";
-            // 
             // xtraTabbedMdiManager1
             // 
             this.xtraTabbedMdiManager1.MdiParent = this;
@@ -279,7 +297,7 @@
             // 
             // navBarControl2
             // 
-            this.navBarControl2.ActiveGroup = this.navBarGroup4;
+            this.navBarControl2.ActiveGroup = this.navBarGroup11;
             this.navBarControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.navBarControl2.Groups.AddRange(new DevExpress.XtraNavBar.NavBarGroup[] {
             this.navBarGroup4,
@@ -293,7 +311,15 @@
             this.nvRecepcion,
             this.navBarGroup10,
             this.DESPACHO,
-            this.navBarGroup11});
+            this.navBarGroupDespachoVenta,
+            this.navBarGroupAlmacen,
+            this.TRANSITO,
+            this.navBarGroupMovimiento,
+            this.navBarGroup12,
+            this.navBarGroup13,
+            this.navBarGroupInventario,
+            this.navBarGroup11,
+            this.navBarAdmin});
             this.navBarControl2.Items.AddRange(new DevExpress.XtraNavBar.NavBarItem[] {
             this.navBarItem1,
             this.navBarItem2,
@@ -331,26 +357,73 @@
             this.navBarItem28,
             this.navBarItem29,
             this.navBarItem30,
-            this.nvRecDesp});
+            this.nvRecDesp,
+            this.navBarDespachos,
+            this.navBarRelocalizar,
+            this.navBarOrdenesProduccion,
+            this.navBarOrdenesAbiertas,
+            this.navBarOrdenesCerradas,
+            this.navBarVerAlmacen,
+            this.navBarAddDevolucion,
+            this.DespachoVentaAbierto,
+            this.DespachoVentaEnProceso,
+            this.OrdenVentaListaCerrar,
+            this.OrdenVentaParcial,
+            this.OrdenVentaCerrada,
+            this.navBarAlmacen,
+            this.navBarCuarentena,
+            this.navBarStock,
+            this.navBarMovAlmacen,
+            this.navBarCambioCodigo,
+            this.navBarItem31,
+            this.navBarPalet,
+            this.nvovpendientes,
+            this.DespachoPorAjuste,
+            this.DespachosPendientes,
+            this.DespachosPendientesGral});
             this.navBarControl2.Location = new System.Drawing.Point(0, 0);
             this.navBarControl2.Name = "navBarControl2";
             this.navBarControl2.OptionsNavPane.ExpandedWidth = 177;
             this.navBarControl2.Size = new System.Drawing.Size(177, 519);
             this.navBarControl2.TabIndex = 0;
             this.navBarControl2.Text = "navBarControl2";
-            this.navBarControl2.Click += new System.EventHandler(this.navBarControl2_Click);
+            // 
+            // navBarGroup11
+            // 
+            this.navBarGroup11.Appearance.Options.UseTextOptions = true;
+            this.navBarGroup11.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarGroup11.Caption = "CUARENTENA";
+            this.navBarGroup11.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarCuarentena),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem31)});
+            this.navBarGroup11.Name = "navBarGroup11";
+            // 
+            // navBarCuarentena
+            // 
+            this.navBarCuarentena.Caption = "PRODUCTOS EN CUARENTENA";
+            this.navBarCuarentena.Name = "navBarCuarentena";
+            this.navBarCuarentena.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarCuarentena_LinkClicked);
+            // 
+            // navBarItem31
+            // 
+            this.navBarItem31.Caption = "HISTORIAL CUARENTENA";
+            this.navBarItem31.Name = "navBarItem31";
+            this.navBarItem31.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarItem31_LinkClicked_1);
             // 
             // navBarGroup4
             // 
             this.navBarGroup4.Appearance.Image = ((System.Drawing.Image)(resources.GetObject("navBarGroup4.Appearance.Image")));
             this.navBarGroup4.Appearance.Options.UseImage = true;
             this.navBarGroup4.Appearance.Options.UseTextOptions = true;
-            this.navBarGroup4.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.navBarGroup4.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarGroup4.AppearancePressed.Options.UseTextOptions = true;
+            this.navBarGroup4.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.navBarGroup4.Caption = "CATALOGOS";
             this.navBarGroup4.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem1),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem3)});
             this.navBarGroup4.Name = "navBarGroup4";
+            this.navBarGroup4.Visible = false;
             // 
             // navBarItem1
             // 
@@ -379,7 +452,9 @@
             // navBarGroup5
             // 
             this.navBarGroup5.Appearance.Options.UseTextOptions = true;
-            this.navBarGroup5.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.navBarGroup5.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarGroup5.AppearancePressed.Options.UseTextOptions = true;
+            this.navBarGroup5.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.navBarGroup5.Caption = "ENSAYOS";
             this.navBarGroup5.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem2),
@@ -387,6 +462,7 @@
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem5),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem27)});
             this.navBarGroup5.Name = "navBarGroup5";
+            this.navBarGroup5.Visible = false;
             // 
             // navBarItem2
             // 
@@ -418,12 +494,15 @@
             // navBarGroup2
             // 
             this.navBarGroup2.Appearance.Options.UseTextOptions = true;
-            this.navBarGroup2.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.navBarGroup2.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarGroup2.AppearancePressed.Options.UseTextOptions = true;
+            this.navBarGroup2.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.navBarGroup2.Caption = "SUCURSALES";
             this.navBarGroup2.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem10),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem11)});
             this.navBarGroup2.Name = "navBarGroup2";
+            this.navBarGroup2.Visible = false;
             // 
             // navBarItem10
             // 
@@ -442,15 +521,16 @@
             // navBarGroup3
             // 
             this.navBarGroup3.Appearance.Options.UseTextOptions = true;
-            this.navBarGroup3.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.navBarGroup3.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.navBarGroup3.AppearanceHotTracked.Options.UseTextOptions = true;
             this.navBarGroup3.AppearanceHotTracked.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.navBarGroup3.AppearancePressed.Options.UseTextOptions = true;
-            this.navBarGroup3.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarGroup3.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.navBarGroup3.Caption = "REPORTES";
             this.navBarGroup3.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem9)});
             this.navBarGroup3.Name = "navBarGroup3";
+            this.navBarGroup3.Visible = false;
             // 
             // navBarItem9
             // 
@@ -464,7 +544,9 @@
             // navBarGroup6
             // 
             this.navBarGroup6.Appearance.Options.UseTextOptions = true;
-            this.navBarGroup6.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.navBarGroup6.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarGroup6.AppearancePressed.Options.UseTextOptions = true;
+            this.navBarGroup6.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.navBarGroup6.Caption = "CHECKLIST";
             this.navBarGroup6.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem12),
@@ -472,6 +554,7 @@
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem14),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem15)});
             this.navBarGroup6.Name = "navBarGroup6";
+            this.navBarGroup6.Visible = false;
             // 
             // navBarItem12
             // 
@@ -512,13 +595,16 @@
             // navBarGroup7
             // 
             this.navBarGroup7.Appearance.Options.UseTextOptions = true;
-            this.navBarGroup7.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.navBarGroup7.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarGroup7.AppearancePressed.Options.UseTextOptions = true;
+            this.navBarGroup7.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.navBarGroup7.Caption = "OPORTUNIDAD DE MEJORA";
             this.navBarGroup7.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem16),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem17),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem18)});
             this.navBarGroup7.Name = "navBarGroup7";
+            this.navBarGroup7.Visible = false;
             // 
             // navBarItem16
             // 
@@ -546,12 +632,15 @@
             // navBarGroup8
             // 
             this.navBarGroup8.Appearance.Options.UseTextOptions = true;
-            this.navBarGroup8.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.navBarGroup8.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarGroup8.AppearancePressed.Options.UseTextOptions = true;
+            this.navBarGroup8.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.navBarGroup8.Caption = "SINCRONIZACION";
             this.navBarGroup8.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem19),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem20)});
             this.navBarGroup8.Name = "navBarGroup8";
+            this.navBarGroup8.Visible = false;
             // 
             // navBarItem19
             // 
@@ -568,12 +657,15 @@
             // navBarGroup9
             // 
             this.navBarGroup9.Appearance.Options.UseTextOptions = true;
-            this.navBarGroup9.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.navBarGroup9.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarGroup9.AppearancePressed.Options.UseTextOptions = true;
+            this.navBarGroup9.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.navBarGroup9.Caption = "ORDENES DE PRODUCCION";
             this.navBarGroup9.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem21),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem22)});
             this.navBarGroup9.Name = "navBarGroup9";
+            this.navBarGroup9.Visible = false;
             // 
             // navBarItem21
             // 
@@ -591,6 +683,8 @@
             // 
             this.nvRecepcion.Appearance.Options.UseTextOptions = true;
             this.nvRecepcion.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.nvRecepcion.AppearancePressed.Options.UseTextOptions = true;
+            this.nvRecepcion.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.nvRecepcion.Caption = "RECEPCION EXTERNA";
             this.nvRecepcion.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.nviRecepcion),
@@ -620,6 +714,8 @@
             // 
             this.navBarGroup10.Appearance.Options.UseTextOptions = true;
             this.navBarGroup10.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarGroup10.AppearancePressed.Options.UseTextOptions = true;
+            this.navBarGroup10.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.navBarGroup10.Caption = "RECEPCION";
             this.navBarGroup10.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.nvRecDesp),
@@ -649,28 +745,32 @@
             // 
             // navBarItem23
             // 
-            this.navBarItem23.Caption = "GENERAR CC";
+            this.navBarItem23.Caption = "GENERAR TRASPASO";
             this.navBarItem23.Name = "navBarItem23";
             this.navBarItem23.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarItem23_LinkClicked_1);
             // 
             // navBarItem24
             // 
-            this.navBarItem24.Caption = "GENERAR LIQUIDACION ";
+            this.navBarItem24.Caption = "HISTORIAL DE TRASPASOS";
             this.navBarItem24.Name = "navBarItem24";
+            this.navBarItem24.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarItem24_LinkClicked_1);
             // 
             // DESPACHO
             // 
             this.DESPACHO.Appearance.Options.UseTextOptions = true;
             this.DESPACHO.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.DESPACHO.AppearancePressed.Options.UseTextOptions = true;
+            this.DESPACHO.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
             this.DESPACHO.Caption = "DESPACHO";
-            this.DESPACHO.Expanded = true;
             this.DESPACHO.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.DespachoAbierto),
             new DevExpress.XtraNavBar.NavBarItemLink(this.DespachoEnProceso),
             new DevExpress.XtraNavBar.NavBarItemLink(this.DespachoListoCerrar),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.DespachoCerrado),
             new DevExpress.XtraNavBar.NavBarItemLink(this.DespachoParcial),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.Traspasos)});
+            new DevExpress.XtraNavBar.NavBarItemLink(this.DespachoCerrado),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.Traspasos),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.DespachoPorAjuste),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.DespachosPendientes)});
             this.DESPACHO.Name = "DESPACHO";
             // 
             // DespachoAbierto
@@ -691,31 +791,101 @@
             this.DespachoListoCerrar.Name = "DespachoListoCerrar";
             this.DespachoListoCerrar.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.DespachoListoCerrar_LinkClicked);
             // 
-            // DespachoCerrado
-            // 
-            this.DespachoCerrado.Caption = "ORDEN CERRADA";
-            this.DespachoCerrado.Name = "DespachoCerrado";
-            this.DespachoCerrado.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.DespachoCerrado_LinkClicked);
-            // 
             // DespachoParcial
             // 
             this.DespachoParcial.Caption = "ORDEN PARCIAL";
             this.DespachoParcial.Name = "DespachoParcial";
             this.DespachoParcial.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.DespachoParcial_LinkClicked);
             // 
+            // DespachoCerrado
+            // 
+            this.DespachoCerrado.Caption = "ORDEN CERRADA";
+            this.DespachoCerrado.Name = "DespachoCerrado";
+            this.DespachoCerrado.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.DespachoCerrado_LinkClicked);
+            // 
             // Traspasos
             // 
             this.Traspasos.Caption = "TRASPASO";
             this.Traspasos.Name = "Traspasos";
+            this.Traspasos.Visible = false;
             this.Traspasos.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.Traspasos_LinkClicked);
             // 
-            // navBarGroup11
+            // DespachoPorAjuste
             // 
-            this.navBarGroup11.Caption = "ALMACEN";
-            this.navBarGroup11.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            this.DespachoPorAjuste.Caption = "ORDEN POR AJUSTE";
+            this.DespachoPorAjuste.Name = "DespachoPorAjuste";
+            this.DespachoPorAjuste.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.DespachoPorAjuste_LinkClicked);
+            // 
+            // DespachosPendientes
+            // 
+            this.DespachosPendientes.Caption = "DESPACHOS PENDIENTES";
+            this.DespachosPendientes.Name = "DespachosPendientes";
+            this.DespachosPendientes.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.DespachosPendientes_LinkClicked);
+            // 
+            // navBarGroupDespachoVenta
+            // 
+            this.navBarGroupDespachoVenta.Appearance.Options.UseTextOptions = true;
+            this.navBarGroupDespachoVenta.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarGroupDespachoVenta.Caption = "DESPACHO VENTA";
+            this.navBarGroupDespachoVenta.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.DespachoVentaAbierto),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.DespachoVentaEnProceso),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.OrdenVentaListaCerrar),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.OrdenVentaParcial),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.OrdenVentaCerrada),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.nvovpendientes)});
+            this.navBarGroupDespachoVenta.Name = "navBarGroupDespachoVenta";
+            // 
+            // DespachoVentaAbierto
+            // 
+            this.DespachoVentaAbierto.Caption = "ORDEN VENTA ABIERTA";
+            this.DespachoVentaAbierto.Name = "DespachoVentaAbierto";
+            this.DespachoVentaAbierto.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.DespachoVentaAbierto_LinkClicked);
+            // 
+            // DespachoVentaEnProceso
+            // 
+            this.DespachoVentaEnProceso.Caption = "ORDEN VENTA EN PROCESO";
+            this.DespachoVentaEnProceso.Name = "DespachoVentaEnProceso";
+            this.DespachoVentaEnProceso.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.DespachoVentaEnProceso_LinkClicked);
+            // 
+            // OrdenVentaListaCerrar
+            // 
+            this.OrdenVentaListaCerrar.Caption = "ORDEN VENTA LISTA PARA CERRAR";
+            this.OrdenVentaListaCerrar.Name = "OrdenVentaListaCerrar";
+            this.OrdenVentaListaCerrar.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.OrdenVentaListaCerrar_LinkClicked);
+            // 
+            // OrdenVentaParcial
+            // 
+            this.OrdenVentaParcial.Caption = "ORDEN VENTA PARCIAL";
+            this.OrdenVentaParcial.Name = "OrdenVentaParcial";
+            this.OrdenVentaParcial.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.OrdenVentaParcial_LinkClicked);
+            // 
+            // OrdenVentaCerrada
+            // 
+            this.OrdenVentaCerrada.Caption = "ORDEN CERRADA";
+            this.OrdenVentaCerrada.Name = "OrdenVentaCerrada";
+            this.OrdenVentaCerrada.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.OrdenVentaCerrada_LinkClicked);
+            // 
+            // nvovpendientes
+            // 
+            this.nvovpendientes.Caption = "NOTAS PENDIENTES";
+            this.nvovpendientes.Name = "nvovpendientes";
+            this.nvovpendientes.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.nvovpendientes_LinkClicked);
+            // 
+            // navBarGroupAlmacen
+            // 
+            this.navBarGroupAlmacen.Appearance.Options.UseTextOptions = true;
+            this.navBarGroupAlmacen.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarGroupAlmacen.AppearancePressed.Options.UseTextOptions = true;
+            this.navBarGroupAlmacen.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+            this.navBarGroupAlmacen.Caption = "ALMACEN";
+            this.navBarGroupAlmacen.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navBarItem28),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.nvitem)});
-            this.navBarGroup11.Name = "navBarGroup11";
+            new DevExpress.XtraNavBar.NavBarItemLink(this.nvitem),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarAlmacen),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarStock),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarPalet)});
+            this.navBarGroupAlmacen.Name = "navBarGroupAlmacen";
             // 
             // navBarItem28
             // 
@@ -728,6 +898,144 @@
             this.nvitem.Caption = "PAQUETES";
             this.nvitem.Name = "nvitem";
             this.nvitem.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.nvitem_LinkClicked);
+            // 
+            // navBarAlmacen
+            // 
+            this.navBarAlmacen.Caption = "ALMACEN";
+            this.navBarAlmacen.Name = "navBarAlmacen";
+            this.navBarAlmacen.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarAlmacen_LinkClicked);
+            // 
+            // navBarStock
+            // 
+            this.navBarStock.Caption = "STOCK";
+            this.navBarStock.Name = "navBarStock";
+            this.navBarStock.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarStock_LinkClicked);
+            // 
+            // navBarPalet
+            // 
+            this.navBarPalet.Caption = "PALET";
+            this.navBarPalet.Name = "navBarPalet";
+            this.navBarPalet.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarPalet_LinkClicked);
+            // 
+            // TRANSITO
+            // 
+            this.TRANSITO.Appearance.Options.UseTextOptions = true;
+            this.TRANSITO.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.TRANSITO.Caption = "TRANSITO";
+            this.TRANSITO.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarDespachos)});
+            this.TRANSITO.Name = "TRANSITO";
+            // 
+            // navBarDespachos
+            // 
+            this.navBarDespachos.Caption = "DESPACHOS";
+            this.navBarDespachos.Name = "navBarDespachos";
+            this.navBarDespachos.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarDespachos_LinkClicked);
+            // 
+            // navBarGroupMovimiento
+            // 
+            this.navBarGroupMovimiento.Appearance.Options.UseTextOptions = true;
+            this.navBarGroupMovimiento.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarGroupMovimiento.AppearancePressed.Options.UseTextOptions = true;
+            this.navBarGroupMovimiento.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarGroupMovimiento.Caption = "MOVIMIENTOS";
+            this.navBarGroupMovimiento.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarMovAlmacen)});
+            this.navBarGroupMovimiento.Name = "navBarGroupMovimiento";
+            // 
+            // navBarMovAlmacen
+            // 
+            this.navBarMovAlmacen.Appearance.Options.UseTextOptions = true;
+            this.navBarMovAlmacen.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarMovAlmacen.AppearancePressed.Options.UseTextOptions = true;
+            this.navBarMovAlmacen.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarMovAlmacen.Caption = "MOVIMIENTOS DE ALMACEN";
+            this.navBarMovAlmacen.Name = "navBarMovAlmacen";
+            this.navBarMovAlmacen.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarMovAlmacen_LinkClicked);
+            // 
+            // navBarGroup12
+            // 
+            this.navBarGroup12.Appearance.Options.UseTextOptions = true;
+            this.navBarGroup12.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarGroup12.Caption = "LOCALIZA";
+            this.navBarGroup12.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarRelocalizar),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarOrdenesProduccion),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarOrdenesAbiertas),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarOrdenesCerradas),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarVerAlmacen)});
+            this.navBarGroup12.Name = "navBarGroup12";
+            this.navBarGroup12.Visible = false;
+            // 
+            // navBarRelocalizar
+            // 
+            this.navBarRelocalizar.Caption = "RELOCALIZAR";
+            this.navBarRelocalizar.Name = "navBarRelocalizar";
+            this.navBarRelocalizar.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarRelocalizar_LinkClicked);
+            // 
+            // navBarOrdenesProduccion
+            // 
+            this.navBarOrdenesProduccion.Caption = "ORDENES DE PRODUCCIÓN";
+            this.navBarOrdenesProduccion.Name = "navBarOrdenesProduccion";
+            this.navBarOrdenesProduccion.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarOrdenesProduccion_LinkClicked);
+            // 
+            // navBarOrdenesAbiertas
+            // 
+            this.navBarOrdenesAbiertas.Caption = "ORDENES ABIERTAS";
+            this.navBarOrdenesAbiertas.Name = "navBarOrdenesAbiertas";
+            this.navBarOrdenesAbiertas.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarOrdenesAbiertas_LinkClicked);
+            // 
+            // navBarOrdenesCerradas
+            // 
+            this.navBarOrdenesCerradas.Caption = "ORDENES CERRADAS";
+            this.navBarOrdenesCerradas.Name = "navBarOrdenesCerradas";
+            this.navBarOrdenesCerradas.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarOrdenesCerradas_LinkClicked);
+            // 
+            // navBarVerAlmacen
+            // 
+            this.navBarVerAlmacen.Appearance.Options.UseTextOptions = true;
+            this.navBarVerAlmacen.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+            this.navBarVerAlmacen.Caption = "ALMACEN";
+            this.navBarVerAlmacen.Name = "navBarVerAlmacen";
+            this.navBarVerAlmacen.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarVerAlmacen_LinkClicked);
+            // 
+            // navBarGroup13
+            // 
+            this.navBarGroup13.Appearance.Options.UseTextOptions = true;
+            this.navBarGroup13.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarGroup13.Caption = "DEVOLUCIONES";
+            this.navBarGroup13.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarAddDevolucion)});
+            this.navBarGroup13.Name = "navBarGroup13";
+            this.navBarGroup13.Visible = false;
+            // 
+            // navBarAddDevolucion
+            // 
+            this.navBarAddDevolucion.Caption = "Listado de devoluciones";
+            this.navBarAddDevolucion.Name = "navBarAddDevolucion";
+            this.navBarAddDevolucion.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarAddDevolucion_LinkClicked);
+            // 
+            // navBarGroupInventario
+            // 
+            this.navBarGroupInventario.Appearance.Options.UseTextOptions = true;
+            this.navBarGroupInventario.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarGroupInventario.AppearancePressed.Options.UseTextOptions = true;
+            this.navBarGroupInventario.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarGroupInventario.Caption = "INVENTARIO";
+            this.navBarGroupInventario.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBarCambioCodigo)});
+            this.navBarGroupInventario.Name = "navBarGroupInventario";
+            this.navBarGroupInventario.Visible = false;
+            // 
+            // navBarCambioCodigo
+            // 
+            this.navBarCambioCodigo.Appearance.Options.UseTextOptions = true;
+            this.navBarCambioCodigo.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarCambioCodigo.AppearancePressed.Options.UseTextOptions = true;
+            this.navBarCambioCodigo.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarCambioCodigo.Caption = "CAMBIO DE CODIGO";
+            this.navBarCambioCodigo.Name = "navBarCambioCodigo";
+            this.navBarCambioCodigo.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarCambioCodigo_LinkClicked);
             // 
             // navBarItem8
             // 
@@ -818,22 +1126,54 @@
             this.navBarGroup1.Expanded = true;
             this.navBarGroup1.Name = "navBarGroup1";
             // 
+            // txtV
+            // 
+            this.txtV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            // 
+            // 
+            // 
+            this.txtV.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.txtV.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtV.Location = new System.Drawing.Point(12, 576);
+            this.txtV.Name = "txtV";
+            this.txtV.Size = new System.Drawing.Size(145, 23);
+            this.txtV.TabIndex = 12;
+            this.txtV.Text = " - ";
+            this.txtV.TextAlignment = System.Drawing.StringAlignment.Center;
+            // 
+            // navBarAdmin
+            // 
+            this.navBarAdmin.Caption = "ADMINISTRADOR";
+            this.navBarAdmin.Expanded = true;
+            this.navBarAdmin.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.DespachosPendientesGral)});
+            this.navBarAdmin.Name = "navBarAdmin";
+            // 
+            // DespachosPendientesGral
+            // 
+            this.DespachosPendientesGral.Caption = "DESPACHOS PENDIENTES";
+            this.DespachosPendientesGral.Name = "DespachosPendientesGral";
+            this.DespachosPendientesGral.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.DespachosPendientesGral_LinkClicked);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(956, 599);
+            this.Controls.Add(this.txtV);
             this.Controls.Add(this.labelX2);
             this.Controls.Add(this.labelX1);
             this.Controls.Add(this.splitContainerControl1);
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
+            this.FormBorderEffect = DevExpress.XtraEditors.FormBorderEffect.Shadow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.Name = "frmMain";
             this.Ribbon = this.ribbon;
             this.RibbonAlwaysAtBack = false;
             this.StatusBar = this.ribbonStatusBar;
-            this.Text = " ";
+            this.Text = " Despacho-Recepcion";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmMain_FormClosed);
             this.Load += new System.EventHandler(this.frmMain_Load);
@@ -866,8 +1206,6 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup3;
         private DevExpress.XtraTabbedMdi.XtraTabbedMdiManager xtraTabbedMdiManager1;
         private DevExpress.XtraEditors.SplitContainerControl splitContainerControl1;
-        private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage2;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup4;
         private DevExpress.DataAccess.Sql.SqlDataSource sqlDataSource1;
         private System.Windows.Forms.Panel panel1;
         private DevExpress.XtraNavBar.NavBarControl navBarControl2;
@@ -927,7 +1265,40 @@
         private DevExpress.XtraNavBar.NavBarItem Traspasos;
         private DevExpress.XtraNavBar.NavBarItem navBarItem29;
         private DevExpress.XtraNavBar.NavBarItem navBarItem30;
-        private DevExpress.XtraNavBar.NavBarGroup navBarGroup11;
+        private DevExpress.XtraNavBar.NavBarGroup navBarGroupAlmacen;
         private DevExpress.XtraNavBar.NavBarItem nvRecDesp;
+        private DevExpress.XtraNavBar.NavBarGroup TRANSITO;
+        private DevExpress.XtraNavBar.NavBarItem navBarDespachos;
+        private DevExpress.XtraNavBar.NavBarGroup navBarGroup12;
+        private DevExpress.XtraNavBar.NavBarItem navBarRelocalizar;
+        private DevExpress.XtraNavBar.NavBarItem navBarOrdenesProduccion;
+        private DevExpress.XtraNavBar.NavBarItem navBarOrdenesAbiertas;
+        private DevExpress.XtraNavBar.NavBarItem navBarOrdenesCerradas;
+        private DevExpress.XtraNavBar.NavBarItem navBarVerAlmacen;
+        private DevExpress.LookAndFeel.DefaultLookAndFeel defaultLookAndFeel1;
+        private DevExpress.XtraNavBar.NavBarGroup navBarGroup13;
+        private DevExpress.XtraNavBar.NavBarItem navBarAddDevolucion;
+        private DevExpress.XtraNavBar.NavBarGroup navBarGroupDespachoVenta;
+        private DevExpress.XtraNavBar.NavBarItem DespachoVentaAbierto;
+        private DevExpress.XtraNavBar.NavBarItem DespachoVentaEnProceso;
+        private DevExpress.XtraNavBar.NavBarItem OrdenVentaListaCerrar;
+        private DevExpress.XtraNavBar.NavBarItem OrdenVentaParcial;
+        private DevExpress.XtraNavBar.NavBarItem OrdenVentaCerrada;
+        private DevExpress.XtraNavBar.NavBarItem navBarAlmacen;
+        private DevExpress.XtraNavBar.NavBarItem navBarCuarentena;
+        private DevExpress.XtraNavBar.NavBarItem navBarStock;
+        private DevExpress.XtraNavBar.NavBarGroup navBarGroupMovimiento;
+        private DevExpress.XtraNavBar.NavBarItem navBarMovAlmacen;
+        private DevExpress.XtraNavBar.NavBarGroup navBarGroupInventario;
+        private DevExpress.XtraNavBar.NavBarItem navBarCambioCodigo;
+        private DevExpress.XtraNavBar.NavBarGroup navBarGroup11;
+        private DevExpress.XtraNavBar.NavBarItem navBarItem31;
+        private DevComponents.DotNetBar.LabelX txtV;
+        private DevExpress.XtraNavBar.NavBarItem navBarPalet;
+        private DevExpress.XtraNavBar.NavBarItem nvovpendientes;
+        private DevExpress.XtraNavBar.NavBarItem DespachoPorAjuste;
+        private DevExpress.XtraNavBar.NavBarItem DespachosPendientes;
+        private DevExpress.XtraNavBar.NavBarGroup navBarAdmin;
+        private DevExpress.XtraNavBar.NavBarItem DespachosPendientesGral;
     }
 }

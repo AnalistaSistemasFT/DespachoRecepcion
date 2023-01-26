@@ -61,7 +61,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                     tipoDodId = items[0].ToString();
                     tipoDodNom = items[1].ToString();
                 }
-                DataSet dataCorr = C_Traspaso.TraerCorrelativo(_sucDestino);
+                DataSet dataCorr = C_Traspaso.TraerCorrelativo(tipoDodId);
                 foreach (DataRow items in dataCorr.Tables[0].Rows)
                 {
                     tipoDocId = items[0].ToString();
@@ -277,7 +277,8 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                     dt.Rows.Add(dr);
                 }
                 _correlativoMovArt = 0;
-                if (C_Traspaso.InsertarTraspaso(_traspInf, dt, _sucOrigen) > 0)
+                int iNroDoc = 0;
+                if (C_Traspaso.InsertarTraspaso(out iNroDoc,C_Traspaso, dt, "dd") > 0)
                 {
                     XtraMessageBox.Show("El traspaso ha sido guardado", "Guardar");
                 }

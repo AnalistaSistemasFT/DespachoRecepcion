@@ -298,8 +298,6 @@
             this.Costo.Caption = "Costo";
             this.Costo.FieldName = "p_Costo";
             this.Costo.Name = "Costo";
-            this.Costo.Visible = true;
-            this.Costo.VisibleIndex = 3;
             this.Costo.Width = 166;
             // 
             // groupControl1

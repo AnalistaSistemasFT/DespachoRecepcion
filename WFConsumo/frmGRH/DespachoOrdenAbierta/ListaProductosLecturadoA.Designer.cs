@@ -45,6 +45,7 @@
             this.checkCodigoFerro = new DevExpress.XtraEditors.CheckEdit();
             this.checkCodigo = new DevExpress.XtraEditors.CheckEdit();
             this.searchControl1 = new DevExpress.XtraEditors.SearchControl();
+            this.checkPaquete = new DevExpress.XtraEditors.CheckEdit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
@@ -52,6 +53,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.checkCodigoFerro.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkCodigo.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchControl1.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkPaquete.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // simpleButton3
@@ -208,6 +210,7 @@
             // 
             // groupControl1
             // 
+            this.groupControl1.Controls.Add(this.checkPaquete);
             this.groupControl1.Controls.Add(this.checkCodigoFerro);
             this.groupControl1.Controls.Add(this.checkCodigo);
             this.groupControl1.Controls.Add(this.searchControl1);
@@ -238,7 +241,7 @@
             // 
             // searchControl1
             // 
-            this.searchControl1.Location = new System.Drawing.Point(293, 28);
+            this.searchControl1.Location = new System.Drawing.Point(374, 28);
             this.searchControl1.Name = "searchControl1";
             this.searchControl1.Properties.AutoHeight = false;
             this.searchControl1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
@@ -247,6 +250,15 @@
             this.searchControl1.Size = new System.Drawing.Size(392, 30);
             this.searchControl1.TabIndex = 1;
             this.searchControl1.TextChanged += new System.EventHandler(this.searchControl1_TextChanged);
+            // 
+            // checkPaquete
+            // 
+            this.checkPaquete.Location = new System.Drawing.Point(253, 33);
+            this.checkPaquete.Name = "checkPaquete";
+            this.checkPaquete.Properties.Caption = "Paquete";
+            this.checkPaquete.Size = new System.Drawing.Size(75, 19);
+            this.checkPaquete.TabIndex = 4;
+            this.checkPaquete.CheckedChanged += new System.EventHandler(this.checkPaquete_CheckedChanged);
             // 
             // ListaProductosLecturadoA
             // 
@@ -271,6 +283,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.checkCodigoFerro.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkCodigo.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchControl1.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkPaquete.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -294,5 +307,6 @@
         private DevExpress.XtraEditors.CheckEdit checkCodigo;
         private DevExpress.XtraGrid.Columns.GridColumn Retiro;
         private DevExpress.XtraGrid.Columns.GridColumn Fecha;
+        private DevExpress.XtraEditors.CheckEdit checkPaquete;
     }
 }

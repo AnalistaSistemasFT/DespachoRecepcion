@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmOpcionSucursal));
             this.buttonX1 = new DevComponents.DotNetBar.ButtonX();
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
             this.cbxsucursal = new System.Windows.Forms.ComboBox();
@@ -80,11 +81,12 @@
             this.Controls.Add(this.cbxsucursal);
             this.Controls.Add(this.buttonX1);
             this.Controls.Add(this.labelX1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmOpcionSucursal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "frmOpcionSucursal";
+            this.Text = "Sucursales";
             this.ResumeLayout(false);
 
         }

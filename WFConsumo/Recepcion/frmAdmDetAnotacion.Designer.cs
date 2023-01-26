@@ -64,6 +64,11 @@ namespace WFConsumo.Recepcion
             this.cbstatus = new System.Windows.Forms.ComboBox();
             this.txtCodigoBarra = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
+            this.dtFechaVenc = new System.Windows.Forms.DateTimePicker();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.txtLote = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -93,12 +98,13 @@ namespace WFConsumo.Recepcion
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(451, 52);
+            this.label3.Location = new System.Drawing.Point(449, 22);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(52, 19);
+            this.label3.Size = new System.Drawing.Size(81, 19);
             this.label3.TabIndex = 2;
-            this.label3.Text = "Fecha:";
+            this.label3.Text = "Fecha Reg:";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // groupBox1
             // 
@@ -215,7 +221,7 @@ namespace WFConsumo.Recepcion
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(80, 244);
+            this.label9.Location = new System.Drawing.Point(345, 238);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(50, 19);
@@ -318,7 +324,7 @@ namespace WFConsumo.Recepcion
             this.dateTimePicker1.CustomFormat = "dd/MM/yyyy";
             this.dateTimePicker1.Enabled = false;
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker1.Location = new System.Drawing.Point(533, 43);
+            this.dateTimePicker1.Location = new System.Drawing.Point(532, 16);
             this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePicker1.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.dateTimePicker1.Name = "dateTimePicker1";
@@ -329,7 +335,7 @@ namespace WFConsumo.Recepcion
             // 
             this.cbCelda.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbCelda.FormattingEnabled = true;
-            this.cbCelda.Location = new System.Drawing.Point(138, 236);
+            this.cbCelda.Location = new System.Drawing.Point(403, 230);
             this.cbCelda.Margin = new System.Windows.Forms.Padding(4);
             this.cbCelda.Name = "cbCelda";
             this.cbCelda.Size = new System.Drawing.Size(132, 27);
@@ -369,7 +375,7 @@ namespace WFConsumo.Recepcion
             // 
             // btnAsignar
             // 
-            this.btnAsignar.Location = new System.Drawing.Point(278, 236);
+            this.btnAsignar.Location = new System.Drawing.Point(543, 230);
             this.btnAsignar.Margin = new System.Windows.Forms.Padding(4);
             this.btnAsignar.Name = "btnAsignar";
             this.btnAsignar.Size = new System.Drawing.Size(103, 27);
@@ -417,7 +423,7 @@ namespace WFConsumo.Recepcion
             "OPEN",
             "IMPR",
             "ANU"});
-            this.cbstatus.Location = new System.Drawing.Point(532, 78);
+            this.cbstatus.Location = new System.Drawing.Point(532, 87);
             this.cbstatus.Margin = new System.Windows.Forms.Padding(4);
             this.cbstatus.Name = "cbstatus";
             this.cbstatus.Size = new System.Drawing.Size(114, 27);
@@ -444,12 +450,71 @@ namespace WFConsumo.Recepcion
             this.label14.TabIndex = 26;
             this.label14.Text = "Codigo Barra:";
             // 
+            // dtFechaVenc
+            // 
+            this.dtFechaVenc.CustomFormat = "dd/MM/yyyy";
+            this.dtFechaVenc.Enabled = false;
+            this.dtFechaVenc.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtFechaVenc.Location = new System.Drawing.Point(533, 51);
+            this.dtFechaVenc.Margin = new System.Windows.Forms.Padding(4);
+            this.dtFechaVenc.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            this.dtFechaVenc.Name = "dtFechaVenc";
+            this.dtFechaVenc.Size = new System.Drawing.Size(113, 27);
+            this.dtFechaVenc.TabIndex = 28;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(442, 54);
+            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(88, 19);
+            this.label15.TabIndex = 29;
+            this.label15.Text = "Fecha Venc:";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(73, 239);
+            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(43, 19);
+            this.label16.TabIndex = 30;
+            this.label16.Text = "Lote:";
+            // 
+            // txtLote
+            // 
+            this.txtLote.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLote.Location = new System.Drawing.Point(138, 235);
+            this.txtLote.Margin = new System.Windows.Forms.Padding(4);
+            this.txtLote.Name = "txtLote";
+            this.txtLote.Size = new System.Drawing.Size(132, 27);
+            this.txtLote.TabIndex = 31;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(471, 90);
+            this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(59, 19);
+            this.label17.TabIndex = 32;
+            this.label17.Text = "Estado:";
+            // 
             // frmAdmDetAnotacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(723, 471);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.txtLote);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.dtFechaVenc);
             this.Controls.Add(this.txtCodigoBarra);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.cbstatus);
@@ -526,5 +591,10 @@ namespace WFConsumo.Recepcion
         private System.Windows.Forms.ComboBox cbstatus;
         private System.Windows.Forms.TextBox txtCodigoBarra;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.DateTimePicker dtFechaVenc;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox txtLote;
+        private System.Windows.Forms.Label label17;
     }
 }

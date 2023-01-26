@@ -108,5 +108,77 @@ namespace CRN.Componentes
         {
             return cadCeldas.CargarCeldaAsignada(almacen);
         }
+        public DataSet VistaAlmacenes(int _IdSucursal)
+        {
+            return cadCeldas.VistaAlmacenes(_IdSucursal);
+        }
+        public DataSet VistaAlmacenesMaquinas(int _IdSucursal)
+        {
+            return cadCeldas.VistaAlmacenesMaquinas(_IdSucursal);
+        }
+        public DataSet VistaAlmacenesOficinas(int _IdSucursal)
+        {
+            return cadCeldas.VistaAlmacenesOficinas(_IdSucursal);
+        }
+        public DataSet VistaAlmacenesCarriles(int _IdSucursal)
+        {
+            return cadCeldas.VistaAlmacenesCarriles(_IdSucursal);
+        }
+        public DataSet DatosAlmacen(int _IdSucursal)
+        {
+            return cadCeldas.DatosAlmacen(_IdSucursal);
+        }
+        public DataSet DatosEstante(int _IdSucursal)
+        {
+            return cadCeldas.DatosEstante(_IdSucursal);
+        }
+        public DataSet TraerEstantesCelda(int _IdSucursal, string _CeldaId, int _Fila)
+        {
+            return cadCeldas.TraerEstantesCelda(_IdSucursal, _CeldaId, _Fila);
+        }
+        public DataSet TraerRelocalizacionPendiente(int _IdSucursal)
+        {
+            return cadCeldas.TraerRelocalizacionPendiente(_IdSucursal);
+        }
+        public DataSet TraerDetalleRelocalizacionPendiente(string _NroPlan)
+        {
+            return cadCeldas.TraerDetalleRelocalizacionPendiente(_NroPlan);
+        }
+        public DataSet TraerRelocalizacionCerrada(int _IdSucursal)
+        {
+            return cadCeldas.TraerRelocalizacionCerrada(_IdSucursal);
+        }
+        public DataSet TraerDetalleRelocalizacionCerrada(string _NroPlan)
+        {
+            return cadCeldas.TraerDetalleRelocalizacionCerrada(_NroPlan);
+        }
+        public DataSet TraerListaCeldas(int _IdSucursal)
+        {
+            return cadCeldas.TraerListaCeldas(_IdSucursal);
+        }
+        public int EditarCelda(string _Celda, int _Area, string _Segmento, int _Nave, string _Columna, int _Estado, int _Unidades)
+        {
+            return cadCeldas.EditarCelda(_Celda, _Area, _Segmento, _Nave, _Columna, _Estado, _Unidades);
+        }
+        public int AgregarCelda(Celdas _celda)
+        {
+            return cadCeldas.AgregarCelda(_celda);
+        }
+        public DataSet BuscarAlmacenId(int _IdSucursal)
+        {
+            return cadCeldas.BuscarAlmacenId(_IdSucursal);
+        }
+        public DataSet TraerDetalleAlmacen(int _IdSucursal, int _AlmacenId)
+        {
+            return cadCeldas.TraerDetalleAlmacen(_IdSucursal, _AlmacenId);
+        }
+        public DataSet TraerTipoRack(string _CeldaId)
+        {
+            return cadCeldas.TraerTipoRack(_CeldaId);
+        }
+        public int EditData(string CeldaEdit)
+        {
+            return cadCeldas.EditData(CeldaEdit);
+        }
     }
 }

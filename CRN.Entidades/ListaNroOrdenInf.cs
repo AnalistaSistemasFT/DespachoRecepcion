@@ -9,6 +9,7 @@ namespace CRN.Entidades
     {
         private string id;
         private int cant;
+        private int entregado;
 
         public string _id
         {
@@ -19,6 +20,11 @@ namespace CRN.Entidades
         {
             get { return cant; }
             set { cant = value; }
+        }
+        public int _entregado
+        {
+            get { return entregado; }
+            set { entregado = value; }
         }
     }
 }

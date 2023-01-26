@@ -57,7 +57,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenCerrada
             }
             catch (Exception err)
             {
-                XtraMessageBox.Show("Problemas con la conexion", "Error");
+                XtraMessageBox.Show("No se pudo obtener el detalle", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
             }
         }
@@ -73,10 +73,15 @@ namespace WFConsumo.frmGRH.DespachoOrdenCerrada
                 }
                 try
                 {
-                    string TipoReporte = "AUTORIZADOS";
                     IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
-                    var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
-                    myForm.Show();
+                    DataSet _despachosAut = C_Despacho.TraerDespachosAut(IdDespacho);
+                    DespachosAutorizados _despAut = new DespachosAutorizados();
+                    _despAut.SetDataSource(_despachosAut.Tables[0]);
+                    frmReportViewer viwer = new frmReportViewer(_despAut);
+                    viwer.Width = 1000;
+                    viwer.Height = 800;
+                    viwer.StartPosition = FormStartPosition.CenterScreen;
+                    viwer.ShowDialog();
                 }
                 catch (Exception err)
                 {
@@ -100,10 +105,15 @@ namespace WFConsumo.frmGRH.DespachoOrdenCerrada
                     IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
                     if (IdDespacho != "0")
                     {
-                        string TipoReporte = "ORDENCARGA";
                         IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
-                        var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
-                        myForm.Show();
+                        DataSet _despOrdenCarga = C_Despacho.TraerOrdenCarga(IdDespacho);
+                        OrdenCargaParcial _ordCarga = new OrdenCargaParcial();
+                        _ordCarga.SetDataSource(_despOrdenCarga.Tables[0]);
+                        frmReportViewer viwer = new frmReportViewer(_ordCarga);
+                        viwer.Width = 1000;
+                        viwer.Height = 800;
+                        viwer.StartPosition = FormStartPosition.CenterScreen;
+                        viwer.ShowDialog();
                     }
                 }
                 catch (Exception err)

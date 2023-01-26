@@ -161,18 +161,28 @@
             // 
             // btnCancelar
             // 
+            this.btnCancelar.Appearance.BackColor = System.Drawing.Color.Black;
+            this.btnCancelar.Appearance.ForeColor = System.Drawing.Color.White;
+            this.btnCancelar.Appearance.Options.UseBackColor = true;
+            this.btnCancelar.Appearance.Options.UseForeColor = true;
+            this.btnCancelar.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
             this.btnCancelar.Location = new System.Drawing.Point(589, 389);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(100, 40);
+            this.btnCancelar.Size = new System.Drawing.Size(100, 25);
             this.btnCancelar.TabIndex = 6;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // btnAceptar
             // 
+            this.btnAceptar.Appearance.BackColor = System.Drawing.Color.Black;
+            this.btnAceptar.Appearance.ForeColor = System.Drawing.Color.White;
+            this.btnAceptar.Appearance.Options.UseBackColor = true;
+            this.btnAceptar.Appearance.Options.UseForeColor = true;
+            this.btnAceptar.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
             this.btnAceptar.Location = new System.Drawing.Point(483, 389);
             this.btnAceptar.Name = "btnAceptar";
-            this.btnAceptar.Size = new System.Drawing.Size(100, 40);
+            this.btnAceptar.Size = new System.Drawing.Size(100, 25);
             this.btnAceptar.TabIndex = 5;
             this.btnAceptar.Text = "Aceptar";
             this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
@@ -205,7 +215,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(704, 452);
+            this.ClientSize = new System.Drawing.Size(704, 426);
             this.Controls.Add(this.labelControl1);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnAceptar);

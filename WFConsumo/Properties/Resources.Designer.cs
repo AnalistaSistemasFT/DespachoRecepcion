@@ -103,6 +103,16 @@ namespace WFConsumo.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap barcode__1_ {
+            get {
+                object obj = ResourceManager.GetObject("barcode (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap deleteuser {
             get {
                 object obj = ResourceManager.GetObject("deleteuser", resourceCulture);
@@ -323,9 +333,39 @@ namespace WFConsumo.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icon_wrhs {
+            get {
+                object obj = ResourceManager.GetObject("icon_wrhs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_wrhs1 {
+            get {
+                object obj = ResourceManager.GetObject("icon_wrhs1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap insert {
             get {
                 object obj = ResourceManager.GetObject("insert", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap inventory {
+            get {
+                object obj = ResourceManager.GetObject("inventory", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -356,6 +396,16 @@ namespace WFConsumo.Properties {
         internal static System.Drawing.Bitmap preferences {
             get {
                 object obj = ResourceManager.GetObject("preferences", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap rack {
+            get {
+                object obj = ResourceManager.GetObject("rack", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -443,6 +493,16 @@ namespace WFConsumo.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap storage {
+            get {
+                object obj = ResourceManager.GetObject("storage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap suportMonline {
             get {
                 object obj = ResourceManager.GetObject("suportMonline", resourceCulture);
@@ -466,6 +526,26 @@ namespace WFConsumo.Properties {
         internal static System.Drawing.Bitmap up {
             get {
                 object obj = ResourceManager.GetObject("up", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap warehouse {
+            get {
+                object obj = ResourceManager.GetObject("warehouse", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap warehousing_icon {
+            get {
+                object obj = ResourceManager.GetObject("warehousing-icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

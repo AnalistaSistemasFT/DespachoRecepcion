@@ -37,6 +37,7 @@ namespace WFConsumo.frmGRH
         string _tipoBusqueda;
         Usuario _usuario;
         List<DetalleProducto> _lstProdDet = new List<DetalleProducto>();
+        int _instNuevoDesp = 0;
 
         public frmListaDespachoMercaderia(Usuario user, int sucursalId)
         {
@@ -116,6 +117,7 @@ namespace WFConsumo.frmGRH
                 DataSet detalleProd = C_Despacho.TraerDespProducto(_idDespacho);
                 dataProd = detalleProd.Tables[0];
                 this.gridControl3.DataSource = dataProd;
+                ////
             }
             catch(Exception err)
             {
@@ -125,11 +127,19 @@ namespace WFConsumo.frmGRH
         }
         private void btnNuevoDespacho_Click(object sender, EventArgs e)
         {
-            int Sucursal = _idSucursal;
-            DateTime _hoy = DateTime.Now;
-            frmNuevoDespachoMercaderia f2 = new frmNuevoDespachoMercaderia(Sucursal, _usuario, _hoy);
-            f2.FormClosed += F2_FormClosed;
-            f2.Show();
+            if(_instNuevoDesp == 0)
+            {
+                int Sucursal = _idSucursal;
+                DateTime _hoy = DateTime.Now;
+                frmNuevoDespachoMercaderia f2 = new frmNuevoDespachoMercaderia(Sucursal, _usuario, _hoy);
+                f2.FormClosed += F2_FormClosed;
+                _instNuevoDesp = 1;
+                f2.Show();
+            }
+            else
+            {
+                XtraMessageBox.Show("Ya existe una ventana abierta", "Advertencia");
+            }
         }
         private void F2_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -139,6 +149,7 @@ namespace WFConsumo.frmGRH
             this.gridView1.BeginDataUpdate();
             this.gridView1.EndDataUpdate();
             TraerData();
+            _instNuevoDesp = 0;
         }
         private void btnEditar_Click(object sender, EventArgs e)
         {
@@ -254,10 +265,15 @@ namespace WFConsumo.frmGRH
                 }
                 try
                 {
-                    string TipoReporte = "AUTORIZADOS";
                     IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
-                    var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
-                    myForm.Show();
+                    DataSet _despachosAut = C_Despacho.TraerDespachosAut(IdDespacho);
+                    DespachosAutorizados _despAut = new DespachosAutorizados();
+                    _despAut.SetDataSource(_despachosAut.Tables[0]);
+                    frmReportViewer viwer = new frmReportViewer(_despAut);
+                    viwer.Width = 1000;
+                    viwer.Height = 800;
+                    viwer.StartPosition = FormStartPosition.CenterScreen;
+                    viwer.ShowDialog();
                 }
                 catch (Exception err)
                 {
@@ -283,8 +299,8 @@ namespace WFConsumo.frmGRH
                     {
                         string TipoReporte = "ORDENCARGA";
                         IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
-                        var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
-                        myForm.Show();
+                        //var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
+                        //myForm.Show();
                     }
                 }
                 catch (Exception err)
@@ -482,24 +498,6 @@ namespace WFConsumo.frmGRH
             {
                 XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
-            }
-        }
-        public void ActualizarLista(int actualizar)
-        {
-            try
-            {
-                if (actualizar == 1)
-                {
-                    this.gridControl1.Refresh();
-                    this.gridControl1.RefreshDataSource();
-                    this.gridView1.RefreshData();
-                    TraerData();
-                }
-            }
-            catch(Exception err)
-            {
-                //XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
-                Console.WriteLine("################### = " + err.ToString());
             }
         }
         //btnBuscarDespacho
@@ -751,7 +749,6 @@ namespace WFConsumo.frmGRH
                 set { Peso = value; }
             }
         }
-
         private void btnLecturar_Click(object sender, EventArgs e)
         {
             if (gridControl1.CanSelect)
@@ -804,6 +801,52 @@ namespace WFConsumo.frmGRH
                 {
                     XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
                     Console.WriteLine("################## = " + err.ToString());
+                }
+            }
+        }
+        private void btnNuevoTrasp_Click(object sender, EventArgs e)
+        {
+            if (gridControl1.CanSelect)
+            {
+                ColumnView view = gridControl1.MainView as ColumnView;
+                int[] row = view.GetSelectedRows();
+                if (row.Length > 0)
+                {
+                    view.FocusedRowHandle = row[0];
+                }
+                try
+                {
+                    IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
+                    string _Trasp = view.GetRowCellDisplayText(row[0], view.Columns[8]);
+                    int _tieneTrasp = 0;
+                    if (IdDespacho != "0")
+                    {
+                        if (_Trasp == "0000" || _Trasp == string.Empty)
+                        {
+                            _tieneTrasp = 0;
+                            _Trasp = "0000";
+                        }
+                        else
+                        {
+                            _tieneTrasp = 1;
+                            _Trasp = view.GetRowCellDisplayText(row[0], view.Columns[8]);
+                        }
+                        try
+                        {
+                            var myForm = new AgregarTraspaso(IdDespacho, _idSucursal, _tieneTrasp, _Trasp);
+                            myForm.Show();
+                        }
+                        catch (Exception err)
+                        {
+                            XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                            Console.WriteLine("########################### = " + err.ToString());
+                        }
+                    }
+                }
+                catch (Exception err)
+                {
+                    XtraMessageBox.Show("Seleccione un despacho de la lista e intentelo de nuevo");
+                    Console.WriteLine("################ = " + err.ToString());
                 }
             }
         }

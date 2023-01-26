@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
             DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
             DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
@@ -37,14 +36,6 @@
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmListaVentaAbierta));
-            this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
-            this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
-            this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
-            this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
-            this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
-            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.Codigo = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -79,8 +70,6 @@
             this.Paquete = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Piezas_ = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Peso_ = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             this.btnNuevo = new DevExpress.XtraEditors.SimpleButton();
             this.btnEditar = new DevExpress.XtraEditors.SimpleButton();
             this.btnVer = new DevExpress.XtraEditors.SimpleButton();
@@ -88,26 +77,13 @@
             this.btnEliminar = new DevExpress.XtraEditors.SimpleButton();
             this.btnEjecutar = new DevExpress.XtraEditors.SimpleButton();
             this.btnBuscar = new DevExpress.XtraEditors.SimpleButton();
-            this.labelBuscarPor = new DevExpress.XtraEditors.LabelControl();
-            this.comBoxBuscarPor = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.labelBusqueda = new DevExpress.XtraEditors.LabelControl();
-            this.txtBusqueda = new DevExpress.XtraEditors.TextEdit();
-            this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
-            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
-            this.checkCompleta = new DevExpress.XtraEditors.CheckEdit();
-            this.checkInicio = new DevExpress.XtraEditors.CheckEdit();
-            this.datePick = new DevExpress.XtraEditors.DateEdit();
-            this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
-            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnLecturar = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
-            this.btnNuevoTrasp = new DevExpress.XtraEditors.SimpleButton();
             this.btnControlDespacho = new DevExpress.XtraEditors.SimpleButton();
             this.lbTitle = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
-            ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
@@ -119,82 +95,12 @@
             this.xtraTabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comBoxBuscarPor.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtBusqueda.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
-            this.groupControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.checkCompleta.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkInicio.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.datePick.Properties.CalendarTimeProperties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.datePick.Properties)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // barManager1
-            // 
-            this.barManager1.DockControls.Add(this.barDockControlTop);
-            this.barManager1.DockControls.Add(this.barDockControlBottom);
-            this.barManager1.DockControls.Add(this.barDockControlLeft);
-            this.barManager1.DockControls.Add(this.barDockControlRight);
-            this.barManager1.Form = this;
-            this.barManager1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
-            this.barButtonItem1,
-            this.barButtonItem2,
-            this.barButtonItem3});
-            this.barManager1.MaxItemId = 3;
-            // 
-            // barDockControlTop
-            // 
-            this.barDockControlTop.CausesValidation = false;
-            this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
-            this.barDockControlTop.Manager = this.barManager1;
-            this.barDockControlTop.Size = new System.Drawing.Size(1188, 0);
-            // 
-            // barDockControlBottom
-            // 
-            this.barDockControlBottom.CausesValidation = false;
-            this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.barDockControlBottom.Location = new System.Drawing.Point(0, 632);
-            this.barDockControlBottom.Manager = this.barManager1;
-            this.barDockControlBottom.Size = new System.Drawing.Size(1188, 0);
-            // 
-            // barDockControlLeft
-            // 
-            this.barDockControlLeft.CausesValidation = false;
-            this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
-            this.barDockControlLeft.Location = new System.Drawing.Point(0, 0);
-            this.barDockControlLeft.Manager = this.barManager1;
-            this.barDockControlLeft.Size = new System.Drawing.Size(0, 632);
-            // 
-            // barDockControlRight
-            // 
-            this.barDockControlRight.CausesValidation = false;
-            this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.barDockControlRight.Location = new System.Drawing.Point(1188, 0);
-            this.barDockControlRight.Manager = this.barManager1;
-            this.barDockControlRight.Size = new System.Drawing.Size(0, 632);
-            // 
-            // barButtonItem1
-            // 
-            this.barButtonItem1.Caption = "Nuevo";
-            this.barButtonItem1.Id = 0;
-            this.barButtonItem1.Name = "barButtonItem1";
-            // 
-            // barButtonItem2
-            // 
-            this.barButtonItem2.Id = 1;
-            this.barButtonItem2.Name = "barButtonItem2";
-            // 
-            // barButtonItem3
-            // 
-            this.barButtonItem3.Caption = "barButtonItem3";
-            this.barButtonItem3.Id = 2;
-            this.barButtonItem3.Name = "barButtonItem3";
             // 
             // gridControl1
             // 
@@ -204,7 +110,6 @@
             this.gridControl1.EmbeddedNavigator.SuperTip = superToolTip1;
             this.gridControl1.Location = new System.Drawing.Point(0, 0);
             this.gridControl1.MainView = this.gridView1;
-            this.gridControl1.MenuManager = this.barManager1;
             this.gridControl1.Name = "gridControl1";
             this.gridControl1.Size = new System.Drawing.Size(1188, 250);
             this.gridControl1.TabIndex = 4;
@@ -518,7 +423,6 @@
             this.gridControl3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridControl3.Location = new System.Drawing.Point(0, 0);
             this.gridControl3.MainView = this.gridView3;
-            this.gridControl3.MenuManager = this.barManager1;
             this.gridControl3.Name = "gridControl3";
             this.gridControl3.Size = new System.Drawing.Size(1182, 284);
             this.gridControl3.TabIndex = 0;
@@ -536,6 +440,7 @@
             this.gridView3.GridControl = this.gridControl3;
             this.gridView3.GroupCount = 1;
             this.gridView3.Name = "gridView3";
+            this.gridView3.OptionsBehavior.AutoExpandAllGroups = true;
             this.gridView3.OptionsBehavior.Editable = false;
             this.gridView3.OptionsBehavior.ReadOnly = true;
             this.gridView3.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.Never;
@@ -595,22 +500,6 @@
             this.Peso_.VisibleIndex = 3;
             this.Peso_.Width = 130;
             // 
-            // labelControl1
-            // 
-            this.labelControl1.Location = new System.Drawing.Point(18, 326);
-            this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(58, 13);
-            this.labelControl1.TabIndex = 6;
-            this.labelControl1.Text = "Nro. Orden:";
-            // 
-            // labelControl2
-            // 
-            this.labelControl2.Location = new System.Drawing.Point(83, 326);
-            this.labelControl2.Name = "labelControl2";
-            this.labelControl2.Size = new System.Drawing.Size(4, 13);
-            this.labelControl2.TabIndex = 7;
-            this.labelControl2.Text = "-";
-            // 
             // btnNuevo
             // 
             this.btnNuevo.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(45)))), ((int)(((byte)(60)))));
@@ -660,7 +549,6 @@
             this.btnEditar.AppearancePressed.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
             this.btnEditar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.btnEditar.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnEditar.Enabled = false;
             this.btnEditar.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnEditar.ImageOptions.Image")));
             this.btnEditar.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btnEditar.Location = new System.Drawing.Point(53, 8);
@@ -689,7 +577,6 @@
             this.btnVer.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.btnVer.AppearancePressed.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
             this.btnVer.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnVer.Enabled = false;
             this.btnVer.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnVer.ImageOptions.Image")));
             this.btnVer.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btnVer.Location = new System.Drawing.Point(134, 8);
@@ -718,7 +605,6 @@
             this.btnImprimir.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.btnImprimir.AppearancePressed.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
             this.btnImprimir.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.UltraFlat;
-            this.btnImprimir.Enabled = false;
             this.btnImprimir.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnImprimir.ImageOptions.Image")));
             this.btnImprimir.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btnImprimir.Location = new System.Drawing.Point(216, 8);
@@ -747,7 +633,6 @@
             this.btnEliminar.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.btnEliminar.AppearancePressed.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
             this.btnEliminar.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnEliminar.Enabled = false;
             this.btnEliminar.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnEliminar.ImageOptions.Image")));
             this.btnEliminar.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btnEliminar.Location = new System.Drawing.Point(175, 8);
@@ -776,7 +661,6 @@
             this.btnEjecutar.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.btnEjecutar.AppearancePressed.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
             this.btnEjecutar.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnEjecutar.Enabled = false;
             this.btnEjecutar.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnEjecutar.ImageOptions.Image")));
             this.btnEjecutar.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btnEjecutar.Location = new System.Drawing.Point(256, 8);
@@ -805,7 +689,6 @@
             this.btnBuscar.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.btnBuscar.AppearancePressed.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
             this.btnBuscar.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnBuscar.Enabled = false;
             this.btnBuscar.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnBuscar.ImageOptions.Image")));
             this.btnBuscar.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btnBuscar.Location = new System.Drawing.Point(297, 8);
@@ -815,114 +698,11 @@
             this.btnBuscar.ToolTip = "Buscar";
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
-            // labelBuscarPor
-            // 
-            this.labelBuscarPor.Location = new System.Drawing.Point(16, 29);
-            this.labelBuscarPor.Name = "labelBuscarPor";
-            this.labelBuscarPor.Size = new System.Drawing.Size(58, 13);
-            this.labelBuscarPor.TabIndex = 45;
-            this.labelBuscarPor.Text = "Buscar por: ";
-            // 
-            // comBoxBuscarPor
-            // 
-            this.comBoxBuscarPor.Location = new System.Drawing.Point(80, 26);
-            this.comBoxBuscarPor.Name = "comBoxBuscarPor";
-            this.comBoxBuscarPor.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comBoxBuscarPor.Size = new System.Drawing.Size(153, 20);
-            this.comBoxBuscarPor.TabIndex = 44;
-            this.comBoxBuscarPor.SelectedIndexChanged += new System.EventHandler(this.comBoxBuscarPor_SelectedIndexChanged);
-            // 
-            // labelBusqueda
-            // 
-            this.labelBusqueda.Location = new System.Drawing.Point(20, 53);
-            this.labelBusqueda.Name = "labelBusqueda";
-            this.labelBusqueda.Size = new System.Drawing.Size(54, 13);
-            this.labelBusqueda.TabIndex = 47;
-            this.labelBusqueda.Text = "Busqueda: ";
-            // 
-            // txtBusqueda
-            // 
-            this.txtBusqueda.Location = new System.Drawing.Point(80, 50);
-            this.txtBusqueda.Name = "txtBusqueda";
-            this.txtBusqueda.Size = new System.Drawing.Size(153, 20);
-            this.txtBusqueda.TabIndex = 46;
-            // 
-            // groupControl1
-            // 
-            this.groupControl1.Controls.Add(this.simpleButton1);
-            this.groupControl1.Controls.Add(this.checkCompleta);
-            this.groupControl1.Controls.Add(this.labelBusqueda);
-            this.groupControl1.Controls.Add(this.checkInicio);
-            this.groupControl1.Controls.Add(this.txtBusqueda);
-            this.groupControl1.Controls.Add(this.comBoxBuscarPor);
-            this.groupControl1.Controls.Add(this.labelBuscarPor);
-            this.groupControl1.Controls.Add(this.datePick);
-            this.groupControl1.Location = new System.Drawing.Point(501, 360);
-            this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(565, 75);
-            this.groupControl1.TabIndex = 48;
-            this.groupControl1.Text = "Buscar";
-            this.groupControl1.Visible = false;
-            // 
-            // simpleButton1
-            // 
-            this.simpleButton1.Location = new System.Drawing.Point(431, 29);
-            this.simpleButton1.Name = "simpleButton1";
-            this.simpleButton1.Size = new System.Drawing.Size(120, 37);
-            this.simpleButton1.TabIndex = 49;
-            this.simpleButton1.Text = "Buscar";
-            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
-            // 
-            // checkCompleta
-            // 
-            this.checkCompleta.EditValue = true;
-            this.checkCompleta.Location = new System.Drawing.Point(281, 49);
-            this.checkCompleta.Name = "checkCompleta";
-            this.checkCompleta.Properties.Caption = "Palabra completa";
-            this.checkCompleta.Size = new System.Drawing.Size(105, 19);
-            this.checkCompleta.TabIndex = 1;
-            this.checkCompleta.CheckedChanged += new System.EventHandler(this.checkCompleta_CheckedChanged);
-            // 
-            // checkInicio
-            // 
-            this.checkInicio.Location = new System.Drawing.Point(281, 25);
-            this.checkInicio.Name = "checkInicio";
-            this.checkInicio.Properties.Caption = "Palabra inicio";
-            this.checkInicio.Size = new System.Drawing.Size(105, 19);
-            this.checkInicio.TabIndex = 0;
-            this.checkInicio.CheckedChanged += new System.EventHandler(this.checkInicio_CheckedChanged);
-            // 
-            // datePick
-            // 
-            this.datePick.EditValue = null;
-            this.datePick.Location = new System.Drawing.Point(80, 49);
-            this.datePick.MenuManager = this.barManager1;
-            this.datePick.Name = "datePick";
-            this.datePick.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.datePick.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.datePick.Size = new System.Drawing.Size(153, 20);
-            this.datePick.TabIndex = 50;
-            this.datePick.Visible = false;
-            // 
-            // printPreviewDialog1
-            // 
-            this.printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
-            this.printPreviewDialog1.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-            this.printPreviewDialog1.ClientSize = new System.Drawing.Size(400, 300);
-            this.printPreviewDialog1.Enabled = true;
-            this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
-            this.printPreviewDialog1.Name = "printPreviewDialog1";
-            this.printPreviewDialog1.Visible = false;
-            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(45)))), ((int)(((byte)(60)))));
             this.panel1.Controls.Add(this.btnLecturar);
             this.panel1.Controls.Add(this.simpleButton3);
-            this.panel1.Controls.Add(this.btnNuevoTrasp);
             this.panel1.Controls.Add(this.btnControlDespacho);
             this.panel1.Controls.Add(this.btnNuevo);
             this.panel1.Controls.Add(this.lbTitle);
@@ -958,7 +738,6 @@
             this.btnLecturar.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.btnLecturar.AppearancePressed.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
             this.btnLecturar.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnLecturar.Enabled = false;
             this.btnLecturar.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnLecturar.ImageOptions.Image")));
             this.btnLecturar.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btnLecturar.Location = new System.Drawing.Point(93, 8);
@@ -988,43 +767,14 @@
             this.simpleButton3.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.simpleButton3.AppearancePressed.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
             this.simpleButton3.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.simpleButton3.Enabled = false;
             this.simpleButton3.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton3.ImageOptions.Image")));
             this.simpleButton3.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.simpleButton3.Location = new System.Drawing.Point(420, 8);
+            this.simpleButton3.Location = new System.Drawing.Point(379, 8);
             this.simpleButton3.Name = "simpleButton3";
             this.simpleButton3.Size = new System.Drawing.Size(35, 35);
             this.simpleButton3.TabIndex = 88;
             this.simpleButton3.ToolTip = "Observaciones";
             this.simpleButton3.Click += new System.EventHandler(this.simpleButton3_Click);
-            // 
-            // btnNuevoTrasp
-            // 
-            this.btnNuevoTrasp.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(45)))), ((int)(((byte)(60)))));
-            this.btnNuevoTrasp.Appearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(45)))), ((int)(((byte)(60)))));
-            this.btnNuevoTrasp.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(45)))), ((int)(((byte)(60)))));
-            this.btnNuevoTrasp.Appearance.Options.UseBackColor = true;
-            this.btnNuevoTrasp.Appearance.Options.UseBorderColor = true;
-            this.btnNuevoTrasp.Appearance.Options.UseForeColor = true;
-            this.btnNuevoTrasp.AppearancePressed.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.btnNuevoTrasp.AppearancePressed.BackColor2 = System.Drawing.SystemColors.ControlDarkDark;
-            this.btnNuevoTrasp.AppearancePressed.BorderColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.btnNuevoTrasp.AppearancePressed.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.btnNuevoTrasp.AppearancePressed.Options.UseBackColor = true;
-            this.btnNuevoTrasp.AppearancePressed.Options.UseBorderColor = true;
-            this.btnNuevoTrasp.AppearancePressed.Options.UseForeColor = true;
-            this.btnNuevoTrasp.AppearancePressed.Options.UseTextOptions = true;
-            this.btnNuevoTrasp.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.btnNuevoTrasp.AppearancePressed.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            this.btnNuevoTrasp.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnNuevoTrasp.Enabled = false;
-            this.btnNuevoTrasp.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnNuevoTrasp.ImageOptions.Image")));
-            this.btnNuevoTrasp.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnNuevoTrasp.Location = new System.Drawing.Point(379, 8);
-            this.btnNuevoTrasp.Name = "btnNuevoTrasp";
-            this.btnNuevoTrasp.Size = new System.Drawing.Size(35, 35);
-            this.btnNuevoTrasp.TabIndex = 87;
-            this.btnNuevoTrasp.ToolTip = "Nuevo Traspaso";
             // 
             // btnControlDespacho
             // 
@@ -1045,7 +795,6 @@
             this.btnControlDespacho.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.btnControlDespacho.AppearancePressed.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
             this.btnControlDespacho.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnControlDespacho.Enabled = false;
             this.btnControlDespacho.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnControlDespacho.ImageOptions.Image")));
             this.btnControlDespacho.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btnControlDespacho.Location = new System.Drawing.Point(338, 8);
@@ -1106,21 +855,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1188, 632);
             this.Controls.Add(this.splitContainer1);
-            this.Controls.Add(this.labelControl2);
-            this.Controls.Add(this.labelControl1);
-            this.Controls.Add(this.groupControl1);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.barDockControlLeft);
-            this.Controls.Add(this.barDockControlRight);
-            this.Controls.Add(this.barDockControlBottom);
-            this.Controls.Add(this.barDockControlTop);
             this.FormBorderEffect = DevExpress.XtraEditors.FormBorderEffect.Shadow;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "frmListaVentaAbierta";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Ordenes abiertas";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            ((System.ComponentModel.ISupportInitialize)(this.barManager1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
@@ -1132,15 +873,6 @@
             this.xtraTabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comBoxBuscarPor.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtBusqueda.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
-            this.groupControl1.ResumeLayout(false);
-            this.groupControl1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.checkCompleta.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkInicio.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.datePick.Properties.CalendarTimeProperties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.datePick.Properties)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -1148,20 +880,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private DevExpress.XtraBars.BarManager barManager1;
-        private DevExpress.XtraBars.BarDockControl barDockControlTop;
-        private DevExpress.XtraBars.BarDockControl barDockControlBottom;
-        private DevExpress.XtraBars.BarDockControl barDockControlLeft;
-        private DevExpress.XtraBars.BarDockControl barDockControlRight;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem1;
-        private DevExpress.XtraEditors.LabelControl labelControl2;
-        private DevExpress.XtraEditors.LabelControl labelControl1;
         private DevExpress.XtraTab.XtraTabControl xtraTabControl1;
         private DevExpress.XtraTab.XtraTabPage xtraTabPage2;
         private DevExpress.XtraTab.XtraTabPage xtraTabPage1;
@@ -1169,8 +891,6 @@
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private DevExpress.XtraGrid.GridControl gridControl3;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView3;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem2;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem3;
         private DevExpress.XtraEditors.SimpleButton btnNuevo;
         private DevExpress.XtraEditors.SimpleButton btnEliminar;
         private DevExpress.XtraEditors.SimpleButton btnImprimir;
@@ -1178,15 +898,6 @@
         private DevExpress.XtraEditors.SimpleButton btnEditar;
         private DevExpress.XtraEditors.SimpleButton btnBuscar;
         private DevExpress.XtraEditors.SimpleButton btnEjecutar;
-        private DevExpress.XtraEditors.LabelControl labelBuscarPor;
-        private DevExpress.XtraEditors.ComboBoxEdit comBoxBuscarPor;
-        private DevExpress.XtraEditors.LabelControl labelBusqueda;
-        private DevExpress.XtraEditors.TextEdit txtBusqueda;
-        private DevExpress.XtraEditors.GroupControl groupControl1;
-        private DevExpress.XtraEditors.CheckEdit checkCompleta;
-        private DevExpress.XtraEditors.CheckEdit checkInicio;
-        private DevExpress.XtraEditors.SimpleButton simpleButton1;
-        private DevExpress.XtraEditors.DateEdit datePick;
         private DevExpress.XtraGrid.Columns.GridColumn Codigo;
         private DevExpress.XtraGrid.Columns.GridColumn Fecha;
         private DevExpress.XtraGrid.Columns.GridColumn NroOrden;
@@ -1204,13 +915,10 @@
         private DevExpress.XtraGrid.Columns.GridColumn Paquete;
         private DevExpress.XtraGrid.Columns.GridColumn Piezas_;
         private DevExpress.XtraGrid.Columns.GridColumn Peso_;
-        private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
-        private System.Drawing.Printing.PrintDocument printDocument1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lbTitle;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private DevExpress.XtraEditors.SimpleButton btnControlDespacho;
-        private DevExpress.XtraEditors.SimpleButton btnNuevoTrasp;
         private DevExpress.XtraEditors.SimpleButton simpleButton2;
         private DevExpress.XtraGrid.GridControl gridControl2;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView2;

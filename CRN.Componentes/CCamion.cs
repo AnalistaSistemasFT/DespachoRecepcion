@@ -21,6 +21,13 @@ namespace CRN.Componentes
             sInsert = string.Format(sInsert);
             return this.consultar(sInsert);
         }
+        public DataSet SeleccionarCamion(string sPlaca)
+        {
+
+            string sInsert = @"select Id_Camion, Placa, Marca from tblCatCamion where Placa = '{0}'";
+            sInsert = string.Format(sInsert, sPlaca);
+            return this.consultar(sInsert);
+        }
 
         public DataSet SeleccionarCamionId(int icamion)
         {

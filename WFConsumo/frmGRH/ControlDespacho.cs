@@ -170,6 +170,6 @@ namespace WFConsumo.frmGRH
                 get { return Peso; }
                 set { Peso = value; }
             }
-        }
+        } 
     }
 }

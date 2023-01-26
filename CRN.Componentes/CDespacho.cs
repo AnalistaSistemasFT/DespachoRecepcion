@@ -10,6 +10,7 @@ using CRN.Entidades;
 using CAD;
 using System.Data.SqlClient;
 using System.Data.Common;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace CRN.Componentes
 {
@@ -184,25 +185,53 @@ namespace CRN.Componentes
         {
             return cadDespacho.TraerDespachoAbierto(_idSucursal);
         }
+        public DataSet TraerDespachoAbiertoVenta(int _idSucursal)
+        {
+            return cadDespacho.TraerDespachoAbiertoVenta(_idSucursal);
+        }
         public DataSet TraerDespachoEnProgreso(int _idSucursal)
         {
             return cadDespacho.TraerDespachoEnProceso(_idSucursal);
+        }
+        public DataSet TraerDespachoEnProgresoVenta(int _idSucursal)
+        {
+            return cadDespacho.TraerDespachoEnProcesoVenta(_idSucursal);
         }
         public DataSet TraerDespachoParcial(int _idSucursal)
         {
             return cadDespacho.TraerDespachoParcial(_idSucursal);
         }
+        public DataSet TraerDespachoParcialVenta(int _idSucursal)
+        {
+            return cadDespacho.TraerDespachoParcialVenta(_idSucursal);
+        }
         public DataSet TraerDespachoPorCerrar(int _idSucursal)
         {
             return cadDespacho.TraerDespachoPorCerrar(_idSucursal);
+        }
+        public DataSet TraerDespachoPorCerrarVenta(int _idSucursal)
+        {
+            return cadDespacho.TraerDespachoPorCerrarVenta(_idSucursal);
         }
         public DataSet TraerDespachoCerrado(int _idSucursal)
         {
             return cadDespacho.TraerDespachoCerrado(_idSucursal);
         }
+        public DataSet TraerDespachoCerradoVenta(int _idSucursal)
+        {
+            return cadDespacho.TraerDespachoCerradoVenta(_idSucursal);
+        }
         public DataSet TraerTodosLosDespachos(int _idSucursal)
         {
             return cadDespacho.TraerTodosLosDespachos(_idSucursal);
+        }
+        public DataSet TraerTodosLosDespachosVenta(int _idSucursal)
+        {
+            return cadDespacho.TraerTodosLosDespachosVenta(_idSucursal);
+        }
+        public DataSet TraerDespachosPendientes(int _idSucursal)
+        {
+            return cadDespacho.TraerDespachosPendientes(_idSucursal);
         }
         public DataSet TraerDespachoTransito(int _idSucursal)
         {
@@ -374,7 +403,7 @@ namespace CRN.Componentes
                                     ([DespachoId],[Fecha],[NroOrden],[Id_Camion],[Placa],[Marca],[Chofer],[CI],[Destino],[Login],[status],[Correlativo],[Obs],[Tipo],[Cargador],[NumTraspaso],[SucursalId],[SucDestino],[HorarioPartida],[HorarioLlegada],[Naturaleza],[Anticipado], [Entregado])
                                 VALUES
                                       ('{0}','{1}','{2}',{3},'{4}','{5}','{6}','{7}','{8}','{9}','{10}',{11},'{12}','{13}','{14}','{15}',{16},{17},{18},{19},'{20}',{21}, {22})";
-            sInsert = string.Format(sInsert, _despacho.p_DespachoId, _despacho.p_Fecha.ToString("yyyyMMdd"), _despacho.p_NroOrden, _despacho.p_Id_Camion, _despacho.p_Placa, _despacho.p_Marca, _despacho.p_Chofer, _despacho.p_CI, _despacho.p_Destino, _despacho.p_Login, _despacho.p_status, _despacho.p_Correlativo, _despacho.p_Obs, _despacho.p_Tipo, _despacho.p_Cargador, _despacho.p_NumTraspaso, _despacho.p_SucursalId, _despacho.p_SucDestino, _despacho.p_HorarioPartida.ToString("dd/MM/yyyy"), _despacho.p_HorarioLlegada.ToString("dd/MM/yyyy"), _despacho.p_Naturaleza, _despacho.p_Anticipado, _despacho.p_Entregado);
+            sInsert = string.Format(sInsert, _despacho.p_DespachoId, _despacho.p_Fecha.ToString("dd/MM/yyyy"), _despacho.p_NroOrden, _despacho.p_Id_Camion, _despacho.p_Placa, _despacho.p_Marca, _despacho.p_Chofer, _despacho.p_CI, _despacho.p_Destino, _despacho.p_Login, _despacho.p_status, _despacho.p_Correlativo, _despacho.p_Obs, _despacho.p_Tipo, _despacho.p_Cargador, _despacho.p_NumTraspaso, _despacho.p_SucursalId, _despacho.p_SucDestino, _despacho.p_HorarioPartida.ToString("dd/MM/yyyy"), _despacho.p_HorarioLlegada.ToString("dd/MM/yyyy"), _despacho.p_Naturaleza, _despacho.p_Anticipado, _despacho.p_Entregado);
             return ejecutar(ref sError, sInsert, trnproxy);
         }
         //Buscar para traspaso
@@ -431,21 +460,25 @@ namespace CRN.Componentes
         public int InsertarDespacho(out string sError, Despacho _despacho, DataTable dt, int isucursal)
         {
             sError = string.Empty;
+            string _metodo = "Ok";
             using (DbTransaction trnSql = this.IniciarTransaccion())
             {
                 CSys_Secuencia C_sysSecuencia = new CSys_Secuencia();
                 string sDespacho = C_sysSecuencia.TraerSecuencia(isucursal, "DESPACHO");
-
+                _metodo = "Insertar Despacho";
                 int a = this.InsertDespacho(_despacho, trnSql);
                 if (a > 0)
                 {
                     DespDetalle _despDetalle = new DespDetalle();
                     if (dt.Rows.Count == 0)
                     {
+                        _metodo = "Actualizar Secuencia";
                         a = ActualizarSecuencia(isucursal, "DESPACHO", sDespacho, trnSql);
                         if (a > 0)
                         {
                             trnSql.Commit();
+                            //trnSql.Rollback();
+                            //trnSql.Dispose();
                         }
                         else
                         {
@@ -473,10 +506,13 @@ namespace CRN.Componentes
                         }
                         if (a > 0)
                         {
+                            _metodo = "Actualizar Secuencia_";
                             a = ActualizarSecuencia(isucursal, "DESPACHO", sDespacho, trnSql);
                             if (a > 0)
                             {
                                 trnSql.Commit();
+                                //trnSql.Rollback();
+                                //trnSql.Dispose();
                             }
                             else
                             {
@@ -585,6 +621,151 @@ namespace CRN.Componentes
         public DataSet TraerInfoPaquete(string _paqueteId, int _idSucursal)
         {
             return cadDespacho.TraerInfoPaquete(_paqueteId, _idSucursal);
+        }
+        //TraerSucursalTransito
+        public DataSet TraerCodigoTransito(int _IdSucursal)
+        {
+            return cadDespacho.TraerCodigoTransito(_IdSucursal);
+        }
+        //TraerSucursalLista
+        public DataSet TraerSucursalLista()
+        {
+            return cadDespacho.TraerSucursalLista();
+        }
+        //Traspaso
+        public int ModificarNumTraspasoDespacho(string _idDespacho, string _numTrasp)
+        {
+            string sError = string.Empty;
+            string sUpdate = @"UPDATE [LYBK].[dbo].[tblDespacho] SET NumTraspaso = '" + _numTrasp + "' WHERE DespachoId = '" + _idDespacho + "'";
+            //string sUpdate = @"";
+            return ejecutar(ref sError, sUpdate);
+        }
+        //TraerNumeroTraspaso
+        public DataSet TraerTraspaso(string _idDespacho)
+        {
+            return cadDespacho.TraerTraspaso(_idDespacho);
+        }
+        //Reporte Despachos Autorizados
+        public DataSet TraerDespachosAut(string _idDespacho)
+        {
+            return cadDespacho.TraerDespachosAut(_idDespacho);
+        }
+        //Reporte Orden de Carga
+        public DataSet TraerOrdenCarga(string _idDespacho)
+        {
+            return cadDespacho.TraerOrdenCarga(_idDespacho);
+        }
+        //Reporte Orden de Entrega
+        public DataSet TraerOrdenEntrega(string _idDespacho, int _idSucursal)
+        {
+            return cadDespacho.TraerOrdenEntrega(_idDespacho, _idSucursal);
+        }
+        //Reporte despacho cabecera
+        public DataSet TraerCabeceraDespacho(string _idDespacho)
+        {
+            return cadDespacho.TraerCabeceraDespacho(_idDespacho);
+        }
+        //Traer Secuencia Palet
+        public string TraerSecuenciaPalet(int Suscursal)
+        {
+            string sSelet = "select * from Sys_Secuencia where Operacion = 'PALET' and sucursal={0}";
+            sSelet = string.Format(sSelet, Suscursal);
+            DataTable dtsResult = consultar(sSelet).Tables[0];
+            string sSecuencia = "";
+            if (dtsResult.Rows.Count > 0)
+            {
+                string sContador = dtsResult.Rows[0]["Contador"].ToString();
+                string sFijo = dtsResult.Rows[0]["Fijo"].ToString();
+                int iSiguiente = 0;
+                string year = "0";
+
+                year = (sContador.Substring(0, 2));
+                if (year != (DateTime.Now.Year.ToString().Substring(2, 2)))
+                    year = DateTime.Now.Year.ToString().Substring(2, 2);
+                ///////////////////////////////////////////////////////////////////
+                iSiguiente = Convert.ToInt32(sContador.Substring(5, 6));
+                int iSig = iSiguiente + 1;
+                sSecuencia = year + sFijo + (iSig.ToString("D6"));
+            }
+            return sSecuencia;
+        }
+        //Crear Palet
+        public int CrearPalet(Palet _palet, int _idSucursal, DbTransaction trnproxy)
+        {
+            string sError = string.Empty;
+            string sCreate = @"INSERT INTO tblPalet ([PaletId],[ItemId],[ItemFId],[SucursalId],[Cantidad_Paqs],[Peso_Paqs], [Estado])
+                                VALUES ('" + _palet.p_PaletId + "', '" + _palet.p_ItemId + "', " + _palet.p_ItemFerro + ", " + _palet.p_SucursalId + ", " + _palet.p_Cantidad_Paqs + ", " + _palet.p_Peso_Paqs +", '" + _palet.p_Estado + "')"; 
+            return ejecutar(ref sError, sCreate);
+        }
+        public int ActualizarPaquete(string _Palet, string _idPaquete, int _idSucursal, DbTransaction trnProxy)
+        {
+            string sError = string.Empty;
+            string sUpdate = "UPDATE tblPaquetes set Contenedor = '" + _Palet + "' WHERE SucursalId = " + _idSucursal + " AND PaqueteId = '" + _idPaquete + "'";
+            sUpdate = string.Format(sUpdate);
+            return this.ejecutar(ref sError, sUpdate, trnProxy); 
+        }
+        public int ActualizarCorrelativoPalet(string Contador, int _idSucursal, string Operacion, DbTransaction trnProxy)
+        {
+            string sError = string.Empty;
+            string sUpdate = "update Sys_Secuencia set Contador = '" + Contador + "' where  sucursal = " + _idSucursal + " and Operacion = '" + Operacion + "'";
+            sUpdate = string.Format(sUpdate);
+            return this.ejecutar(ref sError, sUpdate, trnProxy);
+        }
+        //GuardarPalet
+        public int InsertarPalet(out string sError, string _CorrelativoNuevo, int isucursal, Palet _palet, List<PaletLecturado> _paqList)
+        {
+            sError = string.Empty; 
+            using (DbTransaction trnSql = this.IniciarTransaccion())
+            {
+                int a = this.CrearPalet(_palet, isucursal, trnSql);
+                if (a > 0)
+                { 
+                    if (_paqList.Count > 0)
+                    { 
+                        foreach(var item in _paqList)
+                        {
+                            a = ActualizarPaquete(_CorrelativoNuevo, item.p_PaqueteId, isucursal, trnSql);
+                            if(a == 0)
+                            {
+                                break;
+                            }
+                        }
+                        if (a > 0)
+                        { 
+                            a = ActualizarCorrelativoPalet(_CorrelativoNuevo, isucursal, "PALET", trnSql);
+                            if (a > 0)
+                            {
+                                trnSql.Commit();
+                            }
+                            else
+                            {
+                                trnSql.Rollback();
+                            } 
+                        }
+                        else
+                        {
+                            trnSql.Rollback();
+                        }
+                    }
+                    else
+                    {
+                        a = 0;
+                        trnSql.Rollback();
+                    }
+                }
+                else
+                {
+                    trnSql.Rollback();
+                }
+                return a;
+            }
+        } 
+         
+        public int RBTraspDesp(string _idDespacho)
+        {
+            string sError = string.Empty;
+            string sUpdate = @"UPDATE tblDespacho SET NumTraspaso = '0000' WHERE DespachoId = '" + _idDespacho + "'";
+            return ejecutar(ref sError, sUpdate);
         }
     }
 }

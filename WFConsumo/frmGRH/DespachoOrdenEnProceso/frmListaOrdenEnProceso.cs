@@ -36,6 +36,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenEnProceso
         CMovDespacho C_MovDespacho;
         List<DetalleProducto> _lstProdDet = new List<DetalleProducto>();
         List<ItemEntrega> _listEntrega = new List<ItemEntrega>();
+        int _idDestino = 0;
 
         public frmListaOrdenEnProceso(Usuario user, int sucursalId)
         {
@@ -47,6 +48,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenEnProceso
             C_MovDespacho = new CMovDespacho();
             C_Paquetes = new CPaquetes();
             TraerData();
+            TraerDestino();
         }
         private void TraerData()
         {
@@ -57,6 +59,22 @@ namespace WFConsumo.frmGRH.DespachoOrdenEnProceso
                 this.gridControl4.DataSource = dataT;
             }
             catch(Exception err)
+            {
+                XtraMessageBox.Show("Problemas con la conexion", "Error");
+                Console.WriteLine("####################### = " + err.ToString());
+            }
+        }
+        public void TraerDestino()
+        {
+            try
+            {
+                DataSet dataDest = C_Despacho.TraerDestinoId(_idDespacho);
+                foreach (DataRow item in dataDest.Tables[0].Rows)
+                {
+                    _idDestino = Convert.ToInt32(item[0]);
+                }
+            }
+            catch (Exception err)
             {
                 XtraMessageBox.Show("Problemas con la conexion", "Error");
                 Console.WriteLine("####################### = " + err.ToString());
@@ -170,10 +188,15 @@ namespace WFConsumo.frmGRH.DespachoOrdenEnProceso
                 }
                 try
                 {
-                    string TipoReporte = "AUTORIZADOS";
                     IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
-                    var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
-                    myForm.Show();
+                    DataSet _despachosAut = C_Despacho.TraerDespachosAut(IdDespacho);
+                    DespachosAutorizados _despAut = new DespachosAutorizados();
+                    _despAut.SetDataSource(_despachosAut.Tables[0]);
+                    frmReportViewer viwer = new frmReportViewer(_despAut);
+                    viwer.Width = 1000;
+                    viwer.Height = 800;
+                    viwer.StartPosition = FormStartPosition.CenterScreen;
+                    viwer.ShowDialog(); 
                 }
                 catch (Exception err)
                 {
@@ -197,10 +220,15 @@ namespace WFConsumo.frmGRH.DespachoOrdenEnProceso
                     IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
                     if (IdDespacho != "0")
                     {
-                        string TipoReporte = "ORDENCARGA";
                         IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
-                        var myForm = new ReportesDespacho(IdDespacho, TipoReporte);
-                        myForm.Show();
+                        DataSet _despOrdenCarga = C_Despacho.TraerOrdenCarga(IdDespacho);
+                        OrdenCargaParcial _ordCarga = new OrdenCargaParcial();
+                        _ordCarga.SetDataSource(_despOrdenCarga.Tables[0]);
+                        frmReportViewer viwer = new frmReportViewer(_ordCarga);
+                        viwer.Width = 1000;
+                        viwer.Height = 800;
+                        viwer.StartPosition = FormStartPosition.CenterScreen;
+                        viwer.ShowDialog();
                     }
                 }
                 catch (Exception err)
@@ -340,18 +368,19 @@ namespace WFConsumo.frmGRH.DespachoOrdenEnProceso
                             dr["CentroTrabajo"] = item[8];
                             dr["NuevoEstado"] = _status;
                             dtsDetalle.Rows.Add(dr);
+
                         }
-                        a = C_MovDespacho.CerrarDespacho(dtsDetalle, dtsDetalle, _idSucursal, DespachoId);
-                        if (a > 0)
-                        {
-                            TraerData();
-                            XtraMessageBox.Show("Orden cerrada", "Cerrar despacho");
-                        }
-                        else
-                        {
-                            XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
-                            Console.WriteLine("###########################: A = 0");
-                        }
+                        //a = C_MovDespacho.CerrarDespacho(dtsDetalle, dtsDetalle, _idSucursal, DespachoId, _idDestino);
+                        //if (a > 0)
+                        //{
+                        //    TraerData();
+                        //    XtraMessageBox.Show("Orden cerrada", "Cerrar despacho");
+                        //}
+                        //else
+                        //{
+                        //    XtraMessageBox.Show("Algo salio mal, intentelo de nuevo", "Error");
+                        //    Console.WriteLine("###########################: A = 0");
+                        //}
                     }
                     else
                     {
@@ -524,11 +553,23 @@ namespace WFConsumo.frmGRH.DespachoOrdenEnProceso
                 try
                 {
                     IdDespacho = view.GetRowCellDisplayText(row[0], view.Columns[0]);
+                    string _Trasp = view.GetRowCellDisplayText(row[0], view.Columns[8]);
+                    int _tieneTrasp = 0;
                     if (IdDespacho != "0")
                     {
+                        if(_Trasp == "0000" || _Trasp == string.Empty || _Trasp == " ")
+                        {
+                            _tieneTrasp = 0;
+                            _Trasp = "0000";
+                        }
+                        else
+                        {
+                            _tieneTrasp = 1;
+                            _Trasp = view.GetRowCellDisplayText(row[0], view.Columns[8]);
+                        }
                         try
                         {
-                            var myForm = new AgregarTraspaso(IdDespacho, _idSucursal);
+                            var myForm = new AgregarTraspaso(IdDespacho, _idSucursal, _tieneTrasp, _Trasp);
                             myForm.Show();
                         }
                         catch (Exception err)

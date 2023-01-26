@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 
@@ -94,5 +95,31 @@ namespace CRN.Entidades
           
         }
         #endregion  
+        //InsertarDespProductos
+        public int InsertarDespProductos(DbTransaction trnproxy)
+        {
+            string sError = string.Empty;
+            string sInsert = @"Insert into tblDespProductos
+                              ([DespachoId], [ProductoId], [ItemId],[Fecha], [Status], [Cantidad], [Peso], [CeldaId], [SucursalId], [ItemFId], [Piezas], [Metros], [Colada])
+                              VALUES
+                              ('{0}','{1}','{2}','{3}','{4}',{5},{6},'{7}',{8},{9},{10},{11},'{12}')";
+            sInsert = string.Format(sInsert, DespachoId, ProductoId, ItemId, Fecha, Status, Cantidad, Peso, CeldaId, SucursalId, ItemFId, Piezas, Metros, Colada);
+            return ejecutar(ref sError, sInsert, trnproxy);
+        }
+        protected int ejecutar(ref string er, string csql, System.Data.Common.DbTransaction obtransaccion)
+        {
+            try
+            {
+                System.Data.Common.DbCommand comando = obtransaccion.Connection.CreateCommand();
+                comando.CommandText = csql;
+                comando.Transaction = obtransaccion;
+                return comando.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                er = ex.Message;
+                return 0;
+            }
+        }
     }
 }

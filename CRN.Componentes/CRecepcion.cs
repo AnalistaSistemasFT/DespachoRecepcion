@@ -9,8 +9,13 @@ using CAD;
 
 namespace CRN.Componentes
 {
-	public class CRecepcion
+	public class CRecepcion: oledb
 	{
+		public CRecepcion()
+		{
+			this.sConnName = "SQLSERVER";
+		}
+
 		CADRecepcion cadRecepcion = new CADRecepcion();
 
 		public void GuardarRecepcion(Recepcion oRecepcion)
@@ -23,7 +28,7 @@ namespace CRN.Componentes
 		}
        
 
-		public void ModificarRecepcion(Recepcion oRecepcion)
+		public void ModificarRecepcion1(Recepcion oRecepcion)
 		{
 			using (TransactionScope ts = new TransactionScope())
 			{
@@ -66,7 +71,7 @@ namespace CRN.Componentes
         }
 		public DataSet TraerDespachos(string estado, int sucursal)
 		{
-			return cadRecepcion.TraerDespachos(estado, sucursal);
+			return cadRecepcion.TraerOrdenDeCarga(estado, sucursal);
 		}
 		public DataSet TraerCC(string estado, int sucursal)
 		{
@@ -81,9 +86,21 @@ namespace CRN.Componentes
 		{
 			return cadRecepcion.TraerDespachoDet(Despacho);
 		}
+		public DataSet TraerOrdenCargaDetalle(int Orden)
+		{
+			return cadRecepcion.TraerOrdenCargaDet(Orden);
+		}
+
 		public DataSet TraerDespachoDetProd(string recepcion)
 		{
 			return cadRecepcion.TraerDespachoDetProd(recepcion);
+		}
+		public DataSet TraerOrdenDetProd(int Orden, int i)
+		{
+			if(i == 0)
+			return cadRecepcion.TraerOrdenDetProd(Orden);
+			else
+				return cadRecepcion.TraerOrdenDetProd1(Orden);
 		}
 
 		public DataSet TraerRecepcionDet(string recepcion,string fuente)
@@ -91,6 +108,7 @@ namespace CRN.Componentes
 			return cadRecepcion.TraerRecepcionDetProd1(recepcion,fuente);
 		}
 
+		
 
 	}
 }

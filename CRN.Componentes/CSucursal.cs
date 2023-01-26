@@ -21,6 +21,12 @@ namespace CRN.Componentes
             sInsert = string.Format(sInsert);
             return this.consultar(sInsert);
         }
+        public DataSet SeleccionarSucursalTodo()
+        {
+            string sInsert = @"select SucursalID,Nombre from empleados.dbo.tblSucursal";
+            sInsert = string.Format(sInsert);
+            return this.consultar(sInsert);
+        }
         public DataSet TraerTodasLasSucursales(string where)
         {
             string sInsert = @"select* from tblSucursal where ferrotodo  = 'true'";
@@ -98,5 +104,21 @@ namespace CRN.Componentes
             return cadSucursal.BuscarNombreSuc(_idSucursal);
         }
 
+        public int TraerSucTransito(int Sucursal)
+        {
+            string sInsert = @"select isnull(SucIDTransito,0) suctran from [Empleados].[dbo].tblSucursal where SucursalID = {0}";
+            sInsert = string.Format(sInsert, Sucursal);
+            DataSet dts = this.consultar(sInsert);
+            int iCodSucTra = 0;
+            if (dts.Tables[0].Rows.Count > 0)
+            {
+                iCodSucTra = Convert.ToInt32(dts.Tables[0].Rows[0]["suctran"].ToString());
+            }
+            return iCodSucTra;
+        }
+        public DataSet TraerMovPdv(string Estado, int Sucursal)
+        {
+            return cadSucursal.TraerMovPdv(Estado, Sucursal);
+        }
     }
 }

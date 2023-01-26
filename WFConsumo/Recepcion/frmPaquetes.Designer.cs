@@ -29,17 +29,27 @@ namespace WFConsumo.Recepcion
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lbTitle = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.rbinactivo = new System.Windows.Forms.RadioButton();
+            this.rbactivo = new System.Windows.Forms.RadioButton();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rbetiqueta2 = new System.Windows.Forms.RadioButton();
+            this.rbetiqueta1 = new System.Windows.Forms.RadioButton();
             this.button1 = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.gridPaquetes = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.panelReport = new System.Windows.Forms.Panel();
             this.crviwer = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
+            this.xpView1 = new DevExpress.Xpo.XPView(this.components);
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -47,6 +57,7 @@ namespace WFConsumo.Recepcion
             ((System.ComponentModel.ISupportInitialize)(this.gridPaquetes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.panelReport.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.xpView1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -62,22 +73,94 @@ namespace WFConsumo.Recepcion
             // lbTitle
             // 
             this.lbTitle.AutoSize = true;
-            this.lbTitle.Font = new System.Drawing.Font("Open Sans", 22F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.lbTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 22F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.lbTitle.ForeColor = System.Drawing.Color.White;
             this.lbTitle.Location = new System.Drawing.Point(21, 9);
             this.lbTitle.Name = "lbTitle";
-            this.lbTitle.Size = new System.Drawing.Size(215, 30);
+            this.lbTitle.Size = new System.Drawing.Size(234, 26);
             this.lbTitle.TabIndex = 1;
             this.lbTitle.Text = "PAQUETES ACTIVOS";
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.groupBox2);
+            this.panel2.Controls.Add(this.groupBox1);
             this.panel2.Controls.Add(this.button1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 54);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(820, 55);
             this.panel2.TabIndex = 1;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.rbinactivo);
+            this.groupBox2.Controls.Add(this.rbactivo);
+            this.groupBox2.Location = new System.Drawing.Point(271, 6);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(185, 43);
+            this.groupBox2.TabIndex = 2;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "PAQUETES";
+            // 
+            // rbinactivo
+            // 
+            this.rbinactivo.AutoSize = true;
+            this.rbinactivo.Location = new System.Drawing.Point(92, 20);
+            this.rbinactivo.Name = "rbinactivo";
+            this.rbinactivo.Size = new System.Drawing.Size(82, 17);
+            this.rbinactivo.TabIndex = 1;
+            this.rbinactivo.TabStop = true;
+            this.rbinactivo.Text = "INACTIVOS";
+            this.rbinactivo.UseVisualStyleBackColor = true;
+            this.rbinactivo.CheckedChanged += new System.EventHandler(this.rbinactivo_CheckedChanged);
+            // 
+            // rbactivo
+            // 
+            this.rbactivo.AutoSize = true;
+            this.rbactivo.Location = new System.Drawing.Point(16, 20);
+            this.rbactivo.Name = "rbactivo";
+            this.rbactivo.Size = new System.Drawing.Size(71, 17);
+            this.rbactivo.TabIndex = 0;
+            this.rbactivo.TabStop = true;
+            this.rbactivo.Text = "ACTIVOS";
+            this.rbactivo.UseVisualStyleBackColor = true;
+            this.rbactivo.CheckedChanged += new System.EventHandler(this.rbactivo_CheckedChanged);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.rbetiqueta2);
+            this.groupBox1.Controls.Add(this.rbetiqueta1);
+            this.groupBox1.Location = new System.Drawing.Point(80, 6);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(185, 43);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Tipo Etiqueta";
+            // 
+            // rbetiqueta2
+            // 
+            this.rbetiqueta2.AutoSize = true;
+            this.rbetiqueta2.Location = new System.Drawing.Point(92, 20);
+            this.rbetiqueta2.Name = "rbetiqueta2";
+            this.rbetiqueta2.Size = new System.Drawing.Size(76, 17);
+            this.rbetiqueta2.TabIndex = 1;
+            this.rbetiqueta2.TabStop = true;
+            this.rbetiqueta2.Text = "10 * 14 cm";
+            this.rbetiqueta2.UseVisualStyleBackColor = true;
+            this.rbetiqueta2.CheckedChanged += new System.EventHandler(this.rbeqtiqueta2_CheckedChanged);
+            // 
+            // rbetiqueta1
+            // 
+            this.rbetiqueta1.AutoSize = true;
+            this.rbetiqueta1.Location = new System.Drawing.Point(16, 20);
+            this.rbetiqueta1.Name = "rbetiqueta1";
+            this.rbetiqueta1.Size = new System.Drawing.Size(70, 17);
+            this.rbetiqueta1.TabIndex = 0;
+            this.rbetiqueta1.TabStop = true;
+            this.rbetiqueta1.Text = "10 * 3 cm";
+            this.rbetiqueta1.UseVisualStyleBackColor = true;
+            this.rbetiqueta1.CheckedChanged += new System.EventHandler(this.rbetiqueta1_CheckedChanged);
             // 
             // button1
             // 
@@ -127,8 +210,10 @@ namespace WFConsumo.Recepcion
             this.gridView1.GridControl = this.gridPaquetes;
             this.gridView1.Name = "gridView1";
             this.gridView1.OptionsBehavior.Editable = false;
+            this.gridView1.OptionsBehavior.ReadOnly = true;
             this.gridView1.OptionsSelection.MultiSelect = true;
             this.gridView1.OptionsView.ShowAutoFilterRow = true;
+            this.gridView1.OptionsView.ShowGroupPanel = false;
             this.gridView1.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView1_RowClick);
             // 
             // panelReport
@@ -177,6 +262,10 @@ namespace WFConsumo.Recepcion
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -184,6 +273,7 @@ namespace WFConsumo.Recepcion
             ((System.ComponentModel.ISupportInitialize)(this.gridPaquetes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             this.panelReport.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.xpView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -199,5 +289,12 @@ namespace WFConsumo.Recepcion
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private System.Windows.Forms.Panel panelReport;
         private CrystalDecisions.Windows.Forms.CrystalReportViewer crviwer;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton rbetiqueta2;
+        private System.Windows.Forms.RadioButton rbetiqueta1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.RadioButton rbinactivo;
+        private System.Windows.Forms.RadioButton rbactivo;
+        private DevExpress.Xpo.XPView xpView1;
     }
 }

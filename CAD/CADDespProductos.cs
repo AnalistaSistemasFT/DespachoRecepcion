@@ -129,6 +129,11 @@ namespace CAD
             string cadena = "select b.ItemFId, a.Piezas, a.Peso, a.Cantidad, b.UnidadF from tblDespProductos a INNER JOIN tblItem b ON a.ItemId = b.ItemId where a.DespachoId = '" + _idDespacho + "' AND a.ItemId = '" + _itemId + "'";
             return this.EjecutarConsulta(cadena);
         }
+        public DataSet DetMovDatosAjuste(string _itemId)
+        {
+            string cadena = "select ItemFId, UnidadF from tblItem WHERE ItemId = '" + _itemId + "'";
+            return this.EjecutarConsulta(cadena);
+        }
         public DataSet TraerSumaProgramados(string _idDespacho)
         {
             string cadena = "select SUM(Cantidad) as totalProg from tblDespProductos where DespachoId = '" + _idDespacho + "'";
@@ -138,6 +143,10 @@ namespace CAD
         {
             string cadena = "select SUM(Cantidad) as totalEntrega from tblOrdenEntregaDetalle where DespachoId = '" + _idDespacho + "'";
             return this.EjecutarConsulta(cadena);
+        }
+        public int QuitarPaqueteLecturacion(string _idDespacho, string _PaqueteId)
+        {
+            return EjecutarComando("DELETE FROM tblDespProductos WHERE DespachoId = '" + _idDespacho + "' AND ProductoId = '" + _PaqueteId + "'");
         }
     }
 }

@@ -280,13 +280,6 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
 
                         }
                     }
-                    //int _idProducto = 0;
-                    //DataSet DataListInf = C_Informix.TraerDescProducto(_idProducto);
-                    //foreach (DataRow item in DataListInf.Tables[0].Rows)
-                    //{
-                    //    //_desProdList.Find(p => p.ItemId == _itmId && p.ProductoId == _paqtId).Cantidad = _cantN;
-                    //    _listPaq.Find(p => p.p_ItemFerro == item[0].ToString()).p_Descripcion = item[1].ToString();
-                    //}
                 }
                 else
                 {
@@ -316,7 +309,6 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                     }
                     else
                     {
-                        //XtraMessageBox.Show("No se tiene ningun item programado", "Aviso");
                         DataSet dataLista = C_Paquete.TraerPaqueteLecturadoPorSucursal(_idSucursal);
                         foreach (DataRow item in dataLista.Tables[0].Rows)
                         {
@@ -346,7 +338,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                Application.OpenForms["ListaLecturado"].Enabled = true;
+                Application.OpenForms["ListaLecturadoA"].Enabled = true;
             }
         }
         //btnAceptar
@@ -410,15 +402,20 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
         {
             try
             {
-                if(_tipoBusqueda == 1)
+                if(_tipoBusqueda == 0)
                 {
                     _busq = searchControl1.Text;
                     gridControl1.DataSource = _listPaq.Where(x => x.p_ItemId.ToLower().Contains(_busq.ToLower()));
                 }
-                else if(_tipoBusqueda == 0)
+                else if(_tipoBusqueda == 1)
                 {
                     _busq = searchControl1.Text;
                     gridControl1.DataSource = _listPaq.Where(x => x.p_ItemFerro.ToLower().Contains(_busq.ToLower()));
+                }
+                else if(_tipoBusqueda == 2)
+                {
+                    _busq = searchControl1.Text;
+                    gridControl1.DataSource = _listPaq.Where(x => x.p_PaqueteId.ToLower().Contains(_busq.ToLower()));
                 }
                 else
                 {
@@ -434,40 +431,41 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
         }
         private void checkCodigo_CheckedChanged(object sender, EventArgs e)
         {
-            if(checkCodigo.Checked == true)
+            if (checkCodigo.Checked == true)
             {
                 checkCodigoFerro.Checked = false;
-                _tipoBusqueda = 1;
-            }
-            else if(checkCodigo.Checked == false)
-            {
-                checkCodigoFerro.Checked = true;
+                checkPaquete.Checked = false;
                 _tipoBusqueda = 0;
             }
             else
             {
-                checkCodigo.Checked = true;
-                checkCodigoFerro.Checked = false;
-                _tipoBusqueda = 1;
+                //
             }
         }
         private void checkCodigoFerro_CheckedChanged(object sender, EventArgs e)
         {
-            if(checkCodigoFerro.Checked == true)
+            if (checkCodigoFerro.Checked == true)
             {
                 checkCodigo.Checked = false;
-                _tipoBusqueda = 0;
-            }
-            else if(checkCodigoFerro.Checked == false)
-            {
-                checkCodigo.Checked = true;
+                checkPaquete.Checked = false;
                 _tipoBusqueda = 1;
             }
             else
             {
+                //
+            }
+        }
+        private void checkPaquete_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkPaquete.Checked == true)
+            {
+                checkCodigo.Checked = false;
                 checkCodigoFerro.Checked = false;
-                checkCodigo.Checked = true;
-                _tipoBusqueda = 1;
+                _tipoBusqueda = 2;
+            }
+            else
+            {
+                //
             }
         }
         private void gridView1_CellValueChanged(object sender, CellValueChangedEventArgs e)

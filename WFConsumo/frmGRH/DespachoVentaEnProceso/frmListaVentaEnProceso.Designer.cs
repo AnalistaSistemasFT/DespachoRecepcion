@@ -131,7 +131,6 @@
             // btnLecturar
             // 
             this.btnLecturar.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnLecturar.Enabled = false;
             this.btnLecturar.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnLecturar.ImageOptions.Image")));
             this.btnLecturar.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btnLecturar.Location = new System.Drawing.Point(53, 9);
@@ -145,7 +144,6 @@
             // btnBuscar
             // 
             this.btnBuscar.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnBuscar.Enabled = false;
             this.btnBuscar.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnBuscar.ImageOptions.Image")));
             this.btnBuscar.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btnBuscar.Location = new System.Drawing.Point(258, 9);
@@ -158,7 +156,6 @@
             // btnVer
             // 
             this.btnVer.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnVer.Enabled = false;
             this.btnVer.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnVer.ImageOptions.Image")));
             this.btnVer.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btnVer.Location = new System.Drawing.Point(94, 9);
@@ -172,7 +169,6 @@
             // 
             this.btnCerrar.Appearance.Options.UseImage = true;
             this.btnCerrar.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnCerrar.Enabled = false;
             this.btnCerrar.ImageOptions.AllowGlyphSkinning = DevExpress.Utils.DefaultBoolean.False;
             this.btnCerrar.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnCerrar.ImageOptions.Image")));
             this.btnCerrar.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
@@ -186,7 +182,6 @@
             // btnEjecutar
             // 
             this.btnEjecutar.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnEjecutar.Enabled = false;
             this.btnEjecutar.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnEjecutar.ImageOptions.Image")));
             this.btnEjecutar.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btnEjecutar.Location = new System.Drawing.Point(176, 9);
@@ -593,7 +588,6 @@
             // btnImprimir
             // 
             this.btnImprimir.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnImprimir.Enabled = false;
             this.btnImprimir.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnImprimir.ImageOptions.Image")));
             this.btnImprimir.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btnImprimir.Location = new System.Drawing.Point(135, 9);
@@ -772,7 +766,6 @@
             // btnVolverEstado
             // 
             this.btnVolverEstado.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnVolverEstado.Enabled = false;
             this.btnVolverEstado.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnVolverEstado.ImageOptions.Image")));
             this.btnVolverEstado.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btnVolverEstado.Location = new System.Drawing.Point(340, 9);
@@ -807,7 +800,6 @@
             // btnEditar
             // 
             this.btnEditar.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnEditar.Enabled = false;
             this.btnEditar.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnEditar.ImageOptions.Image")));
             this.btnEditar.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btnEditar.Location = new System.Drawing.Point(12, 9);
@@ -820,7 +812,6 @@
             // simpleButton3
             // 
             this.simpleButton3.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.simpleButton3.Enabled = false;
             this.simpleButton3.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton3.ImageOptions.Image")));
             this.simpleButton3.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.simpleButton3.Location = new System.Drawing.Point(422, 9);
@@ -833,7 +824,6 @@
             // btnControlDespacho
             // 
             this.btnControlDespacho.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnControlDespacho.Enabled = false;
             this.btnControlDespacho.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnControlDespacho.ImageOptions.Image")));
             this.btnControlDespacho.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btnControlDespacho.Location = new System.Drawing.Point(299, 9);
@@ -846,7 +836,6 @@
             // btnImprimirLocaliza
             // 
             this.btnImprimirLocaliza.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.btnImprimirLocaliza.Enabled = false;
             this.btnImprimirLocaliza.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnImprimirLocaliza.ImageOptions.Image")));
             this.btnImprimirLocaliza.ImageOptions.Location = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
             this.btnImprimirLocaliza.Location = new System.Drawing.Point(381, 9);

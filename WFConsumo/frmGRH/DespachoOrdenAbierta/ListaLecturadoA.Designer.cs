@@ -142,12 +142,12 @@
             // 
             // checkPallet
             // 
-            this.checkPallet.Enabled = false;
-            this.checkPallet.Location = new System.Drawing.Point(210, 11);
+            this.checkPallet.Location = new System.Drawing.Point(265, 8);
             this.checkPallet.Name = "checkPallet";
             this.checkPallet.Properties.Caption = "Palet";
             this.checkPallet.Size = new System.Drawing.Size(75, 19);
             this.checkPallet.TabIndex = 5;
+            this.checkPallet.CheckedChanged += new System.EventHandler(this.checkPallet_CheckedChanged);
             // 
             // labelDespacho
             // 
@@ -196,6 +196,7 @@
             this.gridView1.OptionsMenu.EnableGroupPanelMenu = false;
             this.gridView1.OptionsView.RowAutoHeight = true;
             this.gridView1.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.Never;
+            this.gridView1.OptionsView.ShowFooter = true;
             this.gridView1.OptionsView.ShowGroupPanel = false;
             this.gridView1.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridView1_CellValueChanged);
             // 
@@ -215,6 +216,8 @@
             this.CodigoFerro.Caption = "CodigoFerro";
             this.CodigoFerro.FieldName = "p_ItemFerro";
             this.CodigoFerro.Name = "CodigoFerro";
+            this.CodigoFerro.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "p_ItemFerro", "Total: {0}")});
             this.CodigoFerro.Visible = true;
             this.CodigoFerro.VisibleIndex = 0;
             this.CodigoFerro.Width = 113;
@@ -275,15 +278,37 @@
             // 
             // simpleButton3
             // 
+            this.simpleButton3.Appearance.BackColor = System.Drawing.Color.Black;
+            this.simpleButton3.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.simpleButton3.Appearance.ForeColor = System.Drawing.Color.White;
+            this.simpleButton3.Appearance.Options.UseBackColor = true;
+            this.simpleButton3.Appearance.Options.UseFont = true;
+            this.simpleButton3.Appearance.Options.UseForeColor = true;
+            this.simpleButton3.AppearanceHovered.BackColor = System.Drawing.Color.White;
+            this.simpleButton3.AppearanceHovered.ForeColor = System.Drawing.Color.Black;
+            this.simpleButton3.AppearanceHovered.Options.UseBackColor = true;
+            this.simpleButton3.AppearanceHovered.Options.UseForeColor = true;
+            this.simpleButton3.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
             this.simpleButton3.Location = new System.Drawing.Point(600, 626);
             this.simpleButton3.Name = "simpleButton3";
             this.simpleButton3.Size = new System.Drawing.Size(100, 29);
             this.simpleButton3.TabIndex = 6;
-            this.simpleButton3.Text = "Cancelar";
+            this.simpleButton3.Text = "Salir";
             this.simpleButton3.Click += new System.EventHandler(this.simpleButton3_Click);
             // 
             // btnAceptar
             // 
+            this.btnAceptar.Appearance.BackColor = System.Drawing.Color.Black;
+            this.btnAceptar.Appearance.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAceptar.Appearance.ForeColor = System.Drawing.Color.White;
+            this.btnAceptar.Appearance.Options.UseBackColor = true;
+            this.btnAceptar.Appearance.Options.UseFont = true;
+            this.btnAceptar.Appearance.Options.UseForeColor = true;
+            this.btnAceptar.AppearanceHovered.BackColor = System.Drawing.Color.White;
+            this.btnAceptar.AppearanceHovered.ForeColor = System.Drawing.Color.Black;
+            this.btnAceptar.AppearanceHovered.Options.UseBackColor = true;
+            this.btnAceptar.AppearanceHovered.Options.UseForeColor = true;
+            this.btnAceptar.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
             this.btnAceptar.Location = new System.Drawing.Point(494, 626);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(100, 29);
@@ -336,7 +361,7 @@
             this.lbTitle.TabIndex = 79;
             this.lbTitle.Text = "ORDENES DE ENTREGA";
             // 
-            // ListaLecturado
+            // ListaLecturadoA
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -351,7 +376,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ListaLecturado";
+            this.Name = "ListaLecturadoA";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Lista Lecturado";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ListaLecturado_FormClosing);

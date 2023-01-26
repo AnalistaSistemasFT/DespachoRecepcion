@@ -59,6 +59,7 @@
     <Compile Include="CatTablaDetalle.cs" />
     <Compile Include="CausaCuarentena.cs" />
     <Compile Include="Celdas.cs" />
+    <Compile Include="CeldasEstante.cs" />
     <Compile Include="CentroTrabajo.cs" />
     <Compile Include="ClientesInformix.cs" />
     <Compile Include="CObjeto.cs" />
@@ -69,6 +70,8 @@
     <Compile Include="DespProductos.cs" />
     <Compile Include="DespProgCelda.cs" />
     <Compile Include="DespProgSob.cs" />
+    <Compile Include="Devolucion.cs" />
+    <Compile Include="DevolucionDetalle.cs" />
     <Compile Include="EmpleadoUser.cs" />
     <Compile Include="Ensayo.cs" />
     <Compile Include="Entrega.cs" />
@@ -94,6 +97,8 @@
     <Compile Include="OrdenProduccion.cs" />
     <Compile Include="OrdenProduccionV2.cs" />
     <Compile Include="OrdenSync.cs" />
+    <Compile Include="Palet.cs" />
+    <Compile Include="PaletLecturado.cs" />
     <Compile Include="PaqueteLecturado.cs" />
     <Compile Include="Paquetes.cs" />
     <Compile Include="PaquetesRotos.cs" />
@@ -106,7 +111,9 @@
     <Compile Include="RecepcionProductosDel.cs" />
     <Compile Include="RespuestaMecanizado.cs" />
     <Compile Include="scartsuc.cs" />
+    <Compile Include="scdetent.cs" />
     <Compile Include="scentreg.cs" />
+    <Compile Include="scentreg_inf.cs" />
     <Compile Include="scmovart.cs" />
     <Compile Include="scmovorca.cs" />
     <Compile Include="scordcarg.cs" />

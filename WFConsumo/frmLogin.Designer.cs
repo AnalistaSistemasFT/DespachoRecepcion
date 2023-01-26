@@ -37,6 +37,8 @@
             this.buttonX3 = new DevComponents.DotNetBar.ButtonX();
             this.panel1 = new System.Windows.Forms.Panel();
             this.labelX2 = new DevComponents.DotNetBar.LabelX();
+            this.txtVersion = new DevExpress.XtraEditors.LabelControl();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonX2
@@ -144,6 +146,7 @@
             this.panel1.BackColor = System.Drawing.Color.DarkGoldenrod;
             this.panel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel1.BackgroundImage")));
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.panel1.Controls.Add(this.txtVersion);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
@@ -164,6 +167,14 @@
             this.labelX2.Size = new System.Drawing.Size(93, 37);
             this.labelX2.TabIndex = 0;
             this.labelX2.Text = "LOGIN";
+            // 
+            // txtVersion
+            // 
+            this.txtVersion.Location = new System.Drawing.Point(3, 307);
+            this.txtVersion.Name = "txtVersion";
+            this.txtVersion.Size = new System.Drawing.Size(10, 13);
+            this.txtVersion.TabIndex = 0;
+            this.txtVersion.Text = " - ";
             // 
             // frmLogin
             // 
@@ -188,6 +199,8 @@
             this.Text = "InicioSesion";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmLogin_KeyDown);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmLogin_MouseDown);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -202,5 +215,6 @@
         private DevComponents.DotNetBar.ButtonX buttonX3;
         private System.Windows.Forms.Panel panel1;
         private DevComponents.DotNetBar.LabelX labelX2;
+        private DevExpress.XtraEditors.LabelControl txtVersion;
     }
 }

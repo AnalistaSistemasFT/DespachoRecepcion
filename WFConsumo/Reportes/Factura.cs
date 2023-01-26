@@ -98,7 +98,7 @@ namespace WFConsumo.Reportes {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_medida {
+        public CrystalDecisions.Shared.IParameterField Parameter_item {
             get {
                 return this.DataDefinition.ParameterFields[1];
             }
@@ -106,7 +106,7 @@ namespace WFConsumo.Reportes {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_longitud {
+        public CrystalDecisions.Shared.IParameterField Parameter_desc {
             get {
                 return this.DataDefinition.ParameterFields[2];
             }
@@ -122,7 +122,7 @@ namespace WFConsumo.Reportes {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_barras {
+        public CrystalDecisions.Shared.IParameterField Parameter_pieza {
             get {
                 return this.DataDefinition.ParameterFields[4];
             }
@@ -130,7 +130,7 @@ namespace WFConsumo.Reportes {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_calidad {
+        public CrystalDecisions.Shared.IParameterField Parameter_colada {
             get {
                 return this.DataDefinition.ParameterFields[5];
             }
@@ -138,7 +138,7 @@ namespace WFConsumo.Reportes {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_codigo {
+        public CrystalDecisions.Shared.IParameterField Parameter_paquete {
             get {
                 return this.DataDefinition.ParameterFields[6];
             }
@@ -146,9 +146,25 @@ namespace WFConsumo.Reportes {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_imagen {
+        public CrystalDecisions.Shared.IParameterField Parameter_correlativo {
             get {
                 return this.DataDefinition.ParameterFields[7];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.Shared.IParameterField Parameter_calidad {
+            get {
+                return this.DataDefinition.ParameterFields[8];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.Shared.IParameterField Parameter_fechafac {
+            get {
+                return this.DataDefinition.ParameterFields[9];
             }
         }
     }

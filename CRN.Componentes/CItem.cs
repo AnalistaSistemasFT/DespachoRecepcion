@@ -121,6 +121,14 @@ namespace CRN.Componentes
         {
             return cadItem.VerificarItem(Item);
         }
+        public DataSet TraerTodoInfo()
+        {
+            return cadItem.TraerTodoInfo();
+        }
+        public DataSet ConsultarItenF(string sItem)
+        {
+            return cadItem.TraerItemF(sItem);
+        }
         
     }
 }

@@ -71,11 +71,13 @@
     <Compile Include="CDespProductos.cs" />
     <Compile Include="CDespProg.cs" />
     <Compile Include="CDetalleTraspaso.cs" />
+    <Compile Include="CDevolucion.cs" />
     <Compile Include="CEnsayo.cs" />
     <Compile Include="CEntregaMecanizado.cs" />
     <Compile Include="CFabricante.cs" />
     <Compile Include="CInformix.cs" />
     <Compile Include="CItemF.cs" />
+    <Compile Include="CLocaliza.cs" />
     <Compile Include="CLogError.cs" />
     <Compile Include="CModFechaFMec.cs" />
     <Compile Include="CMovDespacho.cs" />
@@ -119,6 +121,7 @@
     <Compile Include="CTblEnsayoDetalle.cs" />
     <Compile Include="CTblMovSync.cs" />
     <Compile Include="CTblMovSyncDet.cs" />
+    <Compile Include="CTbltipofact.cs" />
     <Compile Include="CTipoCambio.cs" />
     <Compile Include="CTipoCosteo.cs" />
     <Compile Include="CTraspaso.cs" />
