@@ -489,19 +489,23 @@
             // 
             // labelControl13
             // 
+            this.labelControl13.Enabled = false;
             this.labelControl13.Location = new System.Drawing.Point(469, 291);
             this.labelControl13.Name = "labelControl13";
             this.labelControl13.Size = new System.Drawing.Size(81, 13);
             this.labelControl13.TabIndex = 27;
             this.labelControl13.Text = "Tipo Documento:";
+            this.labelControl13.Visible = false;
             // 
             // txtTipoDoc
             // 
+            this.txtTipoDoc.Enabled = false;
             this.txtTipoDoc.Location = new System.Drawing.Point(578, 288);
             this.txtTipoDoc.Name = "txtTipoDoc";
             this.txtTipoDoc.Properties.ReadOnly = true;
             this.txtTipoDoc.Size = new System.Drawing.Size(252, 20);
             this.txtTipoDoc.TabIndex = 28;
+            this.txtTipoDoc.Visible = false;
             // 
             // btnBuscarSucursal
             // 

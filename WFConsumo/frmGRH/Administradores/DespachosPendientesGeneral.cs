@@ -27,6 +27,7 @@ namespace WFConsumo.frmGRH.Administradores
         List<ItemEntrega> _listEntrega = new List<ItemEntrega>();
         private decimal _pesoTotal = 0;
         int _SucursalPick = 0;
+        string _SucursalNombPick = string.Empty;
 
         public DespachosPendientesGeneral(int idSucursal)
         {
@@ -39,8 +40,11 @@ namespace WFConsumo.frmGRH.Administradores
         {
             try
             {
-                DataSet data = C_Despacho.TraerSucursalLista();
-                gridControl5.DataSource = data.Tables[0];
+                DataSet data = C_Despacho.TraerDespachosPendientes();
+                gridControl1.DataSource = data.Tables[0];
+
+                string cont = C_Despacho.TraerTotalPendientesGeneral();
+                txtTitulo.Text = "DESPACHOS PENDIENTES: " + cont;
             }
             catch(Exception err)
             {
@@ -54,7 +58,7 @@ namespace WFConsumo.frmGRH.Administradores
                 ColumnView view = this.gridControl1.MainView as ColumnView;
                 int[] row = view.GetSelectedRows();
                 view.FocusedRowHandle = row[0];
-                _idDespacho = (view.GetRowCellDisplayText(row[0], view.Columns[0])).ToString();
+                _idDespacho = (view.GetRowCellDisplayText(row[0], view.Columns[2])).ToString();
 
                 DataSet detalleLista = C_Despacho.TraerDetalleDespacho(_idDespacho);
                 _lstProdDet.Clear();
@@ -226,12 +230,16 @@ namespace WFConsumo.frmGRH.Administradores
         }
         private void gridView5_RowClick(object sender, DevExpress.XtraGrid.Views.Grid.RowClickEventArgs e)
         {
-            ColumnView view = this.gridControl5.MainView as ColumnView;
+            ColumnView view = this.gridControl1.MainView as ColumnView;
             int[] row = view.GetSelectedRows();
             view.FocusedRowHandle = row[0];
             _SucursalPick = Convert.ToInt32(view.GetRowCellDisplayText(row[0], view.Columns[0]));
-            DataSet data = C_Despacho.TraerDespachosPendientes(_SucursalPick);
+            _SucursalNombPick = view.GetRowCellDisplayText(row[0], view.Columns[1]);
+            DataSet data = C_Despacho.TraerDespachosPendientes();
             gridControl1.DataSource = data.Tables[0];
+
+            string cont = C_Despacho.TraerPendientesSucursal(_SucursalPick);
+            txtCont.Text = _SucursalNombPick.Trim() + ": " + cont;
         }
     }
 }

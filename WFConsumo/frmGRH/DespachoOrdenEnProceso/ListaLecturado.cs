@@ -570,7 +570,17 @@ namespace WFConsumo.frmGRH.DespachoOrdenEnProceso
                         }
                         else
                         {
-                            _paqList.Find(p => p.p_ItemId == item[0].ToString()).p_Retirar = 1;
+                            //_paqList.Find(p => p.p_ItemId == item[0].ToString()).p_Retirar = 1;
+                            _paqList.Add(new PaqueteLecturado
+                            {
+                                p_ItemId = item[0].ToString(),
+                                p_Descripcion = item[1].ToString(),
+                                p_PaqueteId = item[2].ToString(),
+                                p_Piezas = Convert.ToInt32(item[3]),
+                                p_Peso = Convert.ToDecimal(item[4]),
+                                p_Unidad = item[5].ToString(),
+                                p_Retirar = 1
+                            });
                         }
                     }
                     this.gridControl1.RefreshDataSource();

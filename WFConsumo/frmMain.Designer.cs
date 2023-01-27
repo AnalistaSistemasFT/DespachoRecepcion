@@ -125,6 +125,8 @@
             this.navBarAddDevolucion = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarGroupInventario = new DevExpress.XtraNavBar.NavBarGroup();
             this.navBarCambioCodigo = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBarAdmin = new DevExpress.XtraNavBar.NavBarGroup();
+            this.DespachosPendientesGral = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarItem8 = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarControl1 = new DevExpress.XtraNavBar.NavBarControl();
             this.navBarItem6 = new DevExpress.XtraNavBar.NavBarItem();
@@ -137,8 +139,6 @@
             this.navBarGroup1 = new DevExpress.XtraNavBar.NavBarGroup();
             this.defaultLookAndFeel1 = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.txtV = new DevComponents.DotNetBar.LabelX();
-            this.navBarAdmin = new DevExpress.XtraNavBar.NavBarGroup();
-            this.DespachosPendientesGral = new DevExpress.XtraNavBar.NavBarItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabbedMdiManager1)).BeginInit();
@@ -291,7 +291,7 @@
             this.splitContainerControl1.Panel2.Controls.Add(this.panel1);
             this.splitContainerControl1.Panel2.Text = "Panel2";
             this.splitContainerControl1.Size = new System.Drawing.Size(956, 519);
-            this.splitContainerControl1.SplitterPosition = 177;
+            this.splitContainerControl1.SplitterPosition = 182;
             this.splitContainerControl1.TabIndex = 3;
             this.splitContainerControl1.Text = "splitContainerControl1";
             // 
@@ -383,8 +383,8 @@
             this.DespachosPendientesGral});
             this.navBarControl2.Location = new System.Drawing.Point(0, 0);
             this.navBarControl2.Name = "navBarControl2";
-            this.navBarControl2.OptionsNavPane.ExpandedWidth = 177;
-            this.navBarControl2.Size = new System.Drawing.Size(177, 519);
+            this.navBarControl2.OptionsNavPane.ExpandedWidth = 182;
+            this.navBarControl2.Size = new System.Drawing.Size(182, 519);
             this.navBarControl2.TabIndex = 0;
             this.navBarControl2.Text = "navBarControl2";
             // 
@@ -1037,6 +1037,27 @@
             this.navBarCambioCodigo.Name = "navBarCambioCodigo";
             this.navBarCambioCodigo.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBarCambioCodigo_LinkClicked);
             // 
+            // navBarAdmin
+            // 
+            this.navBarAdmin.Appearance.Options.UseTextOptions = true;
+            this.navBarAdmin.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarAdmin.AppearancePressed.Options.UseTextOptions = true;
+            this.navBarAdmin.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.navBarAdmin.Caption = "ADMINISTRADOR";
+            this.navBarAdmin.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
+            new DevExpress.XtraNavBar.NavBarItemLink(this.DespachosPendientesGral)});
+            this.navBarAdmin.Name = "navBarAdmin";
+            // 
+            // DespachosPendientesGral
+            // 
+            this.DespachosPendientesGral.Appearance.Options.UseTextOptions = true;
+            this.DespachosPendientesGral.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+            this.DespachosPendientesGral.AppearancePressed.Options.UseTextOptions = true;
+            this.DespachosPendientesGral.AppearancePressed.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.DespachosPendientesGral.Caption = "DESPACHOS PENDIENTES";
+            this.DespachosPendientesGral.Name = "DespachosPendientesGral";
+            this.DespachosPendientesGral.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.DespachosPendientesGral_LinkClicked);
+            // 
             // navBarItem8
             // 
             this.navBarItem8.Caption = "CERRAR SESION";
@@ -1074,7 +1095,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(774, 519);
+            this.panel1.Size = new System.Drawing.Size(769, 519);
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
@@ -1140,20 +1161,6 @@
             this.txtV.TabIndex = 12;
             this.txtV.Text = " - ";
             this.txtV.TextAlignment = System.Drawing.StringAlignment.Center;
-            // 
-            // navBarAdmin
-            // 
-            this.navBarAdmin.Caption = "ADMINISTRADOR";
-            this.navBarAdmin.Expanded = true;
-            this.navBarAdmin.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
-            new DevExpress.XtraNavBar.NavBarItemLink(this.DespachosPendientesGral)});
-            this.navBarAdmin.Name = "navBarAdmin";
-            // 
-            // DespachosPendientesGral
-            // 
-            this.DespachosPendientesGral.Caption = "DESPACHOS PENDIENTES";
-            this.DespachosPendientesGral.Name = "DespachosPendientesGral";
-            this.DespachosPendientesGral.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.DespachosPendientesGral_LinkClicked);
             // 
             // frmMain
             // 

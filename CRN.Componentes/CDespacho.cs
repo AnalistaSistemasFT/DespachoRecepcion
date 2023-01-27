@@ -217,6 +217,10 @@ namespace CRN.Componentes
         {
             return cadDespacho.TraerDespachoCerrado(_idSucursal);
         }
+        public DataSet TraerDespachoCerradoActual(int _idSucursal)
+        {
+            return cadDespacho.TraerDespachoCerradoActual(_idSucursal);
+        }
         public DataSet TraerDespachoCerradoVenta(int _idSucursal)
         {
             return cadDespacho.TraerDespachoCerradoVenta(_idSucursal);
@@ -229,9 +233,9 @@ namespace CRN.Componentes
         {
             return cadDespacho.TraerTodosLosDespachosVenta(_idSucursal);
         }
-        public DataSet TraerDespachosPendientes(int _idSucursal)
+        public DataSet TraerDespachosPendientes()
         {
-            return cadDespacho.TraerDespachosPendientes(_idSucursal);
+            return cadDespacho.TraerDespachosPendientes();
         }
         public DataSet TraerDespachoTransito(int _idSucursal)
         {
@@ -631,6 +635,16 @@ namespace CRN.Componentes
         public DataSet TraerSucursalLista()
         {
             return cadDespacho.TraerSucursalLista();
+        }
+        //ConteoDespachosPendientes
+        public string TraerTotalPendientesGeneral()
+        {
+            return cadDespacho.TraerTotalPendientesGeneral();
+        }
+        //TraerConteoPendientesPorSucursal
+        public string TraerPendientesSucursal(int _idSucursal)
+        {
+            return cadDespacho.TraerPendientesSucursal(_idSucursal);
         }
         //Traspaso
         public int ModificarNumTraspasoDespacho(string _idDespacho, string _numTrasp)

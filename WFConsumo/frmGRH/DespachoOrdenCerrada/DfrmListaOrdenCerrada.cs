@@ -33,6 +33,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenCerrada
         int clickRow = 0;
         string idClick = string.Empty;
         Stopwatch stopwatch = new Stopwatch();
+        int _yearActual = 0;
 
         public DfrmListaOrdenCerrada(Usuario user, int sucursalId)
         {
@@ -45,15 +46,28 @@ namespace WFConsumo.frmGRH.DespachoOrdenCerrada
             TraerData();
         }
         private void TraerData()
-        {
+        { 
             try
             {
-                DataSet dataLista = C_Despacho.TraerDespachoCerrado(_idSucursal);
-                dataT = dataLista.Tables[0];
-                this.gridControl1.DataSource = dataT;
+                if (_yearActual == 0)
+                {
+                    DataSet dataLista = C_Despacho.TraerDespachoCerradoActual(_idSucursal);
+                    dataT = dataLista.Tables[0];
+                    this.gridControl1.DataSource = dataT;
 
-                DataSet dataCancel = C_Despacho.TraerDespachoCancelado(_idSucursal);
-                this.gridControl4.DataSource = dataCancel.Tables[0];
+                    DataSet dataCancel = C_Despacho.TraerDespachoCancelado(_idSucursal);
+                    this.gridControl4.DataSource = dataCancel.Tables[0];
+                }
+                else
+                {
+                    DataSet dataLista = C_Despacho.TraerDespachoCerrado(_idSucursal);
+                    dataT = dataLista.Tables[0];
+                    this.gridControl1.DataSource = dataT;
+
+                    DataSet dataCancel = C_Despacho.TraerDespachoCancelado(_idSucursal);
+                    this.gridControl4.DataSource = dataCancel.Tables[0];
+                }
+                
             }
             catch (Exception err)
             {
@@ -600,6 +614,24 @@ namespace WFConsumo.frmGRH.DespachoOrdenCerrada
         {
             var myForm = new BusquedaCompleta(_idSucursal);
             myForm.Show();
+        }
+        private void checkYear_CheckedChanged(object sender, EventArgs e)
+        {
+            if(checkYear.Checked == true)
+            {
+                _yearActual = 1;
+                TraerData();
+            }
+            else if(checkYear.Checked == false)
+            {
+                _yearActual = 0;
+                TraerData();
+            }
+            else
+            {
+                _yearActual = 0;
+                TraerData();
+            }
         }
     }
 }

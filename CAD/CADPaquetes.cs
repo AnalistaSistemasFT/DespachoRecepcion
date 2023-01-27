@@ -91,7 +91,7 @@ namespace CAD
         }
         public DataSet TraerPaquetesPaletParaLecturar(int _idSucursal, string _Palet)
         {
-            string consulta = "SELECT b.ItemFId, a.ItemId, b.Descripcion, a.PaqueteId, a.Piezas, a.Peso, b.UnidadF, SUM(a.Piezas) as Cantidad, a.Fecha FROM tblPaquetes a INNER JOIN tblItem b ON a.ItemId = b.ItemId where a.SucursalId = " + _idSucursal + " AND a.Status = 'ACTIVO' AND a.Contenedor = '" + _Palet + "' group by a.ItemId, b.ItemFId, b.Descripcion, a.PaqueteId, a.Fecha, b.UnidadF, a.Piezas, a.Peso order by a.Fecha ASC";
+            string consulta = "SELECT b.ItemFId, a.ItemId, b.Descripcion, a.PaqueteId, a.Piezas, a.Peso, b.UnidadF, SUM(a.Piezas) as Cantidad, a.Fecha FROM tblPaquetes a INNER JOIN tblItem b ON a.ItemId = b.ItemId where a.SucursalId = " + _idSucursal + " AND a.Contenedor = '" + _Palet + "' group by a.ItemId, b.ItemFId, b.Descripcion, a.PaqueteId, a.Fecha, b.UnidadF, a.Piezas, a.Peso order by a.Fecha ASC";
             return this.EjecutarConsulta(consulta);
         }
         public DataSet TraerPaqLecturadoPalet(int _idSucursal, string _Codigo)
@@ -140,7 +140,7 @@ namespace CAD
         }
         public DataSet TraerPaqueteLecturadoPorSucursal(int _idSucursal)
         {
-            string consulta = "SELECT a.ItemId, c.ItemFId, c.Descripcion, a.PaqueteId, a.Piezas as Piezas, SUM(a.Peso) as Peso, c.UnidadF, SUM(a.Piezas) as Cantidad, a.Fecha " +
+            string consulta = "SELECT a.ItemId, c.ItemFId, c.Descripcion, a.PaqueteId, a.Piezas as Piezas, SUM(a.Peso) as Peso, c.UnidadF, a.Piezas as Cantidad, a.Fecha " +
                 "FROM tblPaquetes a INNER JOIN tblSucItem b ON a.ItemId = b.ItemId INNER JOIN tblItem c ON a.ItemId = c.Itemid where a.Status = 'ACTIVO' " +
                 "AND a.SucursalId = " + _idSucursal + " group by a.ItemId, c.ItemFId, c.Descripcion, a.PaqueteId, a.Piezas, a.Fecha, c.UnidadF " +
                 "order by a.Fecha ASC";

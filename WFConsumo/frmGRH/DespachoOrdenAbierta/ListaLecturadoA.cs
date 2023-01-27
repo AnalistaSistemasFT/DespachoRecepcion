@@ -499,7 +499,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                     DataSet dataLista = C_Paquete.BuscarPaquetePorOrden(_NroOrden);
                     foreach (DataRow item in dataLista.Tables[0].Rows)
                     {
-                        if (item[5].ToString().ToUpper() == "KG")
+                        if (item[5].ToString().ToUpper().Trim() == "KG")
                         {
                             //_paqList.Find(p => p.p_ItemId == item[0].ToString()).p_Retirar = Convert.ToDecimal(item[4]);
                             _paqList.Add(new PaqueteLecturado
@@ -513,7 +513,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                                 p_Retirar = Convert.ToInt32(item[4])
                             });
                         }
-                        else if (item[5].ToString().ToUpper() == "PCS")
+                        else if (item[5].ToString().ToUpper().Trim() == "PCS")
                         {
                             _paqList.Add(new PaqueteLecturado
                             {
@@ -529,7 +529,17 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                         }
                         else
                         {
-                            _paqList.Find(p => p.p_ItemId == item[0].ToString()).p_Retirar = 1;
+                            //_paqList.Find(p => p.p_ItemId == item[0].ToString()).p_Retirar = 1;
+                            _paqList.Add(new PaqueteLecturado
+                            {
+                                p_ItemId = item[0].ToString(),
+                                p_Descripcion = item[1].ToString(),
+                                p_PaqueteId = item[2].ToString(),
+                                p_Piezas = Convert.ToInt32(item[3]),
+                                p_Peso = Convert.ToDecimal(item[4]),
+                                p_Unidad = item[5].ToString(),
+                                p_Retirar = 1
+                            });
                         }
                     }
                     this.gridControl1.RefreshDataSource();

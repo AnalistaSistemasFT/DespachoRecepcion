@@ -618,6 +618,7 @@
             // 
             // chckCont
             // 
+            this.chckCont.EditValue = true;
             this.chckCont.Location = new System.Drawing.Point(112, 371);
             this.chckCont.Name = "chckCont";
             this.chckCont.Properties.Caption = "Continuo";
@@ -627,7 +628,6 @@
             // 
             // chckPlan
             // 
-            this.chckPlan.EditValue = true;
             this.chckPlan.Location = new System.Drawing.Point(210, 371);
             this.chckPlan.Name = "chckPlan";
             this.chckPlan.Properties.Caption = "Con Plan";

@@ -142,13 +142,11 @@
             // 
             // checkPallet
             // 
-            this.checkPallet.Enabled = false;
             this.checkPallet.Location = new System.Drawing.Point(265, 11);
             this.checkPallet.Name = "checkPallet";
             this.checkPallet.Properties.Caption = "Palet";
             this.checkPallet.Size = new System.Drawing.Size(75, 19);
             this.checkPallet.TabIndex = 5;
-            this.checkPallet.Visible = false;
             this.checkPallet.CheckedChanged += new System.EventHandler(this.checkPallet_CheckedChanged);
             // 
             // labelDespacho

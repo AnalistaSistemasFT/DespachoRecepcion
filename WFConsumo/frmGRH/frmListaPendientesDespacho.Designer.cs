@@ -31,11 +31,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmListaPendientesDespacho));
             DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
             DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
-            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions3 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject9 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject10 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject11 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject12 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnControlDespacho = new DevExpress.XtraEditors.SimpleButton();
             this.lbTitle = new System.Windows.Forms.Label();
@@ -52,7 +52,6 @@
             this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn8 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn9 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn10 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn11 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -220,7 +219,6 @@
             this.gridColumn6,
             this.gridColumn7,
             this.gridColumn8,
-            this.gridColumn9,
             this.gridColumn10,
             this.gridColumn11});
             this.gridView4.GridControl = this.gridControl1;
@@ -236,7 +234,7 @@
             // gridColumn1
             // 
             this.gridColumn1.Caption = "Codigo";
-            this.gridColumn1.FieldName = "despachoid";
+            this.gridColumn1.FieldName = "Codigo";
             this.gridColumn1.Name = "gridColumn1";
             this.gridColumn1.Visible = true;
             this.gridColumn1.VisibleIndex = 0;
@@ -244,7 +242,7 @@
             // gridColumn2
             // 
             this.gridColumn2.Caption = "Fecha";
-            this.gridColumn2.FieldName = "fecha";
+            this.gridColumn2.FieldName = "Fecha";
             this.gridColumn2.Name = "gridColumn2";
             this.gridColumn2.Visible = true;
             this.gridColumn2.VisibleIndex = 2;
@@ -252,7 +250,7 @@
             // gridColumn3
             // 
             this.gridColumn3.Caption = "Estado";
-            this.gridColumn3.FieldName = "status";
+            this.gridColumn3.FieldName = "Estado";
             this.gridColumn3.Name = "gridColumn3";
             this.gridColumn3.Visible = true;
             this.gridColumn3.VisibleIndex = 1;
@@ -276,7 +274,7 @@
             // gridColumn6
             // 
             this.gridColumn6.Caption = "Chofer";
-            this.gridColumn6.FieldName = "chofer";
+            this.gridColumn6.FieldName = "Chofer";
             this.gridColumn6.Name = "gridColumn6";
             this.gridColumn6.Visible = true;
             this.gridColumn6.VisibleIndex = 5;
@@ -292,32 +290,24 @@
             // gridColumn8
             // 
             this.gridColumn8.Caption = "Destino";
-            this.gridColumn8.FieldName = "DESTINO";
+            this.gridColumn8.FieldName = "Destino";
             this.gridColumn8.Name = "gridColumn8";
             this.gridColumn8.Visible = true;
             this.gridColumn8.VisibleIndex = 7;
             // 
-            // gridColumn9
-            // 
-            this.gridColumn9.Caption = "NroTraspaso";
-            this.gridColumn9.FieldName = "numtraspaso";
-            this.gridColumn9.Name = "gridColumn9";
-            this.gridColumn9.Visible = true;
-            this.gridColumn9.VisibleIndex = 8;
-            // 
             // gridColumn10
             // 
             this.gridColumn10.Caption = "Programación";
-            this.gridColumn10.FieldName = "tipo";
+            this.gridColumn10.FieldName = "TipoDespacho";
             this.gridColumn10.Name = "gridColumn10";
             // 
             // gridColumn11
             // 
             this.gridColumn11.Caption = "Login";
-            this.gridColumn11.FieldName = "LOGIN";
+            this.gridColumn11.FieldName = "Usuario";
             this.gridColumn11.Name = "gridColumn11";
             this.gridColumn11.Visible = true;
-            this.gridColumn11.VisibleIndex = 9;
+            this.gridColumn11.VisibleIndex = 8;
             // 
             // splitContainer1
             // 
@@ -486,21 +476,21 @@
             // 
             // repositoryItemButtonEdit1
             // 
-            serializableAppearanceObject9.BackColor = System.Drawing.Color.DarkGreen;
-            serializableAppearanceObject9.ForeColor = System.Drawing.Color.LimeGreen;
-            serializableAppearanceObject9.Options.UseBackColor = true;
-            serializableAppearanceObject9.Options.UseForeColor = true;
-            serializableAppearanceObject9.Options.UseTextOptions = true;
-            serializableAppearanceObject9.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            serializableAppearanceObject9.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
-            serializableAppearanceObject10.ForeColor = System.Drawing.Color.LimeGreen;
-            serializableAppearanceObject10.Options.UseForeColor = true;
-            serializableAppearanceObject11.ForeColor = System.Drawing.Color.LimeGreen;
-            serializableAppearanceObject11.Options.UseForeColor = true;
-            serializableAppearanceObject12.ForeColor = System.Drawing.Color.LimeGreen;
-            serializableAppearanceObject12.Options.UseForeColor = true;
+            serializableAppearanceObject1.BackColor = System.Drawing.Color.DarkGreen;
+            serializableAppearanceObject1.ForeColor = System.Drawing.Color.LimeGreen;
+            serializableAppearanceObject1.Options.UseBackColor = true;
+            serializableAppearanceObject1.Options.UseForeColor = true;
+            serializableAppearanceObject1.Options.UseTextOptions = true;
+            serializableAppearanceObject1.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            serializableAppearanceObject1.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+            serializableAppearanceObject2.ForeColor = System.Drawing.Color.LimeGreen;
+            serializableAppearanceObject2.Options.UseForeColor = true;
+            serializableAppearanceObject3.ForeColor = System.Drawing.Color.LimeGreen;
+            serializableAppearanceObject3.Options.UseForeColor = true;
+            serializableAppearanceObject4.ForeColor = System.Drawing.Color.LimeGreen;
+            serializableAppearanceObject4.Options.UseForeColor = true;
             this.repositoryItemButtonEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Plus, "", 1, true, true, false, editorButtonImageOptions3, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject9, serializableAppearanceObject10, serializableAppearanceObject11, serializableAppearanceObject12, "Programar despacho", null, null)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Plus, "", 1, true, true, false, editorButtonImageOptions1, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, serializableAppearanceObject2, serializableAppearanceObject3, serializableAppearanceObject4, "Programar despacho", null, null)});
             this.repositoryItemButtonEdit1.ContextImageOptions.Alignment = DevExpress.XtraEditors.ContextImageAlignment.Far;
             this.repositoryItemButtonEdit1.ContextImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("repositoryItemButtonEdit1.ContextImageOptions.Image")));
             this.repositoryItemButtonEdit1.Name = "repositoryItemButtonEdit1";
@@ -726,7 +716,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn6;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn7;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn8;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn9;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn10;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn11;
         private System.Windows.Forms.SplitContainer splitContainer1;

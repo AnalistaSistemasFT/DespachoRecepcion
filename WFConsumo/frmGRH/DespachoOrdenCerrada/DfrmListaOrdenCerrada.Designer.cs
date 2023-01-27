@@ -93,6 +93,7 @@
             this.gridColumn20 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn21 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn22 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.checkYear = new DevExpress.XtraEditors.CheckEdit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl3)).BeginInit();
@@ -115,6 +116,7 @@
             this.tabCanceladas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkYear.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // labelControl1
@@ -487,6 +489,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(45)))), ((int)(((byte)(60)))));
+            this.panel1.Controls.Add(this.checkYear);
             this.panel1.Controls.Add(this.btnBuscarTodos);
             this.panel1.Controls.Add(this.simpleButton3);
             this.panel1.Controls.Add(this.btnControlDespacho);
@@ -729,6 +732,19 @@
             this.gridColumn22.Visible = true;
             this.gridColumn22.VisibleIndex = 10;
             // 
+            // checkYear
+            // 
+            this.checkYear.Location = new System.Drawing.Point(312, 16);
+            this.checkYear.Name = "checkYear";
+            this.checkYear.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 10F);
+            this.checkYear.Properties.Appearance.ForeColor = System.Drawing.Color.Azure;
+            this.checkYear.Properties.Appearance.Options.UseFont = true;
+            this.checkYear.Properties.Appearance.Options.UseForeColor = true;
+            this.checkYear.Properties.Caption = "Ver años anteriores";
+            this.checkYear.Size = new System.Drawing.Size(176, 20);
+            this.checkYear.TabIndex = 91;
+            this.checkYear.CheckedChanged += new System.EventHandler(this.checkYear_CheckedChanged);
+            // 
             // DfrmListaOrdenCerrada
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -766,6 +782,7 @@
             this.tabCanceladas.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkYear.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -832,5 +849,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn21;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn22;
         private DevExpress.XtraEditors.SimpleButton btnBuscarTodos;
+        private DevExpress.XtraEditors.CheckEdit checkYear;
     }
 }

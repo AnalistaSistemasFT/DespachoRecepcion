@@ -116,6 +116,11 @@ namespace CAD
             string cadena = "select tblDespacho.despachoid,tblDespacho.fecha,tbldespacho.nroorden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " AND STATUS IN('CLOSE') order by tblDespacho.despachoid desc";
             return this.EjecutarConsulta(cadena);
         }
+        public DataSet TraerDespachoCerradoActual(int _idSucursal)
+        {
+            string cadena = "select tblDespacho.despachoid,tblDespacho.fecha,tbldespacho.nroorden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " AND STATUS IN('CLOSE') AND YEAR(Fecha) = YEAR( getDate()) order by tblDespacho.despachoid desc";
+            return this.EjecutarConsulta(cadena);
+        }
         public DataSet TraerDespachoCerradoVenta(int _idSucursal)
         {
             string cadena = "select tblDespacho.despachoid,tblDespacho.fecha,tbldespacho.nroorden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " AND STATUS IN('CLOSE') AND tblDespacho.Naturaleza = 'VENTA' order by tblDespacho.despachoid desc";
@@ -131,13 +136,9 @@ namespace CAD
             string cadena = "select tblDespacho.despachoid,tblDespacho.fecha,tbldespacho.nroorden,tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " AND tblDespacho.Naturaleza = 'VENTA' order by tblDespacho.despachoid desc";
             return this.EjecutarConsulta(cadena);
         }
-        public DataSet TraerDespachosPendientes(int _idSucursal)
+        public DataSet TraerDespachosPendientes()
         {
-            string cadena = "select tblDespacho.despachoid,tblDespacho.fecha, " +
-                "CASE WHEN tblDespacho.status = 'OPEN' THEN 'Abierto'" +
-                "WHEN tblDespacho.status = 'INPROCESS' THEN 'En proceso'" +
-                "WHEN tblDespacho.status = 'Parcial' THEN 'Parcial'" +
-                "Else 'En proceso' END AS status, tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as chofer, tblDespacho.Naturaleza,DESTINO = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.numtraspaso,tipo,tblDespacho.status,tblDespacho.LOGIN from(tblDespacho left join tblcatchofer on tbldespacho.ci= tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where sucursalid = " + _idSucursal + " AND Status != 'CLOSE' AND Status != 'CANCEL' AND Status != 'TRANSITO' order by tblDespacho.despachoid desc";
+            string cadena = "select Origen = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else tblDespacho.Destino END, Destino = Case Naturaleza When 'TRASPASO' THEN(SELECT NOMBRE FROM empleados.dbo.TBLSUCURSAL WHERE SUCURSALID = tblDespacho.SUCDestino) Else TBLDESPACHO.Destino END, tblDespacho.despachoid as Codigo, CASE WHEN tblDespacho.status = 'OPEN' THEN 'Abierto' WHEN tblDespacho.status = 'INPROCESS' THEN 'En proceso' WHEN tblDespacho.status = 'Parcial' THEN 'Parcial' Else 'En proceso' END AS Estado, tblDespacho.Naturaleza, tipo as TipoDespacho ,tblDespacho.fecha as Fecha, tblDespacho.Placa,tblcatcamion.Marca,tblcatchofer.nombre as Chofer from(tblDespacho left join tblcatchofer on tbldespacho.ci = tblcatchofer.ci) left join tblcatcamion on tbldespacho.placa = tblcatcamion.placa where Status != 'CLOSE' AND Status != 'CANCEL' AND Status != 'TRANSITO' order by tblDespacho.despachoid desc";
             return this.EjecutarConsulta(cadena);
         }
         public DataSet TraerDespachoTransito(int _idSucursal)
@@ -485,8 +486,32 @@ namespace CAD
         //TraerListaSucursales
         public DataSet TraerSucursalLista()
         {
-            string consulta = "select SucursalID, Nombre from tblSucursal where EsTransito = 0";
+            string consulta = "select SucursalID, Nombre from tblSucursal where EsTransito = 0 AND SucursalID > 0";
             return this.EjecutarConsulta(consulta);
+        }
+        //TraerConteoPendientesGeneral
+        public string TraerTotalPendientesGeneral()
+        {
+            string cont = string.Empty;
+            string consulta = "select COUNT(DespachoId) as Despachos from tblDespacho where Status != 'CLOSE' AND Status != 'CANCEL' AND Status != 'TRANSITO'";
+            DataTable dtsRes = EjecutarConsulta(consulta).Tables[0];
+            if(dtsRes.Rows.Count > 0)
+            {
+                cont = dtsRes.Rows[0]["Despachos"].ToString();
+            } 
+            return cont;
+        }
+        //TraerConteoPendientesPorSucursal
+        public string TraerPendientesSucursal(int _idSucursal)
+        {
+            string cont = string.Empty;
+            string consulta = "select COUNT(DespachoId) as Despachos from tblDespacho where SucursalId = " + _idSucursal + " AND Status != 'CLOSE' AND Status != 'CANCEL' AND Status != 'TRANSITO'";
+            DataTable dtsRes = EjecutarConsulta(consulta).Tables[0];
+            if (dtsRes.Rows.Count > 0)
+            {
+                cont = dtsRes.Rows[0]["Despachos"].ToString();
+            }
+            return cont;
         }
     }
 }

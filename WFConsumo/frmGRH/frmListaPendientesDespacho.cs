@@ -41,7 +41,7 @@ namespace WFConsumo.frmGRH
         {
             try
             {
-                DataSet data = C_Despacho.TraerDespachosPendientes(_idSucursal);
+                DataSet data = C_Despacho.TraerDespachosPendientes();
                 gridControl1.DataSource = data.Tables[0];
             }
             catch(Exception err)

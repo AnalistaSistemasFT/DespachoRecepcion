@@ -35,7 +35,8 @@
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DespachosPendientesGeneral));
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.txtCont = new System.Windows.Forms.Label();
+            this.txtTitulo = new System.Windows.Forms.Label();
             this.splitContainerControl1 = new DevExpress.XtraEditors.SplitContainerControl();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -65,10 +66,6 @@
             this.gridColumn13 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.PesoTotal = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Pendiente = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridControl5 = new DevExpress.XtraGrid.GridControl();
-            this.gridView5 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.Codigo = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.Nombre = new DevExpress.XtraGrid.Columns.GridColumn();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1)).BeginInit();
             this.splitContainerControl1.SuspendLayout();
@@ -86,14 +83,13 @@
             this.xtraTabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView5)).BeginInit();
             this.SuspendLayout();
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(45)))), ((int)(((byte)(60)))));
-            this.panel2.Controls.Add(this.label1);
+            this.panel2.Controls.Add(this.txtCont);
+            this.panel2.Controls.Add(this.txtTitulo);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.ForeColor = System.Drawing.Color.MidnightBlue;
             this.panel2.Location = new System.Drawing.Point(0, 0);
@@ -102,29 +98,41 @@
             this.panel2.Size = new System.Drawing.Size(997, 61);
             this.panel2.TabIndex = 82;
             // 
-            // label1
+            // txtCont
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 22F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(12, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(299, 26);
-            this.label1.TabIndex = 80;
-            this.label1.Text = "DESPACHOS PENDIENTES";
+            this.txtCont.AutoSize = true;
+            this.txtCont.Dock = System.Windows.Forms.DockStyle.Right;
+            this.txtCont.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCont.ForeColor = System.Drawing.Color.White;
+            this.txtCont.Location = new System.Drawing.Point(966, 0);
+            this.txtCont.Name = "txtCont";
+            this.txtCont.Size = new System.Drawing.Size(31, 25);
+            this.txtCont.TabIndex = 81;
+            this.txtCont.Text = " - ";
+            // 
+            // txtTitulo
+            // 
+            this.txtTitulo.AutoSize = true;
+            this.txtTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 22F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.txtTitulo.ForeColor = System.Drawing.Color.White;
+            this.txtTitulo.Location = new System.Drawing.Point(12, 18);
+            this.txtTitulo.Name = "txtTitulo";
+            this.txtTitulo.Size = new System.Drawing.Size(299, 26);
+            this.txtTitulo.TabIndex = 80;
+            this.txtTitulo.Text = "DESPACHOS PENDIENTES";
             // 
             // splitContainerControl1
             // 
             this.splitContainerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerControl1.Horizontal = false;
-            this.splitContainerControl1.Location = new System.Drawing.Point(240, 61);
+            this.splitContainerControl1.Location = new System.Drawing.Point(0, 61);
             this.splitContainerControl1.Name = "splitContainerControl1";
             this.splitContainerControl1.Panel1.Controls.Add(this.gridControl1);
             this.splitContainerControl1.Panel1.Text = "Panel1";
             this.splitContainerControl1.Panel2.Controls.Add(this.DatosOrden);
             this.splitContainerControl1.Panel2.Text = "Panel2";
-            this.splitContainerControl1.Size = new System.Drawing.Size(757, 422);
-            this.splitContainerControl1.SplitterPosition = 229;
+            this.splitContainerControl1.Size = new System.Drawing.Size(997, 422);
+            this.splitContainerControl1.SplitterPosition = 268;
             this.splitContainerControl1.TabIndex = 84;
             this.splitContainerControl1.Text = "splitContainerControl1";
             // 
@@ -134,7 +142,7 @@
             this.gridControl1.Location = new System.Drawing.Point(0, 0);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(757, 229);
+            this.gridControl1.Size = new System.Drawing.Size(997, 268);
             this.gridControl1.TabIndex = 0;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -155,7 +163,7 @@
             this.DatosOrden.Location = new System.Drawing.Point(0, 0);
             this.DatosOrden.Name = "DatosOrden";
             this.DatosOrden.SelectedTabPage = this.xtraTabPage1;
-            this.DatosOrden.Size = new System.Drawing.Size(757, 188);
+            this.DatosOrden.Size = new System.Drawing.Size(997, 149);
             this.DatosOrden.TabIndex = 74;
             this.DatosOrden.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.xtraTabPage1,
@@ -167,7 +175,7 @@
             // 
             this.xtraTabPage1.Controls.Add(this.gridControl2);
             this.xtraTabPage1.Name = "xtraTabPage1";
-            this.xtraTabPage1.Size = new System.Drawing.Size(751, 160);
+            this.xtraTabPage1.Size = new System.Drawing.Size(991, 121);
             this.xtraTabPage1.Text = "Progreso";
             // 
             // gridControl2
@@ -178,7 +186,7 @@
             this.gridControl2.Name = "gridControl2";
             this.gridControl2.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemButtonEdit1});
-            this.gridControl2.Size = new System.Drawing.Size(751, 160);
+            this.gridControl2.Size = new System.Drawing.Size(991, 121);
             this.gridControl2.TabIndex = 1;
             this.gridControl2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView2});
@@ -302,7 +310,7 @@
             // 
             this.xtraTabPage2.Controls.Add(this.gridControl3);
             this.xtraTabPage2.Name = "xtraTabPage2";
-            this.xtraTabPage2.Size = new System.Drawing.Size(767, 160);
+            this.xtraTabPage2.Size = new System.Drawing.Size(751, 121);
             this.xtraTabPage2.Text = "Producto";
             // 
             // gridControl3
@@ -311,7 +319,7 @@
             this.gridControl3.Location = new System.Drawing.Point(0, 0);
             this.gridControl3.MainView = this.gridView3;
             this.gridControl3.Name = "gridControl3";
-            this.gridControl3.Size = new System.Drawing.Size(767, 160);
+            this.gridControl3.Size = new System.Drawing.Size(751, 121);
             this.gridControl3.TabIndex = 0;
             this.gridControl3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView3});
@@ -331,7 +339,7 @@
             // 
             this.xtraTabPage3.Controls.Add(this.gridControl4);
             this.xtraTabPage3.Name = "xtraTabPage3";
-            this.xtraTabPage3.Size = new System.Drawing.Size(767, 160);
+            this.xtraTabPage3.Size = new System.Drawing.Size(751, 121);
             this.xtraTabPage3.Text = "Detalles de notas de entrega";
             // 
             // gridControl4
@@ -340,7 +348,7 @@
             this.gridControl4.Location = new System.Drawing.Point(0, 0);
             this.gridControl4.MainView = this.gridView4;
             this.gridControl4.Name = "gridControl4";
-            this.gridControl4.Size = new System.Drawing.Size(767, 160);
+            this.gridControl4.Size = new System.Drawing.Size(751, 121);
             this.gridControl4.TabIndex = 1;
             this.gridControl4.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView4});
@@ -464,54 +472,6 @@
             this.Pendiente.VisibleIndex = 8;
             this.Pendiente.Width = 119;
             // 
-            // gridControl5
-            // 
-            this.gridControl5.Dock = System.Windows.Forms.DockStyle.Left;
-            this.gridControl5.Location = new System.Drawing.Point(0, 61);
-            this.gridControl5.MainView = this.gridView5;
-            this.gridControl5.Name = "gridControl5";
-            this.gridControl5.Size = new System.Drawing.Size(240, 422);
-            this.gridControl5.TabIndex = 85;
-            this.gridControl5.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView5});
-            // 
-            // gridView5
-            // 
-            this.gridView5.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.Codigo,
-            this.Nombre});
-            this.gridView5.GridControl = this.gridControl5;
-            this.gridView5.Name = "gridView5";
-            this.gridView5.OptionsBehavior.Editable = false;
-            this.gridView5.OptionsBehavior.ReadOnly = true;
-            this.gridView5.OptionsSelection.EnableAppearanceFocusedCell = false;
-            this.gridView5.OptionsSelection.ShowCheckBoxSelectorInColumnHeader = DevExpress.Utils.DefaultBoolean.False;
-            this.gridView5.OptionsSelection.UseIndicatorForSelection = false;
-            this.gridView5.OptionsView.ShowGroupPanel = false;
-            this.gridView5.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView5_RowClick);
-            // 
-            // Codigo
-            // 
-            this.Codigo.AppearanceCell.Options.UseTextOptions = true;
-            this.Codigo.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.Codigo.Caption = "Codigo";
-            this.Codigo.FieldName = "SucursalID";
-            this.Codigo.Name = "Codigo";
-            this.Codigo.Visible = true;
-            this.Codigo.VisibleIndex = 0;
-            this.Codigo.Width = 298;
-            // 
-            // Nombre
-            // 
-            this.Nombre.AppearanceCell.Options.UseTextOptions = true;
-            this.Nombre.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.Nombre.Caption = "Nombre";
-            this.Nombre.FieldName = "Nombre";
-            this.Nombre.Name = "Nombre";
-            this.Nombre.Visible = true;
-            this.Nombre.VisibleIndex = 1;
-            this.Nombre.Width = 762;
-            // 
             // DespachosPendientesGeneral
             // 
             this.Appearance.BackColor = System.Drawing.Color.White;
@@ -520,7 +480,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(997, 483);
             this.Controls.Add(this.splitContainerControl1);
-            this.Controls.Add(this.gridControl5);
             this.Controls.Add(this.panel2);
             this.Name = "DespachosPendientesGeneral";
             this.Text = "DespachosPendientesGeneral";
@@ -542,8 +501,6 @@
             this.xtraTabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControl5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView5)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -551,7 +508,7 @@
         #endregion
 
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label txtTitulo;
         private DevExpress.XtraEditors.SplitContainerControl splitContainerControl1;
         private DevExpress.XtraGrid.GridControl gridControl1;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
@@ -581,9 +538,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn13;
         private DevExpress.XtraGrid.Columns.GridColumn PesoTotal;
         private DevExpress.XtraGrid.Columns.GridColumn Pendiente;
-        private DevExpress.XtraGrid.GridControl gridControl5;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView5;
-        private DevExpress.XtraGrid.Columns.GridColumn Codigo;
-        private DevExpress.XtraGrid.Columns.GridColumn Nombre;
+        private System.Windows.Forms.Label txtCont;
     }
 }

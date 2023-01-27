@@ -48,6 +48,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
         {
             try
             {
+                _prodPalet.Clear();
                 string _Codigo = string.Empty;
                 ColumnView view = this.gridControl2.MainView as ColumnView;
                 int[] row = view.GetSelectedRows();
@@ -73,10 +74,12 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                 DataSet dataVal = C_Paquetes.TraerPaqLecturadoPalet(idSucursal, _Codigo);
                 foreach (DataRow item in dataVal.Tables[0].Rows)
                 {
-                    var itemToRemove = _prodPalet.Single(r => r.p_Codigo == item[0].ToString());
-                    _prodPalet.Remove(itemToRemove);
+                    //var itemToRemove = _prodPalet.Single(r => r.p_Paquete.Trim() == item[0].ToString().Trim());
+                    //_prodPalet.Remove(itemToRemove);
                 }
                 gridControl1.DataSource = _prodPalet;
+                this.gridControl1.RefreshDataSource();
+                this.gridControl1.Refresh();
             }
             catch(Exception err)
             {

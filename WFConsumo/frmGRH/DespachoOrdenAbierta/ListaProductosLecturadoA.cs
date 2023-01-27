@@ -268,7 +268,7 @@ namespace WFConsumo.frmGRH.DespachoOrdenAbierta
                                             p_Piezas = Convert.ToInt32(item[4]),
                                             p_Peso = Convert.ToDecimal(item[5]),
                                             p_Unidad = item[6].ToString(),
-                                            p_Retirar = Convert.ToInt32(item[7]),
+                                            p_Retirar = Convert.ToInt32(item[4]),
                                             p_Fecha = Convert.ToDateTime(item[8])
                                         });
                                     }
